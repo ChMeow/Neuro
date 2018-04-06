@@ -36,7 +36,6 @@ namespace FileProcessing
         {
             int check = 0;
             string[] FileName;
-            double temp;
             
             FileName = Directory.GetFiles(path);
             float[] data = new float[FileName.Length];
@@ -62,6 +61,29 @@ namespace FileProcessing
                 }
             }
 
+            return check;
+        }
+
+        public static int[] checkWeight(string path)
+        {
+            int[] check = new int[3];
+            try
+            { 
+                string[] FileName;
+                string tempW;
+                FileName = Directory.GetFiles(path);
+                tempW = Path.GetFileNameWithoutExtension(FileName[FileName.Length - 1]);
+                var NCL = tempW.Split(new char[] { 'N', 'C', 'L' });
+                check[0] = int.Parse(NCL[1]);
+                check[1] = int.Parse(NCL[2]);
+                check[2] = int.Parse(NCL[3]);
+            }
+            catch (Exception exx)
+            {
+                check[0] = -1;
+                check[1] = -1;
+                check[2] = -1;
+            }
             return check;
         }
     }

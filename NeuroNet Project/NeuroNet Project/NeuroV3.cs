@@ -263,7 +263,7 @@ namespace NeuroV3
             {
                 int j, i = 0;
                 string FinalWeight = "";
-                string W_SavePath = savePath + @"\N" + N + "C" + "L" + L + ".txt";
+                string W_SavePath = savePath + @"\N" + N + "C" + C + "L" + L + ".txt";
                 for (i = 0; i < numberOfOuputs; i++)
                 {
                     for (j = 0; j < numberOfInputs; j++)

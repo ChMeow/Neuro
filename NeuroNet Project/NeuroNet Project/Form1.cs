@@ -31,6 +31,7 @@ namespace NeuroNet_Project
         string resultx;
         float[] result = new float[1];
         int N = 0, C = 0;
+        int[] checkNC = new int[3];
 
 
 
@@ -53,7 +54,7 @@ namespace NeuroNet_Project
             P_loops = (int)numericUpDown_loops.Value;
             P_layer = (int)numericUpDown_layer.Value;
             P_nodes = (int)numericUpDown_nodes.Value;
-            P_save =  (int)numericUpDown_save.Value;
+            P_save = (int)numericUpDown_save.Value;
             P_learn = (float)numericUpDown_learn.Value;
             layer = new int[P_layer];
             for (int i = 1; i < P_layer - 1; i++)
@@ -62,17 +63,37 @@ namespace NeuroNet_Project
             layer[P_layer - 1] = outputFiles.Length;
             D_loops = fileProcess.checkData(label_InputPath.Text);
             D_Compare = fileProcess.checkData(label_OutputPath.Text);
+            checkNC = fileProcess.checkWeight(label_WeightPath.Text);
+            N = checkNC[0];
+            C = checkNC[1];
+
+            if (checkBox_UseExistW.Checked == true)
+            {
+                existingWeightPath = label_WeightPath.Text + @"\N" + N + "C" + C + "L";
+                if (checkNC[2] != P_layer - 2)
+                {
+                    richTextBox_Summary.SelectionColor = Color.Red;
+                    richTextBox_Summary.AppendText("ERROR, Unable to proceed, Weight Data Not Match" + "\r\n");
+                    goto endofthisbutton;
+                }
+            }
+
             if (D_loops != D_Compare || D_loops < 0)
             {
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("ERROR, Input Output Data Not Match, -1" + "\r\n");
+                goto endofthisbutton;
             }
-
             //get weightpath as part of the neuro construction //
 
-            else if (backgroundWorker1.IsBusy != true)
+            if (backgroundWorker1.IsBusy != true)
+            {
                 backgroundWorker1.RunWorkerAsync();
-           
+            }
+
+            endofthisbutton:
+            int gg = 0;
+
            // panel_Loading.BringToFront();
         }
 
@@ -257,9 +278,15 @@ namespace NeuroNet_Project
         {
 
             BackgroundWorker worker = sender as BackgroundWorker;
-            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath); //intiilize network
+            if (N != -1 && checkBox_UseExistW.Checked == false) N++;
+            if (N == -1) N = 0;
+            if (checkBox_UseExistW.Checked == false) C = 0;
 
-            for(int i = 0; i < P_loops; i++)
+
+
+            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath); //intiilize network
+            
+            for (int i = 1; i < P_loops + 1; i++)
             {
                 for (int j = 0; j < D_loops; j++)
                 {
@@ -268,7 +295,8 @@ namespace NeuroNet_Project
                     net.FeedForward(input, P_activ);
                     net.BackProp(expected, P_activ);
                 }
-                if(i%P_save == 0) net.WtoF(N, C + i, label_WeightPath.Text);
+                if( i % P_save == 0 && i!=0 )
+                    net.WtoF(N, C + i, label_WeightPath.Text);
             }
             resultx = "";
             for (int j = 0; j < D_loops; j++)
@@ -279,11 +307,6 @@ namespace NeuroNet_Project
                 resultx = resultx + Math.Round(result[k], 3) + "\t";
                 resultx = resultx + "\r\n";
             }
-
-            
-
-
-
             worker.ReportProgress(1);
             worker.Dispose();
 
