@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using NaturalSort;
 
 namespace FileProcessing
 {
@@ -13,13 +14,20 @@ namespace FileProcessing
     {
         public static float[] getData(string path, int j)
         {
-            string[] FileName;
+            List<string> FileName = new List<string>();
             double temp;
-            FileName = Directory.GetFiles(path);
-            float[] data = new float[FileName.Length];
+           
+            FileName.AddRange(Directory.GetFiles(path));
+            FileName.Sort(new NaturalStringComparer(false));
+
+           
+            
+           
+           
+            float[] data = new float[FileName.Count];
             
 
-            for (int X = 0; X < FileName.Length; X++)
+            for (int X = 0; X < FileName.Count; X++)
             {
                 StreamReader file =
                        new StreamReader(FileName[X]);
@@ -68,11 +76,13 @@ namespace FileProcessing
         {
             int[] check = new int[3];
             try
-            { 
-                string[] FileName;
+            {
+                List<string> FileName = new List<string>();
+
                 string tempW;
-                FileName = Directory.GetFiles(path);
-                tempW = Path.GetFileNameWithoutExtension(FileName[FileName.Length - 1]);
+                FileName.AddRange(Directory.GetFiles(path));
+                FileName.Sort(new NaturalStringComparer(false));
+                tempW = Path.GetFileNameWithoutExtension(FileName[FileName.Count-1]);
                 var NCL = tempW.Split(new char[] { 'N', 'C', 'L' });
                 check[0] = int.Parse(NCL[1]);
                 check[1] = int.Parse(NCL[2]);
