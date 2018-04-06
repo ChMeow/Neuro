@@ -73,12 +73,12 @@ namespace NeuroV3
         }
 
 
-        public void WtoF()
+        public void WtoF(int N, int C, string savePath)
         {
             //Output weights to Files
-            for (int i = 0; i < layers.Length; i++)
+            for (int L = 0; L < layers.Length; L++)
             {
-                layers[i].WeightsToFiles(i);
+                layers[L].WeightsToFiles(N, C, L, savePath);
             }
         }
 
@@ -130,7 +130,7 @@ namespace NeuroV3
             {
                 if (WeightExist == true)
                 {
-                    WeightPath = WeightPath + @"\W" + CountL + @".txt";
+                    WeightPath = WeightPath + CountL + @".txt";
                     int k = 0;
                     int loop = 0;
                     string[] split;
@@ -259,11 +259,11 @@ namespace NeuroV3
                 }
             }
 
-            public void WeightsToFiles(int L)
+            public void WeightsToFiles(int N, int C, int L, string savePath)
             {
                 int j, i = 0;
                 string FinalWeight = "";
-                string W_SavePath = @"I:\Test data\NN_WE\W" + L + ".txt";
+                string W_SavePath = savePath + @"\N" + N + "C" + "L" + L + ".txt";
                 for (i = 0; i < numberOfOuputs; i++)
                 {
                     for (j = 0; j < numberOfInputs; j++)
