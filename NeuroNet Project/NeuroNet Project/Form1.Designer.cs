@@ -63,9 +63,10 @@
             this.button_SaveSetting = new System.Windows.Forms.Button();
             this.button_Go = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.button_saveLog = new System.Windows.Forms.Button();
+            this.button_clearLog = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -133,7 +134,7 @@
             this.richTextBox_CurrentLoop.ReadOnly = true;
             this.richTextBox_CurrentLoop.Size = new System.Drawing.Size(454, 44);
             this.richTextBox_CurrentLoop.TabIndex = 4;
-            this.richTextBox_CurrentLoop.Text = "Loops: --";
+            this.richTextBox_CurrentLoop.Text = "Loops: --         N: --";
             // 
             // label_loopsCounter
             // 
@@ -173,7 +174,6 @@
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(19, 20);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
@@ -261,9 +261,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 287);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 13);
+            this.label6.Size = new System.Drawing.Size(95, 13);
             this.label6.TabIndex = 35;
-            this.label6.Text = "Save weight per ";
+            this.label6.Text = "Save weight every";
             // 
             // checkBox_UseExistW
             // 
@@ -526,29 +526,16 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button_clearLog);
+            this.tabPage2.Controls.Add(this.button_saveLog);
             this.tabPage2.Controls.Add(this.richTextBox_FinalResult);
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(892, 535);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Results";
+            this.tabPage2.Text = "Logs";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 4);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(892, 535);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Nodes Control";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // richTextBox_FinalResult
             // 
@@ -558,6 +545,32 @@
             this.richTextBox_FinalResult.Size = new System.Drawing.Size(876, 473);
             this.richTextBox_FinalResult.TabIndex = 0;
             this.richTextBox_FinalResult.Text = "";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // button_saveLog
+            // 
+            this.button_saveLog.Location = new System.Drawing.Point(782, 493);
+            this.button_saveLog.Name = "button_saveLog";
+            this.button_saveLog.Size = new System.Drawing.Size(100, 30);
+            this.button_saveLog.TabIndex = 1;
+            this.button_saveLog.Text = "Save log";
+            this.button_saveLog.UseVisualStyleBackColor = true;
+            this.button_saveLog.Click += new System.EventHandler(this.button_saveLog_Click);
+            // 
+            // button_clearLog
+            // 
+            this.button_clearLog.Location = new System.Drawing.Point(6, 493);
+            this.button_clearLog.Name = "button_clearLog";
+            this.button_clearLog.Size = new System.Drawing.Size(100, 30);
+            this.button_clearLog.TabIndex = 2;
+            this.button_clearLog.Text = "Clear log";
+            this.button_clearLog.UseVisualStyleBackColor = true;
+            this.button_clearLog.Click += new System.EventHandler(this.button_clearLog_Click);
             // 
             // Form_Main
             // 
@@ -596,7 +609,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button button_Go;
         private System.Windows.Forms.Button button_SaveSetting;
         private System.Windows.Forms.Button button_Output;
@@ -630,6 +642,8 @@
         private System.Windows.Forms.RichTextBox richTextBox_currentError;
         private System.Windows.Forms.RichTextBox richTextBox_CurrentLoop;
         private System.Windows.Forms.RichTextBox richTextBox_FinalResult;
+        private System.Windows.Forms.Button button_clearLog;
+        private System.Windows.Forms.Button button_saveLog;
     }
 }
 

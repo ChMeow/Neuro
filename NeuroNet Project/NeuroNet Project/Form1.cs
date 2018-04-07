@@ -29,7 +29,7 @@ namespace NeuroNet_Project
         float[] input;
         float[] expected;
         float[] result = new float[1];
-        int N = 0, C = 0;
+        int N = 0, C = 0, previousN = 0;
         int[] checkNC = new int[3];
         Assembly _assembly;
         Stream _imageStream;
@@ -42,6 +42,7 @@ namespace NeuroNet_Project
         string resultAll;
         string resultLoops;
         string resultRMS;
+        string resultParameter;
 
 
 
@@ -105,10 +106,12 @@ namespace NeuroNet_Project
             panel_Loading.BringToFront();
             checkPlaying = true;
             setPlayStopButton(checkPlaying);
-            endofthisbutton:
-            int gg = 0;
-            
+           
+            if (richTextBox_FinalResult.Text == "") requestParameter(true);
+            if (checkBox_UseExistW.Checked == false) requestParameter(true);
 
+            endofthisbutton:
+            int gg = 0; // don't put code beyond this point.
         }
 
         private void button_Stop_Click(object sender, EventArgs e)
@@ -158,7 +161,7 @@ namespace NeuroNet_Project
         {
             inputFiles = Directory.GetFiles(label_InputPath.Text);
             richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " ______ ");
+            richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " >>> ");
             richTextBox_Summary.SelectionColor = Color.Aqua;
             richTextBox_Summary.AppendText(inputFiles.Length + "\r\n");
         }
@@ -193,9 +196,37 @@ namespace NeuroNet_Project
         {
             outputFiles = Directory.GetFiles(label_OutputPath.Text);
             richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " ______ ");
+            richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " >>> ");
             richTextBox_Summary.SelectionColor = Color.Aqua;
             richTextBox_Summary.AppendText(outputFiles.Length + "\r\n");
+        }
+
+        private void button_clearLog_Click(object sender, EventArgs e)
+        {
+            richTextBox_FinalResult.Text = "";
+        }
+
+        private void button_saveLog_Click(object sender, EventArgs e)
+        {
+            {
+                string saveLog = "";
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.InitialDirectory = @"C:\";
+                saveFileDialog1.Title = "Save text Files";
+                //saveFileDialog1.CheckFileExists = true;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Rich Text files (*.rtf)|*.rtf";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    saveLog = saveFileDialog1.FileName;
+                    richTextBox_FinalResult.SaveFile(saveLog);
+                }
+
+            }
         }
 
         /// <summary>
@@ -206,11 +237,7 @@ namespace NeuroNet_Project
         private void label_WeightPath_TextChanged(object sender, EventArgs e)
         {
             weightFolder = Directory.GetDirectories(label_WeightPath.Text);
-
-            richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Weight NOT YET COMPLETE");
-            richTextBox_Summary.SelectionColor = Color.Aqua;
-            richTextBox_Summary.AppendText(weightFolder.Length + "\r\n");
+            // weight checking not yet complete
         }
         
         
@@ -293,6 +320,18 @@ namespace NeuroNet_Project
             pictureBox_StopCont.Image = new Bitmap(_imageStream);
         }
 
+        public void requestParameter(bool e)
+        {
+            resultParameter =
+                "Date: " + DateTime.Now + "\r\n" +
+                "Activation Function: :" + comboBox_ActivateFunction.Text + "\r\n" +
+                "Number of input: " + inputFiles.Length + "\r\n" +
+                "Number of output: " + outputFiles.Length + "\r\n" +
+                "Number of layer: " + numericUpDown_layer.Value + "\r\n" +
+                "Number of nodes: " + numericUpDown_nodes.Value + "\r\n" +
+                "Learning rate: " + numericUpDown_learn.Value + "\r\n";
+        }
+
         // WORKER HERE //////////////////////////////////////////////////////////////////////////////
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -310,7 +349,7 @@ namespace NeuroNet_Project
                     label_loopsCounter.Text = "Loops: " + loopsCounter;
                     break;
                 case 3:
-                    int ii = 1;
+                    richTextBox_Summary.AppendText("Neural Network Initialized" + "\r\n");
                     break;
                 default:
                     break;
@@ -352,9 +391,10 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == false) C = 0;
 
 
-
-            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath); //intiilize network
             
+            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath); //intiilize network
+            worker.ReportProgress(3);
+
             for (int i = 1; i < P_loops + 1; i++)
             {
                 if (worker.CancellationPending == true)
@@ -391,11 +431,11 @@ namespace NeuroNet_Project
                         for (int k = 0; k < result.Length; k++)
                             resultSingle = resultSingle + Math.Round(result[k], 4) + "\t";
                         resultSingle = resultSingle + "\r\n";
-                        resultLoops = "Loops: " + loopsCounter;
+                        resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
                         resultRMS = "RMS Error: " + cost;
-                        resultAll = resultLoops + " , " + resultRMS + "\r\n" + resultSingle;
                     }
-
+                    resultAll = resultParameter + "\r\n" + "N: " + N + " , " + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
+                    resultParameter = "";
                     net.WtoF(N, C + i, label_WeightPath.Text);
                     worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
                 }
