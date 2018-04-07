@@ -13,7 +13,7 @@ using System.Threading;
 using FolderSelect;
 using NeuroV3;
 using FileProcessing;
-
+using System.Reflection;
 
 namespace NeuroNet_Project
 {
@@ -28,10 +28,20 @@ namespace NeuroNet_Project
         int[] layer;
         float[] input;
         float[] expected;
-        string resultx;
         float[] result = new float[1];
         int N = 0, C = 0;
         int[] checkNC = new int[3];
+        Assembly _assembly;
+        Stream _imageStream;
+        int loopsCounter;
+        bool checkPlaying = false;
+        int previousLoopsCounter = 0;
+        float cost;
+
+        string resultSingle;
+        string resultAll;
+        string resultLoops;
+        string resultRMS;
 
 
 
@@ -76,7 +86,9 @@ namespace NeuroNet_Project
                     richTextBox_Summary.AppendText("ERROR, Unable to proceed, Weight Data Not Match" + "\r\n");
                     goto endofthisbutton;
                 }
+                previousLoopsCounter = C;
             }
+            else previousLoopsCounter = 0;
 
             if (D_loops != D_Compare || D_loops < 0)
             {
@@ -90,11 +102,13 @@ namespace NeuroNet_Project
             {
                 backgroundWorker1.RunWorkerAsync();
             }
-
+            panel_Loading.BringToFront();
+            checkPlaying = true;
+            setPlayStopButton(checkPlaying);
             endofthisbutton:
             int gg = 0;
+            
 
-           // panel_Loading.BringToFront();
         }
 
         private void button_Stop_Click(object sender, EventArgs e)
@@ -147,6 +161,32 @@ namespace NeuroNet_Project
             richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " ______ ");
             richTextBox_Summary.SelectionColor = Color.Aqua;
             richTextBox_Summary.AppendText(inputFiles.Length + "\r\n");
+        }
+
+        private void pictureBox_StopCont_Click(object sender, EventArgs e)
+        {
+            if (checkPlaying == true)
+            {
+                if (backgroundWorker1.WorkerSupportsCancellation == true)
+                {
+                    backgroundWorker1.CancelAsync();
+                }
+            }
+            else
+            {
+                button_Go.PerformClick();
+            }
+            
+        }
+
+        private void pictureBox_Switch_Click(object sender, EventArgs e)
+        {
+            panel_Loading.SendToBack();
+        }
+
+        private void pictureBox_Switch2_Click(object sender, EventArgs e)
+        {
+            panel_Loading.BringToFront();
         }
 
         private void label_OutputPath_TextChanged(object sender, EventArgs e)
@@ -204,6 +244,11 @@ namespace NeuroNet_Project
         {
             string setPath;
             setPath = Directory.GetCurrentDirectory();
+            _assembly = Assembly.GetExecutingAssembly();
+            _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.switch.bmp");
+            pictureBox_Switch.Image = new Bitmap(_imageStream);
+            _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.switch2.bmp");
+            pictureBox_Switch2.Image = new Bitmap(_imageStream);
 
             // Read the file and display it line by line.
             setPath = setPath + "\\config.ini";
@@ -238,7 +283,15 @@ namespace NeuroNet_Project
             }
         }
         
-
+        public void setPlayStopButton(bool isPlaying)
+        {
+            _assembly = Assembly.GetExecutingAssembly();
+            if (isPlaying == true)
+                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.Stop.bmp");
+            else
+                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.Play.bmp");
+            pictureBox_StopCont.Image = new Bitmap(_imageStream);
+        }
 
         // WORKER HERE //////////////////////////////////////////////////////////////////////////////
 
@@ -248,7 +301,16 @@ namespace NeuroNet_Project
             switch (e.ProgressPercentage)
             {
                 case 1:
-                    richTextBox_Summary.AppendText(resultx);
+                    richTextBox_FinalResult.AppendText(resultAll);
+                    richTextBox_currentError.Text = resultRMS;
+                    richTextBox_CurrentLoop.Text = resultLoops;
+                    richTextBox_CurrentY.Text = resultSingle;
+                    break;
+                case 2:
+                    label_loopsCounter.Text = "Loops: " + loopsCounter;
+                    break;
+                case 3:
+                    int ii = 1;
                     break;
                 default:
                     break;
@@ -261,16 +323,23 @@ namespace NeuroNet_Project
             {
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("\r\n" + "Cancelled" + "\r\n");
+                checkPlaying = false;
+                setPlayStopButton(checkPlaying);
             }
             else if (e.Error != null)
             {
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("\r\n" + "Error" + "\r\n");
+                checkPlaying = false;
+                setPlayStopButton(checkPlaying);
             }
             else
             {
                 richTextBox_Summary.SelectionColor = Color.Lime;
                 richTextBox_Summary.AppendText("\r\n" + "Done" + "\r\n");
+                checkPlaying = false;
+                checkBox_UseExistW.Checked = true;
+                setPlayStopButton(checkPlaying);
             }
         }
 
@@ -288,26 +357,51 @@ namespace NeuroNet_Project
             
             for (int i = 1; i < P_loops + 1; i++)
             {
+                if (worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+
                 for (int j = 0; j < D_loops; j++)
                 {
                     input = fileProcess.getData(label_InputPath.Text, j);
                     expected = fileProcess.getData(label_OutputPath.Text, j);
                     net.FeedForward(input, P_activ);
                     net.BackProp(expected, P_activ);
+                    loopsCounter = i + previousLoopsCounter;
+                    worker.ReportProgress(2);
                 }
                 if( i % P_save == 0 && i!=0 )
+                {
+                    resultAll = "";
+                    resultSingle = "";
+                    resultLoops = "";
+                    resultRMS = "";
+
+                    for (int j = 0; j < D_loops; j++)
+                    {
+                        float temp = 0;
+                        // remove here 
+                        input = fileProcess.getData(label_InputPath.Text, j);
+                        expected = fileProcess.getData(label_OutputPath.Text, j);
+                        result = net.FeedForward(input, P_activ);
+                        temp = fileProcess.error(result, expected);
+                        cost = (float)Math.Round(temp,4);
+                        for (int k = 0; k < result.Length; k++)
+                            resultSingle = resultSingle + Math.Round(result[k], 4) + "\t";
+                        resultSingle = resultSingle + "\r\n";
+                        resultLoops = "Loops: " + loopsCounter;
+                        resultRMS = "RMS Error: " + cost;
+                        resultAll = resultLoops + " , " + resultRMS + "\r\n" + resultSingle;
+                    }
+
                     net.WtoF(N, C + i, label_WeightPath.Text);
+                    worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
+                }
+                    
             }
-            resultx = "";
-            for (int j = 0; j < D_loops; j++)
-            {
-                input = fileProcess.getData(label_InputPath.Text, j);
-                result = net.FeedForward(input, P_activ);
-                for(int k = 0; k < result.Length; k++)
-                resultx = resultx + Math.Round(result[k], 3) + "\t";
-                resultx = resultx + "\r\n";
-            }
-            worker.ReportProgress(1);
+           
             worker.Dispose();
 
         }

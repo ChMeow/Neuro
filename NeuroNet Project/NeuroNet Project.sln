@@ -5,6 +5,13 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuroNet Project", "NeuroNet Project\NeuroNet Project.csproj", "{4033B558-9BD6-4E4E-92F4-FC03C7737A75}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CAFA200-E4B4-4231-B2B2-315380DBE132}"
+	ProjectSection(SolutionItems) = preProject
+		Play.bmp = Play.bmp
+		Stop.bmp = Stop.bmp
+		switch.bmp = switch.bmp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

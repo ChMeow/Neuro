@@ -96,5 +96,13 @@ namespace FileProcessing
             }
             return check;
         }
+
+        public static float error(float[] result, float[] expected)
+        {
+            float costx = 0;
+            for (int i = 0; i < result.Length; i++) costx = (result[i] - expected[i]) * (result[i] - expected[i]) + costx;
+            costx = costx / (2 * result.Length);
+            return costx;
+        }
     }
 }
