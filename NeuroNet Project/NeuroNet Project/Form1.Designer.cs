@@ -63,10 +63,22 @@
             this.button_SaveSetting = new System.Windows.Forms.Button();
             this.button_Go = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button_saveLog = new System.Windows.Forms.Button();
             this.button_clearLog = new System.Windows.Forms.Button();
+            this.button_saveLog = new System.Windows.Forms.Button();
+            this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.richTextBox_Vout = new System.Windows.Forms.RichTextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBox_Vact = new System.Windows.Forms.ComboBox();
+            this.label_Vw = new System.Windows.Forms.Label();
+            this.label_Vin = new System.Windows.Forms.Label();
+            this.button_Vsave = new System.Windows.Forms.Button();
+            this.button_Vgo = new System.Windows.Forms.Button();
+            this.button_Vw = new System.Windows.Forms.Button();
+            this.button_Vin = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.labelWinfo = new System.Windows.Forms.Label();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -80,6 +92,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nodes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_layer)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -174,6 +188,7 @@
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(19, 20);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
@@ -429,7 +444,8 @@
             "6. SoftPlus",
             "7. Bent identity",
             "8. Sin",
-            "9. Gaussian"});
+            "9. Gaussian",
+            "10. Identity"});
             this.comboBox_ActivateFunction.Location = new System.Drawing.Point(115, 154);
             this.comboBox_ActivateFunction.Name = "comboBox_ActivateFunction";
             this.comboBox_ActivateFunction.Size = new System.Drawing.Size(140, 21);
@@ -537,20 +553,15 @@
             this.tabPage2.Text = "Logs";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // richTextBox_FinalResult
+            // button_clearLog
             // 
-            this.richTextBox_FinalResult.Location = new System.Drawing.Point(6, 14);
-            this.richTextBox_FinalResult.Name = "richTextBox_FinalResult";
-            this.richTextBox_FinalResult.ReadOnly = true;
-            this.richTextBox_FinalResult.Size = new System.Drawing.Size(876, 473);
-            this.richTextBox_FinalResult.TabIndex = 0;
-            this.richTextBox_FinalResult.Text = "";
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.button_clearLog.Location = new System.Drawing.Point(6, 493);
+            this.button_clearLog.Name = "button_clearLog";
+            this.button_clearLog.Size = new System.Drawing.Size(100, 30);
+            this.button_clearLog.TabIndex = 2;
+            this.button_clearLog.Text = "Clear log";
+            this.button_clearLog.UseVisualStyleBackColor = true;
+            this.button_clearLog.Click += new System.EventHandler(this.button_clearLog_Click);
             // 
             // button_saveLog
             // 
@@ -562,15 +573,152 @@
             this.button_saveLog.UseVisualStyleBackColor = true;
             this.button_saveLog.Click += new System.EventHandler(this.button_saveLog_Click);
             // 
-            // button_clearLog
+            // richTextBox_FinalResult
             // 
-            this.button_clearLog.Location = new System.Drawing.Point(6, 493);
-            this.button_clearLog.Name = "button_clearLog";
-            this.button_clearLog.Size = new System.Drawing.Size(100, 30);
-            this.button_clearLog.TabIndex = 2;
-            this.button_clearLog.Text = "Clear log";
-            this.button_clearLog.UseVisualStyleBackColor = true;
-            this.button_clearLog.Click += new System.EventHandler(this.button_clearLog_Click);
+            this.richTextBox_FinalResult.Location = new System.Drawing.Point(6, 14);
+            this.richTextBox_FinalResult.Name = "richTextBox_FinalResult";
+            this.richTextBox_FinalResult.ReadOnly = true;
+            this.richTextBox_FinalResult.Size = new System.Drawing.Size(876, 473);
+            this.richTextBox_FinalResult.TabIndex = 0;
+            this.richTextBox_FinalResult.Text = "";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.groupBox2);
+            this.tabPage3.Controls.Add(this.label10);
+            this.tabPage3.Controls.Add(this.comboBox_Vact);
+            this.tabPage3.Controls.Add(this.labelWinfo);
+            this.tabPage3.Controls.Add(this.label_Vw);
+            this.tabPage3.Controls.Add(this.label_Vin);
+            this.tabPage3.Controls.Add(this.button_Vsave);
+            this.tabPage3.Controls.Add(this.button_Vgo);
+            this.tabPage3.Controls.Add(this.button_Vw);
+            this.tabPage3.Controls.Add(this.button_Vin);
+            this.tabPage3.Location = new System.Drawing.Point(4, 4);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(892, 535);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Validation";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.richTextBox_Vout);
+            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox2.Location = new System.Drawing.Point(7, 142);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(875, 379);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Output";
+            // 
+            // richTextBox_Vout
+            // 
+            this.richTextBox_Vout.Location = new System.Drawing.Point(10, 17);
+            this.richTextBox_Vout.Name = "richTextBox_Vout";
+            this.richTextBox_Vout.Size = new System.Drawing.Size(855, 352);
+            this.richTextBox_Vout.TabIndex = 5;
+            this.richTextBox_Vout.Text = "";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(509, 19);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(98, 13);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "Activation Function";
+            // 
+            // comboBox_Vact
+            // 
+            this.comboBox_Vact.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Vact.FormattingEnabled = true;
+            this.comboBox_Vact.Items.AddRange(new object[] {
+            "1. Tanh",
+            "2. Logistic",
+            "3. Binary Step",
+            "4. ArcTan",
+            "5. SoftSign",
+            "6. SoftPlus",
+            "7. Bent identity",
+            "8. Sin",
+            "9. Gaussian",
+            "10. Identity"});
+            this.comboBox_Vact.Location = new System.Drawing.Point(624, 16);
+            this.comboBox_Vact.Name = "comboBox_Vact";
+            this.comboBox_Vact.Size = new System.Drawing.Size(140, 21);
+            this.comboBox_Vact.TabIndex = 10;
+            // 
+            // label_Vw
+            // 
+            this.label_Vw.AutoSize = true;
+            this.label_Vw.Location = new System.Drawing.Point(99, 48);
+            this.label_Vw.Name = "label_Vw";
+            this.label_Vw.Size = new System.Drawing.Size(13, 13);
+            this.label_Vw.TabIndex = 4;
+            this.label_Vw.Text = "--";
+            // 
+            // label_Vin
+            // 
+            this.label_Vin.AutoSize = true;
+            this.label_Vin.Location = new System.Drawing.Point(99, 19);
+            this.label_Vin.Name = "label_Vin";
+            this.label_Vin.Size = new System.Drawing.Size(13, 13);
+            this.label_Vin.TabIndex = 3;
+            this.label_Vin.Text = "--";
+            // 
+            // button_Vsave
+            // 
+            this.button_Vsave.Location = new System.Drawing.Point(786, 43);
+            this.button_Vsave.Name = "button_Vsave";
+            this.button_Vsave.Size = new System.Drawing.Size(87, 23);
+            this.button_Vsave.TabIndex = 2;
+            this.button_Vsave.Text = "Save Results";
+            this.button_Vsave.UseVisualStyleBackColor = true;
+            // 
+            // button_Vgo
+            // 
+            this.button_Vgo.Location = new System.Drawing.Point(786, 14);
+            this.button_Vgo.Name = "button_Vgo";
+            this.button_Vgo.Size = new System.Drawing.Size(87, 23);
+            this.button_Vgo.TabIndex = 2;
+            this.button_Vgo.Text = "Feed Forward";
+            this.button_Vgo.UseVisualStyleBackColor = true;
+            this.button_Vgo.Click += new System.EventHandler(this.button_Vgo_Click);
+            // 
+            // button_Vw
+            // 
+            this.button_Vw.Location = new System.Drawing.Point(12, 43);
+            this.button_Vw.Name = "button_Vw";
+            this.button_Vw.Size = new System.Drawing.Size(75, 23);
+            this.button_Vw.TabIndex = 1;
+            this.button_Vw.Text = "Weight Path";
+            this.button_Vw.UseVisualStyleBackColor = true;
+            this.button_Vw.Click += new System.EventHandler(this.button_Vw_Click);
+            // 
+            // button_Vin
+            // 
+            this.button_Vin.Location = new System.Drawing.Point(12, 14);
+            this.button_Vin.Name = "button_Vin";
+            this.button_Vin.Size = new System.Drawing.Size(75, 23);
+            this.button_Vin.TabIndex = 0;
+            this.button_Vin.Text = "Input Path";
+            this.button_Vin.UseVisualStyleBackColor = true;
+            this.button_Vin.Click += new System.EventHandler(this.button_Vin_Click);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // labelWinfo
+            // 
+            this.labelWinfo.AutoSize = true;
+            this.labelWinfo.Location = new System.Drawing.Point(99, 70);
+            this.labelWinfo.Name = "labelWinfo";
+            this.labelWinfo.Size = new System.Drawing.Size(0, 13);
+            this.labelWinfo.TabIndex = 4;
             // 
             // Form_Main
             // 
@@ -580,8 +728,10 @@
             this.ClientSize = new System.Drawing.Size(938, 597);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel_Loading);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form_Main";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "NeuroNet Project";
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.panel_Loading.ResumeLayout(false);
@@ -599,6 +749,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nodes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_layer)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -644,6 +797,18 @@
         private System.Windows.Forms.RichTextBox richTextBox_FinalResult;
         private System.Windows.Forms.Button button_clearLog;
         private System.Windows.Forms.Button button_saveLog;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.RichTextBox richTextBox_Vout;
+        private System.Windows.Forms.Label label_Vw;
+        private System.Windows.Forms.Label label_Vin;
+        private System.Windows.Forms.Button button_Vgo;
+        private System.Windows.Forms.Button button_Vw;
+        private System.Windows.Forms.Button button_Vin;
+        private System.Windows.Forms.ComboBox comboBox_Vact;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button_Vsave;
+        private System.Windows.Forms.Label labelWinfo;
     }
 }
 

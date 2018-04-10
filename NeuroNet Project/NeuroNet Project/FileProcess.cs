@@ -97,11 +97,99 @@ namespace FileProcessing
             return check;
         }
 
+        public static int[] checkWeightInfo(string path)
+        {
+            int L;
+            int I;
+            int N;
+            int E;
+            int[] check;
+            try
+            {
+                List<string> FileName = new List<string>();
+
+                string tempW;
+                FileName.AddRange(Directory.GetFiles(path));
+                FileName.Sort(new NaturalStringComparer(false));
+                tempW = Path.GetFileNameWithoutExtension(FileName[FileName.Count - 1]);
+                var NCL = tempW.Split(new char[] { 'N', 'C', 'L' });
+                L = int.Parse(NCL[3]) + 2;
+
+                int k = 0;
+                string[] split;
+                char[] tab = new char[3];
+                tab[0] = Convert.ToChar("\t");
+                tab[1] = Convert.ToChar("\r");
+                tab[2] = Convert.ToChar("\n");
+
+                string readText = File.ReadAllText(FileName[0]);
+                split = readText.Split(tab);
+                string[] split2 = new string[split.Length];
+                for (int jj = 0; jj < split.Length; jj++)
+                {
+                    if (split[jj] != "")
+                    {
+                        split2[k] = split[jj];
+                        k++;
+                    }
+                    else break;
+                } I = k;
+
+                k = 0;
+                readText = File.ReadAllText(FileName[FileName.Count-1]);
+                split = readText.Split(tab);
+                string[] split3 = new string[split.Length];
+                for (int jj = 0; jj < split.Length; jj++)
+                {
+                    if (split[jj] != "")
+                    {
+                        split2[k] = split[jj];
+                        k++;
+                    }
+                    else break;
+                }
+                N = k;
+
+                k = 0;
+                readText = File.ReadAllText(FileName[FileName.Count - 1]);
+                split = readText.Split(tab);
+                string[] split4 = new string[split.Length];
+                for (int jj = 0; jj < split.Length; jj++)
+                {
+                    if (split[jj] == "")
+                    {
+                        k++;
+                    }
+                }
+
+                E = (k - 1) / 2;
+
+                check = new int[L];
+                check[0] = I;
+                for (int j = 1; j < L - 1; j++) check[j] = N;
+                check[L - 1] = E;
+            }
+            catch (Exception exx)
+            {
+                check = new int[1];
+                check[0] = -1;
+            }
+            return check;
+        }
+
         public static float error(float[] result, float[] expected)
         {
             float costx = 0;
-            for (int i = 0; i < result.Length; i++) costx = (result[i] - expected[i]) * (result[i] - expected[i]) + costx;
+            for (int i = 0; i < result.Length; i++) costx = ((result[i] - expected[i]) * (result[i] - expected[i])) + costx;
             costx = costx / (2 * result.Length);
+            return costx;
+        }
+
+        public static float[] diff(float[] result, float[] expected)
+        {
+            float[] costx = new float[result.Length];
+            for (int i = 0; i < result.Length; i++)
+            costx[i] = -(result[i] - expected[i]);
             return costx;
         }
     }

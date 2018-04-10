@@ -340,6 +340,10 @@ namespace NeuroV3
                         value = (float)Math.Exp(-tempF);
                         break;
 
+                    case 10:
+                        value = value;
+                        break;
+
                     default:
                         return value;
                 }
@@ -390,6 +394,10 @@ namespace NeuroV3
                     case 9:
                         tempF = value * value;
                         value = -2 * value * (float)Math.Exp(-tempF);
+                        break;
+
+                    case 10:
+                        value = 1;
                         break;
 
                     default:

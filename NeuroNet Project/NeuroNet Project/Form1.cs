@@ -37,6 +37,8 @@ namespace NeuroNet_Project
         bool checkPlaying = false;
         int previousLoopsCounter = 0;
         float cost;
+        float[] different;
+        int[] weightInfo;
 
         string resultSingle;
         string resultAll;
@@ -83,6 +85,7 @@ namespace NeuroNet_Project
                 existingWeightPath = label_WeightPath.Text + @"\N" + N + "C" + C + "L";
                 if (checkNC[2] != P_layer - 2)
                 {
+                    richTextBox_Summary.Focus();
                     richTextBox_Summary.SelectionColor = Color.Red;
                     richTextBox_Summary.AppendText("ERROR, Unable to proceed, Weight Data Not Match" + "\r\n");
                     goto endofthisbutton;
@@ -93,6 +96,7 @@ namespace NeuroNet_Project
 
             if (D_loops != D_Compare || D_loops < 0)
             {
+                richTextBox_Summary.Focus();
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("ERROR, Input Output Data Not Match, -1" + "\r\n");
                 goto endofthisbutton;
@@ -160,6 +164,7 @@ namespace NeuroNet_Project
         private void label_InputPath_TextChanged(object sender, EventArgs e)
         {
             inputFiles = Directory.GetFiles(label_InputPath.Text);
+            richTextBox_Summary.Focus();
             richTextBox_Summary.SelectionColor = Color.White;
             richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " >>> ");
             richTextBox_Summary.SelectionColor = Color.Aqua;
@@ -195,6 +200,7 @@ namespace NeuroNet_Project
         private void label_OutputPath_TextChanged(object sender, EventArgs e)
         {
             outputFiles = Directory.GetFiles(label_OutputPath.Text);
+            richTextBox_Summary.Focus();
             richTextBox_Summary.SelectionColor = Color.White;
             richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " >>> ");
             richTextBox_Summary.SelectionColor = Color.Aqua;
@@ -227,6 +233,61 @@ namespace NeuroNet_Project
                 }
 
             }
+        }
+
+        private void button_Vin_Click(object sender, EventArgs e)
+        {
+            var WeightSelect = new FolderSelectDialog();
+            WeightSelect.Title = "Select Input Path";
+            WeightSelect.InitialDirectory = @"c:\";
+            if (WeightSelect.ShowDialog(IntPtr.Zero))
+            {
+                label_Vin.Text = WeightSelect.FileName;
+            }
+            inputFiles = Directory.GetFiles(label_Vin.Text);
+            D_loops = fileProcess.checkData(label_Vin.Text);
+        }
+
+        private void button_Vw_Click(object sender, EventArgs e)
+        {
+            var WeightSelect = new FolderSelectDialog();
+            WeightSelect.Title = "Select Weight Path";
+            WeightSelect.InitialDirectory = @"c:\";
+            if (WeightSelect.ShowDialog(IntPtr.Zero))
+            {
+                label_Vw.Text = WeightSelect.FileName;
+            }
+            weightInfo = fileProcess.checkWeightInfo(label_Vw.Text);
+            string tempW = "";
+            tempW = "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
+            for (int i = 0; i < weightInfo.Length - 1; i++) tempW = tempW + weightInfo[i] + " , ";
+            tempW = tempW + weightInfo[weightInfo.Length - 1] + " }";
+            labelWinfo.Text = tempW;
+
+
+            //find layer info to layer[] here
+        }
+
+        private void button_Vgo_Click(object sender, EventArgs e)
+        {
+            checkNC = fileProcess.checkWeight(label_WeightPath.Text);
+            N = checkNC[0];
+            C = checkNC[1];
+
+            existingWeightPath = label_Vw.Text + @"\N" + N + "C" + C + "L";
+
+            string VResult = "";
+            float[] tempV;
+            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath); //intiilize network
+            P_activ = comboBox_Vact.SelectedIndex + 1;
+            for (int j = 0; j < D_loops; j++)
+            {
+                input = fileProcess.getData(label_Vin.Text, j);
+                tempV = net.FeedForward(input, P_activ);
+                for (int g = 0; g < tempV.Length; g++) VResult = VResult + Math.Round(tempV[g], 5) + "\t";
+                VResult = VResult + "\r\n";
+            }
+            richTextBox_Vout.Text = VResult;
         }
 
         /// <summary>
@@ -262,6 +323,7 @@ namespace NeuroNet_Project
             //file.WriteLine(numericUpDown_momentum.Value);
 
             file.Close();
+            richTextBox_Summary.Focus();
             richTextBox_Summary.SelectionColor = Color.Lime;
             richTextBox_Summary.AppendText("Setting Saved" + "\r\n");
             GC.Collect();
@@ -300,6 +362,7 @@ namespace NeuroNet_Project
                 }
                 catch (Exception exx)
                 {
+                    richTextBox_Summary.Focus();
                     richTextBox_Summary.SelectionColor = Color.Red;
                     richTextBox_Summary.AppendText("Setting File Error" + "\r\n");
                 }
@@ -336,6 +399,7 @@ namespace NeuroNet_Project
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            richTextBox_Summary.Focus();
             richTextBox_Summary.SelectionColor = Color.Aqua;
             switch (e.ProgressPercentage)
             {
@@ -360,6 +424,8 @@ namespace NeuroNet_Project
         {
             if (e.Cancelled == true)
             {
+                richTextBox_Summary.Focus();
+
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("\r\n" + "Cancelled" + "\r\n");
                 checkPlaying = false;
@@ -367,6 +433,7 @@ namespace NeuroNet_Project
             }
             else if (e.Error != null)
             {
+                richTextBox_Summary.Focus();
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("\r\n" + "Error" + "\r\n");
                 checkPlaying = false;
@@ -374,6 +441,7 @@ namespace NeuroNet_Project
             }
             else
             {
+                richTextBox_Summary.Focus();
                 richTextBox_Summary.SelectionColor = Color.Lime;
                 richTextBox_Summary.AppendText("\r\n" + "Done" + "\r\n");
                 checkPlaying = false;
@@ -427,9 +495,13 @@ namespace NeuroNet_Project
                         expected = fileProcess.getData(label_OutputPath.Text, j);
                         result = net.FeedForward(input, P_activ);
                         temp = fileProcess.error(result, expected);
-                        cost = (float)Math.Round(temp,4);
+                        cost = (float)Math.Round(temp,5);
+                        different = fileProcess.diff(result, expected);
                         for (int k = 0; k < result.Length; k++)
-                            resultSingle = resultSingle + Math.Round(result[k], 4) + "\t";
+                        {
+                            resultSingle = resultSingle + Math.Round(result[k], 5) 
+                                           + "(" + Math.Round(different[k],5) + ")" + "\t";
+                        }
                         resultSingle = resultSingle + "\r\n";
                         resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
                         resultRMS = "RMS Error: " + cost;
