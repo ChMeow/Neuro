@@ -71,6 +71,7 @@
             this.richTextBox_Vout = new System.Windows.Forms.RichTextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.comboBox_Vact = new System.Windows.Forms.ComboBox();
+            this.labelWinfo = new System.Windows.Forms.Label();
             this.label_Vw = new System.Windows.Forms.Label();
             this.label_Vin = new System.Windows.Forms.Label();
             this.button_Vsave = new System.Windows.Forms.Button();
@@ -78,7 +79,7 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.labelWinfo = new System.Windows.Forms.Label();
+            this.button_CResult = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -590,6 +591,7 @@
             this.tabPage3.Controls.Add(this.labelWinfo);
             this.tabPage3.Controls.Add(this.label_Vw);
             this.tabPage3.Controls.Add(this.label_Vin);
+            this.tabPage3.Controls.Add(this.button_CResult);
             this.tabPage3.Controls.Add(this.button_Vsave);
             this.tabPage3.Controls.Add(this.button_Vgo);
             this.tabPage3.Controls.Add(this.button_Vw);
@@ -649,6 +651,14 @@
             this.comboBox_Vact.Size = new System.Drawing.Size(140, 21);
             this.comboBox_Vact.TabIndex = 10;
             // 
+            // labelWinfo
+            // 
+            this.labelWinfo.AutoSize = true;
+            this.labelWinfo.Location = new System.Drawing.Point(99, 70);
+            this.labelWinfo.Name = "labelWinfo";
+            this.labelWinfo.Size = new System.Drawing.Size(0, 13);
+            this.labelWinfo.TabIndex = 4;
+            // 
             // label_Vw
             // 
             this.label_Vw.AutoSize = true;
@@ -675,6 +685,7 @@
             this.button_Vsave.TabIndex = 2;
             this.button_Vsave.Text = "Save Results";
             this.button_Vsave.UseVisualStyleBackColor = true;
+            this.button_Vsave.Click += new System.EventHandler(this.button_Vsave_Click);
             // 
             // button_Vgo
             // 
@@ -712,13 +723,15 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // labelWinfo
+            // button_CResult
             // 
-            this.labelWinfo.AutoSize = true;
-            this.labelWinfo.Location = new System.Drawing.Point(99, 70);
-            this.labelWinfo.Name = "labelWinfo";
-            this.labelWinfo.Size = new System.Drawing.Size(0, 13);
-            this.labelWinfo.TabIndex = 4;
+            this.button_CResult.Location = new System.Drawing.Point(786, 72);
+            this.button_CResult.Name = "button_CResult";
+            this.button_CResult.Size = new System.Drawing.Size(87, 23);
+            this.button_CResult.TabIndex = 2;
+            this.button_CResult.Text = "Clear results";
+            this.button_CResult.UseVisualStyleBackColor = true;
+            this.button_CResult.Click += new System.EventHandler(this.button_Vclear_Click);
             // 
             // Form_Main
             // 
@@ -809,6 +822,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button_Vsave;
         private System.Windows.Forms.Label labelWinfo;
+        private System.Windows.Forms.Button button_CResult;
     }
 }
 

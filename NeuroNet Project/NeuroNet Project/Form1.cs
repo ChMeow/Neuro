@@ -290,6 +290,32 @@ namespace NeuroNet_Project
             richTextBox_Vout.Text = VResult;
         }
 
+        private void button_Vsave_Click(object sender, EventArgs e)
+        {
+            string saveLog = "";
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = @"C:\";
+            saveFileDialog1.Title = "Save text Files";
+            //saveFileDialog1.CheckFileExists = true;
+            saveFileDialog1.CheckPathExists = true;
+            saveFileDialog1.DefaultExt = "txt";
+            saveFileDialog1.Filter = "Rich Text files (*.rtf)|*.rtf";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                saveLog = saveFileDialog1.FileName;
+                richTextBox_Vout.SaveFile(saveLog);
+            }
+
+        }
+
+        private void button_Vclear_Click(object sender, EventArgs e)
+        {
+            richTextBox_Vout.Text = "";
+        }
+
         /// <summary>
         /// NOT YET DONE
         /// </summary>
