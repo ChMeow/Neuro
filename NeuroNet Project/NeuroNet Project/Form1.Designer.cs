@@ -74,12 +74,13 @@
             this.labelWinfo = new System.Windows.Forms.Label();
             this.label_Vw = new System.Windows.Forms.Label();
             this.label_Vin = new System.Windows.Forms.Label();
+            this.button_CResult = new System.Windows.Forms.Button();
             this.button_Vsave = new System.Windows.Forms.Button();
             this.button_Vgo = new System.Windows.Forms.Button();
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button_CResult = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -199,6 +200,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.pictureBox_Switch2);
             this.tabPage1.Controls.Add(this.numericUpDown_save);
             this.tabPage1.Controls.Add(this.label7);
@@ -677,6 +679,16 @@
             this.label_Vin.TabIndex = 3;
             this.label_Vin.Text = "--";
             // 
+            // button_CResult
+            // 
+            this.button_CResult.Location = new System.Drawing.Point(786, 72);
+            this.button_CResult.Name = "button_CResult";
+            this.button_CResult.Size = new System.Drawing.Size(87, 23);
+            this.button_CResult.TabIndex = 2;
+            this.button_CResult.Text = "Clear results";
+            this.button_CResult.UseVisualStyleBackColor = true;
+            this.button_CResult.Click += new System.EventHandler(this.button_Vclear_Click);
+            // 
             // button_Vsave
             // 
             this.button_Vsave.Location = new System.Drawing.Point(786, 43);
@@ -723,15 +735,14 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // button_CResult
+            // button1
             // 
-            this.button_CResult.Location = new System.Drawing.Point(786, 72);
-            this.button_CResult.Name = "button_CResult";
-            this.button_CResult.Size = new System.Drawing.Size(87, 23);
-            this.button_CResult.TabIndex = 2;
-            this.button_CResult.Text = "Clear results";
-            this.button_CResult.UseVisualStyleBackColor = true;
-            this.button_CResult.Click += new System.EventHandler(this.button_Vclear_Click);
+            this.button1.Location = new System.Drawing.Point(618, 41);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 27);
+            this.button1.TabIndex = 37;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Form_Main
             // 
@@ -823,6 +834,7 @@
         private System.Windows.Forms.Button button_Vsave;
         private System.Windows.Forms.Label labelWinfo;
         private System.Windows.Forms.Button button_CResult;
+        private System.Windows.Forms.Button button1;
     }
 }
 
