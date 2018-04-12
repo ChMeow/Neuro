@@ -478,7 +478,9 @@ namespace NeuroNet_Project
 
         public void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            int[] ArrayForRandom = new int[D_loops];
+            Random targetJ = new Random();
+            int tempTarget;
             BackgroundWorker worker = sender as BackgroundWorker;
             if (N != -1 && checkBox_UseExistW.Checked == false) N++;
             if (N == -1) N = 0;
@@ -497,10 +499,19 @@ namespace NeuroNet_Project
                     break;
                 }
 
+                for (int k = 0; k < D_loops; k++) ArrayForRandom[k] = k; // initialize array for comparison
+                tempTarget = targetJ.Next(0, D_loops);
+
                 for (int j = 0; j < D_loops; j++)
                 {
-                    input = fileProcess.getData(label_InputPath.Text, j);
-                    expected = fileProcess.getData(label_OutputPath.Text, j);
+                    while (ArrayForRandom[tempTarget] == -1)
+                    {
+                        tempTarget = targetJ.Next(0, D_loops);
+                    }
+                    ArrayForRandom[tempTarget] = -1;
+
+                    input = fileProcess.getData(label_InputPath.Text, tempTarget);
+                    expected = fileProcess.getData(label_OutputPath.Text, tempTarget);
                     net.FeedForward(input, P_activ);
                     net.BackProp(expected, P_activ);
                     loopsCounter = i + previousLoopsCounter;

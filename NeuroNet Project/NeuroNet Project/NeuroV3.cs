@@ -302,7 +302,7 @@ namespace NeuroV3
                         break;
 
                     case 2:
-                        tempF = (float)Math.Exp(value);
+                        tempF = (float)Math.Exp(-value);
                         value = 1 / (1 + tempF);
                         break;
 
