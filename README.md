@@ -1,5 +1,6 @@
 # Neuro (The backpropagetion)
 A Simple NeuroNet Project
+
 Basic Backpropagation function. (Without momentum and bias, etc.)
 
 To test it,
