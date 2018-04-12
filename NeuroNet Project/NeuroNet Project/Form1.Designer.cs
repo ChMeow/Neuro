@@ -80,7 +80,8 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button1 = new System.Windows.Forms.Button();
+            this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -96,6 +97,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -200,7 +202,8 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.numericUpDown_DP);
             this.tabPage1.Controls.Add(this.pictureBox_Switch2);
             this.tabPage1.Controls.Add(this.numericUpDown_save);
             this.tabPage1.Controls.Add(this.label7);
@@ -735,14 +738,26 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // button1
+            // numericUpDown_DP
             // 
-            this.button1.Location = new System.Drawing.Point(618, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(66, 27);
-            this.button1.TabIndex = 37;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.numericUpDown_DP.Location = new System.Drawing.Point(115, 311);
+            this.numericUpDown_DP.Name = "numericUpDown_DP";
+            this.numericUpDown_DP.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_DP.TabIndex = 37;
+            this.numericUpDown_DP.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 313);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(86, 13);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "Decimal (Output)";
             // 
             // Form_Main
             // 
@@ -776,6 +791,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -834,7 +850,8 @@
         private System.Windows.Forms.Button button_Vsave;
         private System.Windows.Forms.Label labelWinfo;
         private System.Windows.Forms.Button button_CResult;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown numericUpDown_DP;
     }
 }
 

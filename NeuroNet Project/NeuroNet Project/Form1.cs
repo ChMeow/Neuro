@@ -346,6 +346,7 @@ namespace NeuroNet_Project
             file.WriteLine(numericUpDown_nodes.Value);
             file.WriteLine(numericUpDown_loops.Value);
             file.WriteLine(numericUpDown_learn.Value);
+            file.WriteLine(numericUpDown_DP.Value);
             //file.WriteLine(numericUpDown_momentum.Value);
 
             file.Close();
@@ -384,6 +385,7 @@ namespace NeuroNet_Project
                     numericUpDown_nodes.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_loops.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_learn.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_DP.Value    = Convert.ToDecimal(file.ReadLine());
                     // numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
                 }
                 catch (Exception exx)
@@ -534,10 +536,11 @@ namespace NeuroNet_Project
                         temp = fileProcess.error(result, expected);
                         cost = (float)Math.Round(temp,5);
                         different = fileProcess.diff(result, expected);
+                        int DP = (int)numericUpDown_DP.Value;
                         for (int k = 0; k < result.Length; k++)
                         {
-                            resultSingle = resultSingle + Math.Round(result[k], 5) 
-                                           + "(" + Math.Round(different[k],5) + ")" + "\t";
+                            resultSingle = resultSingle + Math.Round(result[k], DP) 
+                                           + "(" + Math.Round(different[k], DP) + ")" + "\t";
                         }
                         resultSingle = resultSingle + "\r\n";
                         resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
