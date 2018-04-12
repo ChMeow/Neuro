@@ -37,6 +37,8 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
             this.numericUpDown_save = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -80,13 +82,14 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
+            this.button_BiasPath = new System.Windows.Forms.Button();
+            this.label_biasPath = new System.Windows.Forms.Label();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -97,7 +100,6 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -202,6 +204,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label_biasPath);
+            this.tabPage1.Controls.Add(this.button_BiasPath);
             this.tabPage1.Controls.Add(this.label8);
             this.tabPage1.Controls.Add(this.numericUpDown_DP);
             this.tabPage1.Controls.Add(this.pictureBox_Switch2);
@@ -235,6 +239,27 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 313);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(86, 13);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "Decimal (Output)";
+            // 
+            // numericUpDown_DP
+            // 
+            this.numericUpDown_DP.Location = new System.Drawing.Point(115, 311);
+            this.numericUpDown_DP.Name = "numericUpDown_DP";
+            this.numericUpDown_DP.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_DP.TabIndex = 37;
+            this.numericUpDown_DP.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             // 
             // pictureBox_Switch2
             // 
@@ -289,7 +314,7 @@
             // checkBox_UseExistW
             // 
             this.checkBox_UseExistW.AutoSize = true;
-            this.checkBox_UseExistW.Location = new System.Drawing.Point(6, 99);
+            this.checkBox_UseExistW.Location = new System.Drawing.Point(6, 131);
             this.checkBox_UseExistW.Name = "checkBox_UseExistW";
             this.checkBox_UseExistW.Size = new System.Drawing.Size(167, 17);
             this.checkBox_UseExistW.TabIndex = 34;
@@ -738,26 +763,24 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // numericUpDown_DP
+            // button_BiasPath
             // 
-            this.numericUpDown_DP.Location = new System.Drawing.Point(115, 311);
-            this.numericUpDown_DP.Name = "numericUpDown_DP";
-            this.numericUpDown_DP.Size = new System.Drawing.Size(140, 20);
-            this.numericUpDown_DP.TabIndex = 37;
-            this.numericUpDown_DP.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
+            this.button_BiasPath.Location = new System.Drawing.Point(6, 99);
+            this.button_BiasPath.Name = "button_BiasPath";
+            this.button_BiasPath.Size = new System.Drawing.Size(100, 25);
+            this.button_BiasPath.TabIndex = 39;
+            this.button_BiasPath.Text = "Bias Path";
+            this.button_BiasPath.UseVisualStyleBackColor = true;
+            this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
             // 
-            // label8
+            // label_biasPath
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 313);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(86, 13);
-            this.label8.TabIndex = 38;
-            this.label8.Text = "Decimal (Output)";
+            this.label_biasPath.AutoSize = true;
+            this.label_biasPath.Location = new System.Drawing.Point(112, 105);
+            this.label_biasPath.Name = "label_biasPath";
+            this.label_biasPath.Size = new System.Drawing.Size(43, 13);
+            this.label_biasPath.TabIndex = 40;
+            this.label_biasPath.Text = "Not Set";
             // 
             // Form_Main
             // 
@@ -780,6 +803,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -791,7 +815,6 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -852,6 +875,8 @@
         private System.Windows.Forms.Button button_CResult;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDown_DP;
+        private System.Windows.Forms.Label label_biasPath;
+        private System.Windows.Forms.Button button_BiasPath;
     }
 }
 

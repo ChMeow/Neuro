@@ -16,7 +16,7 @@ namespace NeuroV3
 
 
         /// Constructor setting up layers
-        public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
+        public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath, string BiasPath) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
         {
             //deep copy layers
             this.LearnRate = LearnRate;
@@ -29,7 +29,7 @@ namespace NeuroV3
 
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i] = new Layer(layer[i], layer[i + 1], WeightPath, i, UpdateExistingWeight); // layer[i] represent the input nodes and layer[i+1] represent output nodes.
+                layers[i] = new Layer(layer[i], layer[i + 1], WeightPath, i, UpdateExistingWeight, BiasPath); // layer[i] represent the input nodes and layer[i+1] represent output nodes.
             }
         }
 
@@ -70,6 +70,12 @@ namespace NeuroV3
             {
                 layers[i].UpdateWeights(LearnRate);
             }
+
+            //Update bias
+            for (int i = 0; i < layers.Length; i++)
+            {
+                layers[i].UpdateBias(1);
+            }
         }
 
 
@@ -79,6 +85,15 @@ namespace NeuroV3
             for (int L = 0; L < layers.Length; L++)
             {
                 layers[L].WeightsToFiles(N, C, L, savePath);
+            }
+        }
+
+        public void BtoF(int N, int C, string savePath)
+        {
+            //Output weights to Files
+            for (int L = 0; L < layers.Length; L++)
+            {
+                layers[L].BiasToFiles(N, C, L, savePath);
             }
         }
 
@@ -99,6 +114,7 @@ namespace NeuroV3
             public float[] inputs; //inputs in into this layer
             public float[,] weights; //weights of this layer
             public float[,] weightsDelta; //deltas of this layer
+            public float[] bias;
             public float[] gamma; //gamma of this layer
             public float[] error; //error of the output layer
 
@@ -107,7 +123,7 @@ namespace NeuroV3
             /// Constructor initilizes vaiour data structures
             /// <param name="numberOfInputs">Number of neurons in the previous layer</param>
             /// <param name="numberOfOuputs">Number of neurons in the current layer</param>
-            public Layer(int numberOfInputs, int numberOfOuputs, string WeightPath, int CountL, bool UpdateExistingWeight)
+            public Layer(int numberOfInputs, int numberOfOuputs, string WeightPath, int CountL, bool UpdateExistingWeight, string BiasPath)
             {
                 this.numberOfInputs = numberOfInputs;
                 this.numberOfOuputs = numberOfOuputs;
@@ -117,13 +133,18 @@ namespace NeuroV3
                 inputs = new float[numberOfInputs];
                 weights = new float[numberOfOuputs, numberOfInputs];
                 weightsDelta = new float[numberOfOuputs, numberOfInputs];
+                bias = new float[numberOfOuputs];
                 gamma = new float[numberOfOuputs];
                 error = new float[numberOfOuputs];
+
                 bool WeightExist;
                 if (UpdateExistingWeight == true) WeightExist = true;
                 else WeightExist = false;
                 InitilizeWeights(WeightExist, WeightPath, CountL); //initilize weights
+
+                InitilizeBias(UpdateExistingWeight, BiasPath, CountL);
             }
+
 
             /// Initilize weights between -0.5 and 0.5
             public void InitilizeWeights(bool WeightExist, string WeightPath, int CountL)
@@ -175,6 +196,52 @@ namespace NeuroV3
                 }
             }
 
+
+            // bias
+            public void InitilizeBias(bool BiasExist, string BiasPath, int CountL)
+            {
+                if (BiasExist == true)
+                {
+                    BiasPath = BiasPath + CountL + @".txt";
+                    int k = 0;
+                    int loop = 0;
+                    string[] split;
+                    char[] tab = new char[3];
+                    tab[0] = Convert.ToChar("\t");
+                    tab[1] = Convert.ToChar("\r");
+                    tab[2] = Convert.ToChar("\n");
+
+                    string readText = File.ReadAllText(BiasPath);
+                    split = readText.Split(tab);
+                    string[] split2 = new string[split.Length];
+                    for (int jj = 0; jj < split.Length; jj++)
+                    {
+                        if (split[jj] != "")
+                        {
+                            split2[k] = split[jj];
+                            k++;
+                        }
+                    }
+
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    { 
+                            double temp = 0;
+                            temp = Convert.ToDouble(split2[loop]);
+                            bias[i] = (float)temp;
+                            loop++;
+                    }
+                    
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        bias[i] = (float)random.NextDouble() - 0.5f;
+                    }
+                }
+            }
+
+
             /// Feedforward this layer with a given input
             /// <param name="inputs">The output values of the previous layer</param>
             public float[] FeedForward(float[] inputs, int Activate)
@@ -189,7 +256,7 @@ namespace NeuroV3
                     {
                         outputs[i] += inputs[j] * weights[i, j];
                     }
-
+                    outputs[i] += bias[i];
                     outputs[i] = Activ(outputs[i], Activate);
                 }
 
@@ -259,6 +326,14 @@ namespace NeuroV3
                 }
             }
 
+            public void UpdateBias(float LearnRate)
+            {
+                for (int i = 0; i < numberOfOuputs; i++)
+                {
+                    bias[i] -= gamma[i] * LearnRate;
+                }
+            }
+
             public void WeightsToFiles(int N, int C, int L, string savePath)
             {
                 int j, i = 0;
@@ -275,8 +350,16 @@ namespace NeuroV3
                 }
             }
 
+            public void BiasToFiles(int N, int C, int L, string savePath)
+            {
+                int i = 0;
+                string FinalBias = "";
+                string B_SavePath = savePath + @"\N" + N + "C" + C + "L" + L + ".txt";
+                for (i = 0; i < numberOfOuputs; i++)
+                    FinalBias = FinalBias + bias[i] + "\r\n";
+                File.WriteAllText(B_SavePath, FinalBias);
+            }
 
-         
 
 
 

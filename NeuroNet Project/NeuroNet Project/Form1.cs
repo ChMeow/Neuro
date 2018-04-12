@@ -23,6 +23,7 @@ namespace NeuroNet_Project
         string[] outputFiles;
         string[] weightFolder;
         string existingWeightPath; // with part of the name included, N and C value // C is the continue cycle, N is for seperate cycle. ie. N will increase a number if use existing weight is unchecked.
+        string existingBiasPath;
         int P_activ, P_loops, P_layer, P_nodes, P_save, D_loops, D_Compare;
         float P_learn;
         int[] layer;
@@ -83,6 +84,7 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == true)
             {
                 existingWeightPath = label_WeightPath.Text + @"\N" + N + "C" + C + "L";
+                existingBiasPath = label_biasPath.Text + @"\N" + N + "C" + C + "L";
                 if (checkNC[2] != P_layer - 2)
                 {
                     richTextBox_Summary.Focus();
@@ -275,10 +277,11 @@ namespace NeuroNet_Project
             C = checkNC[1];
 
             existingWeightPath = label_Vw.Text + @"\N" + N + "C" + C + "L";
+            existingBiasPath = label_biasPath.Text + @"\N" + N + "C" + C + "L";
 
             string VResult = "";
             float[] tempV;
-            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath); //intiilize network
+            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, label_biasPath.Text); //intiilize network
             P_activ = comboBox_Vact.SelectedIndex + 1;
             for (int j = 0; j < D_loops; j++)
             {
@@ -316,6 +319,17 @@ namespace NeuroNet_Project
             richTextBox_Vout.Text = "";
         }
 
+        private void button_BiasPath_Click(object sender, EventArgs e)
+        {
+            var biasSelect = new FolderSelectDialog();
+            biasSelect.Title = "Select Bias Path";
+            biasSelect.InitialDirectory = @"c:\";
+            if (biasSelect.ShowDialog(IntPtr.Zero))
+            {
+                label_biasPath.Text = biasSelect.FileName;
+            }
+        }
+
         /// <summary>
         /// NOT YET DONE
         /// </summary>
@@ -340,6 +354,7 @@ namespace NeuroNet_Project
             file.WriteLine(label_InputPath.Text);
             file.WriteLine(label_OutputPath.Text);
             file.WriteLine(label_WeightPath.Text);
+            file.WriteLine(label_biasPath.Text);
             file.WriteLine(numericUpDown_save.Value);
             file.WriteLine(comboBox_ActivateFunction.Text);
             file.WriteLine(numericUpDown_layer.Value);
@@ -379,6 +394,7 @@ namespace NeuroNet_Project
                     label_InputPath.Text = file.ReadLine();
                     label_OutputPath.Text = file.ReadLine();
                     label_WeightPath.Text = file.ReadLine();
+                    label_biasPath.Text = file.ReadLine();
                     numericUpDown_save.Value = Convert.ToDecimal(file.ReadLine());
                     comboBox_ActivateFunction.Text = file.ReadLine();
                     numericUpDown_layer.Value = Convert.ToDecimal(file.ReadLine());
@@ -490,7 +506,7 @@ namespace NeuroNet_Project
 
 
             
-            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath); //intiilize network
+            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath); //intiilize network
             worker.ReportProgress(3);
 
             for (int i = 1; i < P_loops + 1; i++)
@@ -549,6 +565,7 @@ namespace NeuroNet_Project
                     resultAll = resultParameter + "\r\n" + "N: " + N + " , " + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
                     net.WtoF(N, C + i, label_WeightPath.Text);
+                    net.BtoF(N, C + i, label_biasPath.Text);
                     worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
                 }
                     
