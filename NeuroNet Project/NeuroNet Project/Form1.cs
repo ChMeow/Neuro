@@ -277,11 +277,11 @@ namespace NeuroNet_Project
             C = checkNC[1];
 
             existingWeightPath = label_Vw.Text + @"\N" + N + "C" + C + "L";
-            existingBiasPath = label_biasPath.Text + @"\N" + N + "C" + C + "L";
+            existingBiasPath = label_Vbp.Text + @"\N" + N + "C" + C + "L";
 
             string VResult = "";
             float[] tempV;
-            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, label_biasPath.Text); //intiilize network
+            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath); //intiilize network
             P_activ = comboBox_Vact.SelectedIndex + 1;
             for (int j = 0; j < D_loops; j++)
             {
@@ -327,6 +327,19 @@ namespace NeuroNet_Project
             if (biasSelect.ShowDialog(IntPtr.Zero))
             {
                 label_biasPath.Text = biasSelect.FileName;
+            }
+        }
+
+        private void button_VBP_Click(object sender, EventArgs e)
+        {
+            {
+                var biasSelect = new FolderSelectDialog();
+                biasSelect.Title = "Select Bias Path";
+                biasSelect.InitialDirectory = @"c:\";
+                if (biasSelect.ShowDialog(IntPtr.Zero))
+                {
+                    label_Vbp.Text = biasSelect.FileName;
+                }
             }
         }
 
