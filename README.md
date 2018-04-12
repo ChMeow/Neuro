@@ -1,6 +1,6 @@
-# Neuro (The origin)
+# Neuro (The backpropagetion)
 A Simple NeuroNet Project
-Basic Backpropagation function.
+Basic Backpropagation function. (Without momentum and bias, etc.)
 To test it,
 1. create 3 new folder: Input, output and weight
 2. save the data below into seperate text file and place them in their folder respectively.
@@ -12,8 +12,8 @@ Input format (.txt) example:
 
 X1.txt:
 1
-1
-0
+1 
+0 
 0 
 
 
