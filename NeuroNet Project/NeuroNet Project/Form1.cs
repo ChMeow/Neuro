@@ -587,10 +587,10 @@ namespace NeuroNet_Project
                                          + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
                         }
                         resultSingle = resultSingle + "\r\n";
-                        resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
+                        resultLoops = "Loops: " + loopsCounter;
                         resultRMS = "RMS Error: " + String.Format("{0:f" + 10 + "}", cost);
                     }
-                    resultAll = resultParameter + "\r\n" + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
+                    resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
                     net.WtoF(N, C + i, label_WeightPath.Text);
                     net.BtoF(N, C + i, label_biasPath.Text);
