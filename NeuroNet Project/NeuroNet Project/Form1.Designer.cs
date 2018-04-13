@@ -689,6 +689,7 @@
             this.richTextBox_FinalResult.Size = new System.Drawing.Size(917, 524);
             this.richTextBox_FinalResult.TabIndex = 0;
             this.richTextBox_FinalResult.Text = "";
+            this.richTextBox_FinalResult.WordWrap = false;
             // 
             // tabPage3
             // 
