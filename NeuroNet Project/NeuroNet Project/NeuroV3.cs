@@ -10,16 +10,18 @@ namespace NeuroV3
     public class Neuro
     {
         float LearnRate;
+        float momentum;
         int[] layer; //layer information
         Layer[] layers; //layers in the network
 
 
 
         /// Constructor setting up layers
-        public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath, string BiasPath) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
+        public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath, string BiasPath, float momentum) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
         {
             //deep copy layers
             this.LearnRate = LearnRate;
+            this.momentum = momentum;
             this.layer = new int[layer.Length];
             for (int i = 0; i < layer.Length; i++)
                 this.layer[i] = layer[i];
@@ -50,7 +52,7 @@ namespace NeuroV3
         /// High level back porpagation
         /// Note: It is expexted the one feed forward was done before this back prop.
         /// <param name="expected">The expected output form the last feedforward</param>
-        public void BackProp(float[] expected, int Activate)
+        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight)
         {
             // run over all layers backwards
             for (int i = layers.Length - 1; i >= 0; i--)
@@ -68,13 +70,13 @@ namespace NeuroV3
             //Update weights
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i].UpdateWeights(LearnRate);
+                layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight);
             }
 
             //Update bias
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i].UpdateBias(1);
+                layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight);
             }
         }
 
@@ -115,8 +117,11 @@ namespace NeuroV3
             public float[,] weights; //weights of this layer
             public float[,] weightsDelta; //deltas of this layer
             public float[] bias;
+            public float[,] momentumWeight; // it contains previous weight for momentum
+            public float[] momentumBias;
             public float[] gamma; //gamma of this layer
             public float[] error; //error of the output layer
+            public float cummulativeError; // experimental for adaptive momentum and learning rate
 
             public static Random random = new Random(); //Static random class variable
 
@@ -134,6 +139,8 @@ namespace NeuroV3
                 weights = new float[numberOfOuputs, numberOfInputs];
                 weightsDelta = new float[numberOfOuputs, numberOfInputs];
                 bias = new float[numberOfOuputs];
+                momentumWeight = new float[numberOfOuputs, numberOfInputs];
+                momentumBias = new float[numberOfOuputs];
                 gamma = new float[numberOfOuputs];
                 error = new float[numberOfOuputs];
 
@@ -268,9 +275,13 @@ namespace NeuroV3
             /// <param name="expected">The expected output</param>
             public void BackPropOutput(float[] expected, int Activate)
             {
+
                 //Error dervative of the cost function
                 for (int i = 0; i < numberOfOuputs; i++)
+                {
                     error[i] = outputs[i] - expected[i];
+                }
+
 
                 //Gamma calculation
                 for (int i = 0; i < numberOfOuputs; i++)
@@ -315,23 +326,57 @@ namespace NeuroV3
             }
 
             /// Updating weights
-            public void UpdateWeights(float LearnRate)
+            public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight)
             {
-                for (int i = 0; i < numberOfOuputs; i++)
+                if(adaptive == true)
                 {
-                    for (int j = 0; j < numberOfInputs; j++)
+                    if (LearnRate > adaptiveWeight) LearnRate = adaptiveWeight / 2;
+                    for (int i = 0; i < numberOfOuputs; i++)
                     {
-                        weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                            weights[i, j] -= adaptiveWeight * momentumWeight[i, j];
+                            momentumWeight[i, j] = weightsDelta[i, j];
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                            weights[i, j] -= momentum * momentumWeight[i, j];
+                            momentumWeight[i, j] = weightsDelta[i, j];
+                        }
                     }
                 }
             }
 
-            public void UpdateBias(float LearnRate)
+            public void UpdateBias(float LearnRate, float momentum, bool adaptive, float adaptiveBias)
             {
-                for (int i = 0; i < numberOfOuputs; i++)
+                if(adaptive == true)
                 {
-                    bias[i] -= gamma[i] * LearnRate;
+                    if (LearnRate > adaptiveBias) LearnRate = adaptiveBias / 2;
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        bias[i] -= gamma[i] * LearnRate;
+                        bias[i] -= adaptiveBias * momentumBias[i];
+                        momentumBias[i] = gamma[i];
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        bias[i] -= gamma[i] * LearnRate;
+                        bias[i] -= momentum * momentumBias[i];
+                        momentumBias[i] = gamma[i];
+                    }
+                }
+                
             }
 
             public void WeightsToFiles(int N, int C, int L, string savePath)

@@ -37,6 +37,8 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label_biasPath = new System.Windows.Forms.Label();
+            this.button_BiasPath = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
@@ -69,6 +71,8 @@
             this.button_saveLog = new System.Windows.Forms.Button();
             this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label_Vbp = new System.Windows.Forms.Label();
+            this.button_VBP = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.richTextBox_Vout = new System.Windows.Forms.RichTextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -82,10 +86,9 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button_BiasPath = new System.Windows.Forms.Button();
-            this.label_biasPath = new System.Windows.Forms.Label();
-            this.button_VBP = new System.Windows.Forms.Button();
-            this.label_Vbp = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
+            this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -102,6 +105,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -206,6 +210,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.checkBox_adaptiveRate);
+            this.tabPage1.Controls.Add(this.numericUpDown_momentum);
+            this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.label_biasPath);
             this.tabPage1.Controls.Add(this.button_BiasPath);
             this.tabPage1.Controls.Add(this.label8);
@@ -242,10 +249,29 @@
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label_biasPath
+            // 
+            this.label_biasPath.AutoSize = true;
+            this.label_biasPath.Location = new System.Drawing.Point(112, 105);
+            this.label_biasPath.Name = "label_biasPath";
+            this.label_biasPath.Size = new System.Drawing.Size(43, 13);
+            this.label_biasPath.TabIndex = 40;
+            this.label_biasPath.Text = "Not Set";
+            // 
+            // button_BiasPath
+            // 
+            this.button_BiasPath.Location = new System.Drawing.Point(6, 99);
+            this.button_BiasPath.Name = "button_BiasPath";
+            this.button_BiasPath.Size = new System.Drawing.Size(100, 25);
+            this.button_BiasPath.TabIndex = 39;
+            this.button_BiasPath.Text = "Bias Path";
+            this.button_BiasPath.UseVisualStyleBackColor = true;
+            this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 342);
+            this.label8.Location = new System.Drawing.Point(6, 368);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(86, 13);
             this.label8.TabIndex = 38;
@@ -253,7 +279,7 @@
             // 
             // numericUpDown_DP
             // 
-            this.numericUpDown_DP.Location = new System.Drawing.Point(115, 340);
+            this.numericUpDown_DP.Location = new System.Drawing.Point(115, 366);
             this.numericUpDown_DP.Name = "numericUpDown_DP";
             this.numericUpDown_DP.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown_DP.TabIndex = 37;
@@ -275,7 +301,7 @@
             // 
             // numericUpDown_save
             // 
-            this.numericUpDown_save.Location = new System.Drawing.Point(115, 314);
+            this.numericUpDown_save.Location = new System.Drawing.Point(115, 340);
             this.numericUpDown_save.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -298,7 +324,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(261, 316);
+            this.label7.Location = new System.Drawing.Point(261, 342);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 13);
             this.label7.TabIndex = 35;
@@ -307,7 +333,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 316);
+            this.label6.Location = new System.Drawing.Point(6, 342);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 13);
             this.label6.TabIndex = 35;
@@ -346,7 +372,7 @@
             // 
             // numericUpDown_loops
             // 
-            this.numericUpDown_loops.Location = new System.Drawing.Point(115, 236);
+            this.numericUpDown_loops.Location = new System.Drawing.Point(115, 262);
             this.numericUpDown_loops.Maximum = new decimal(new int[] {
             100000000,
             0,
@@ -380,13 +406,18 @@
             0,
             0,
             0});
+            this.numericUpDown_learn.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericUpDown_learn.Name = "numericUpDown_learn";
             this.numericUpDown_learn.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown_learn.TabIndex = 16;
             // 
             // numericUpDown_nodes
             // 
-            this.numericUpDown_nodes.Location = new System.Drawing.Point(115, 288);
+            this.numericUpDown_nodes.Location = new System.Drawing.Point(115, 314);
             this.numericUpDown_nodes.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -408,7 +439,7 @@
             // 
             // numericUpDown_layer
             // 
-            this.numericUpDown_layer.Location = new System.Drawing.Point(115, 262);
+            this.numericUpDown_layer.Location = new System.Drawing.Point(115, 288);
             this.numericUpDown_layer.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -431,7 +462,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 238);
+            this.label5.Location = new System.Drawing.Point(6, 264);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 13);
             this.label5.TabIndex = 13;
@@ -449,7 +480,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 290);
+            this.label3.Location = new System.Drawing.Point(6, 316);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 11;
@@ -458,7 +489,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 264);
+            this.label2.Location = new System.Drawing.Point(6, 290);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 13);
             this.label2.TabIndex = 10;
@@ -637,6 +668,25 @@
             this.tabPage3.Text = "Validation";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label_Vbp
+            // 
+            this.label_Vbp.AutoSize = true;
+            this.label_Vbp.Location = new System.Drawing.Point(99, 75);
+            this.label_Vbp.Name = "label_Vbp";
+            this.label_Vbp.Size = new System.Drawing.Size(13, 13);
+            this.label_Vbp.TabIndex = 14;
+            this.label_Vbp.Text = "--";
+            // 
+            // button_VBP
+            // 
+            this.button_VBP.Location = new System.Drawing.Point(12, 70);
+            this.button_VBP.Name = "button_VBP";
+            this.button_VBP.Size = new System.Drawing.Size(75, 23);
+            this.button_VBP.TabIndex = 13;
+            this.button_VBP.Text = "Bias Path";
+            this.button_VBP.UseVisualStyleBackColor = true;
+            this.button_VBP.Click += new System.EventHandler(this.button_VBP_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.richTextBox_Vout);
@@ -767,43 +817,47 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // button_BiasPath
+            // label9
             // 
-            this.button_BiasPath.Location = new System.Drawing.Point(6, 99);
-            this.button_BiasPath.Name = "button_BiasPath";
-            this.button_BiasPath.Size = new System.Drawing.Size(100, 25);
-            this.button_BiasPath.TabIndex = 39;
-            this.button_BiasPath.Text = "Bias Path";
-            this.button_BiasPath.UseVisualStyleBackColor = true;
-            this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 238);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 13);
+            this.label9.TabIndex = 41;
+            this.label9.Text = "Momentum";
             // 
-            // label_biasPath
+            // numericUpDown_momentum
             // 
-            this.label_biasPath.AutoSize = true;
-            this.label_biasPath.Location = new System.Drawing.Point(112, 105);
-            this.label_biasPath.Name = "label_biasPath";
-            this.label_biasPath.Size = new System.Drawing.Size(43, 13);
-            this.label_biasPath.TabIndex = 40;
-            this.label_biasPath.Text = "Not Set";
+            this.numericUpDown_momentum.DecimalPlaces = 5;
+            this.numericUpDown_momentum.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            this.numericUpDown_momentum.Location = new System.Drawing.Point(115, 236);
+            this.numericUpDown_momentum.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_momentum.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown_momentum.Name = "numericUpDown_momentum";
+            this.numericUpDown_momentum.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_momentum.TabIndex = 42;
             // 
-            // button_VBP
+            // checkBox_adaptiveRate
             // 
-            this.button_VBP.Location = new System.Drawing.Point(12, 70);
-            this.button_VBP.Name = "button_VBP";
-            this.button_VBP.Size = new System.Drawing.Size(75, 23);
-            this.button_VBP.TabIndex = 13;
-            this.button_VBP.Text = "Bias Path";
-            this.button_VBP.UseVisualStyleBackColor = true;
-            this.button_VBP.Click += new System.EventHandler(this.button_VBP_Click);
-            // 
-            // label_Vbp
-            // 
-            this.label_Vbp.AutoSize = true;
-            this.label_Vbp.Location = new System.Drawing.Point(99, 75);
-            this.label_Vbp.Name = "label_Vbp";
-            this.label_Vbp.Size = new System.Drawing.Size(13, 13);
-            this.label_Vbp.TabIndex = 14;
-            this.label_Vbp.Text = "--";
+            this.checkBox_adaptiveRate.AutoSize = true;
+            this.checkBox_adaptiveRate.Location = new System.Drawing.Point(6, 153);
+            this.checkBox_adaptiveRate.Name = "checkBox_adaptiveRate";
+            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(188, 17);
+            this.checkBox_adaptiveRate.TabIndex = 43;
+            this.checkBox_adaptiveRate.Text = "Adaptive Learning and Momentum";
+            this.checkBox_adaptiveRate.UseVisualStyleBackColor = true;
             // 
             // Form_Main
             // 
@@ -838,6 +892,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -902,6 +957,9 @@
         private System.Windows.Forms.Button button_BiasPath;
         private System.Windows.Forms.Label label_Vbp;
         private System.Windows.Forms.Button button_VBP;
+        private System.Windows.Forms.NumericUpDown numericUpDown_momentum;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox checkBox_adaptiveRate;
     }
 }
 

@@ -40,6 +40,7 @@ namespace NeuroNet_Project
         float cost;
         float[] different;
         int[] weightInfo;
+        float tempAdaptiveCorrection = 0;
 
         string resultSingle;
         string resultAll;
@@ -281,7 +282,7 @@ namespace NeuroNet_Project
 
             string VResult = "";
             float[] tempV;
-            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath); //intiilize network
+            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
             P_activ = comboBox_Vact.SelectedIndex + 1;
             for (int j = 0; j < D_loops; j++)
             {
@@ -375,6 +376,7 @@ namespace NeuroNet_Project
             file.WriteLine(numericUpDown_loops.Value);
             file.WriteLine(numericUpDown_learn.Value);
             file.WriteLine(numericUpDown_DP.Value);
+            file.WriteLine(numericUpDown_momentum.Value);
             //file.WriteLine(numericUpDown_momentum.Value);
 
             file.Close();
@@ -415,6 +417,7 @@ namespace NeuroNet_Project
                     numericUpDown_loops.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_learn.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_DP.Value    = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
                     // numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
                 }
                 catch (Exception exx)
@@ -519,7 +522,7 @@ namespace NeuroNet_Project
 
 
             
-            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath); //intiilize network
+            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
             worker.ReportProgress(3);
 
             for (int i = 1; i < P_loops + 1; i++)
@@ -544,7 +547,7 @@ namespace NeuroNet_Project
                     input = fileProcess.getData(label_InputPath.Text, tempTarget);
                     expected = fileProcess.getData(label_OutputPath.Text, tempTarget);
                     net.FeedForward(input, P_activ);
-                    net.BackProp(expected, P_activ);
+                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection);
                     loopsCounter = i + previousLoopsCounter;
                     worker.ReportProgress(2);
                 }
@@ -557,6 +560,8 @@ namespace NeuroNet_Project
 
                     for (int j = 0; j < D_loops; j++)
                     {
+                        int N;
+                        
                         float temp = 0;
                         // remove here 
                         input = fileProcess.getData(label_InputPath.Text, j);
@@ -565,6 +570,14 @@ namespace NeuroNet_Project
                         temp = fileProcess.error(result, expected);
                         cost = (float)Math.Round(temp,5);
                         different = fileProcess.diff(result, expected);
+
+                        for(N =0; N < different.Length; N++)
+                        {
+                            tempAdaptiveCorrection += different[N];
+                        }
+                        // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
+                        if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
+
                         int DP = (int)numericUpDown_DP.Value;
                         for (int k = 0; k < result.Length; k++)
                         {
