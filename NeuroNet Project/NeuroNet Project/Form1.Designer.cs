@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Main));
             this.panel_Loading = new System.Windows.Forms.Panel();
             this.richTextBox_CurrentY = new System.Windows.Forms.RichTextBox();
             this.richTextBox_currentError = new System.Windows.Forms.RichTextBox();
@@ -871,6 +872,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel_Loading);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
