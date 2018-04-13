@@ -588,7 +588,7 @@ namespace NeuroNet_Project
                         }
                         resultSingle = resultSingle + "\r\n";
                         resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
-                        resultRMS = "RMS Error: " + String.Format("{0:f" + DP + "}", cost);
+                        resultRMS = "RMS Error: " + String.Format("{0:f" + 10 + "}", cost);
                     }
                     resultAll = resultParameter + "\r\n" + "N: " + N + " , " + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
