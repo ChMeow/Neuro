@@ -37,6 +37,9 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
+            this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             this.label_biasPath = new System.Windows.Forms.Label();
             this.button_BiasPath = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -86,14 +89,12 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.label9 = new System.Windows.Forms.Label();
-            this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
-            this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).BeginInit();
@@ -105,7 +106,6 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -129,12 +129,13 @@
             this.richTextBox_CurrentY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox_CurrentY.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox_CurrentY.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.richTextBox_CurrentY.Location = new System.Drawing.Point(62, 144);
+            this.richTextBox_CurrentY.Location = new System.Drawing.Point(12, 108);
             this.richTextBox_CurrentY.Name = "richTextBox_CurrentY";
             this.richTextBox_CurrentY.ReadOnly = true;
-            this.richTextBox_CurrentY.Size = new System.Drawing.Size(771, 399);
+            this.richTextBox_CurrentY.Size = new System.Drawing.Size(914, 441);
             this.richTextBox_CurrentY.TabIndex = 6;
             this.richTextBox_CurrentY.Text = "";
+            this.richTextBox_CurrentY.WordWrap = false;
             // 
             // richTextBox_currentError
             // 
@@ -142,7 +143,7 @@
             this.richTextBox_currentError.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox_currentError.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox_currentError.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.richTextBox_currentError.Location = new System.Drawing.Point(62, 93);
+            this.richTextBox_currentError.Location = new System.Drawing.Point(12, 58);
             this.richTextBox_currentError.Name = "richTextBox_currentError";
             this.richTextBox_currentError.ReadOnly = true;
             this.richTextBox_currentError.Size = new System.Drawing.Size(454, 46);
@@ -155,7 +156,7 @@
             this.richTextBox_CurrentLoop.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox_CurrentLoop.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox_CurrentLoop.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.richTextBox_CurrentLoop.Location = new System.Drawing.Point(62, 46);
+            this.richTextBox_CurrentLoop.Location = new System.Drawing.Point(12, 11);
             this.richTextBox_CurrentLoop.Name = "richTextBox_CurrentLoop";
             this.richTextBox_CurrentLoop.ReadOnly = true;
             this.richTextBox_CurrentLoop.Size = new System.Drawing.Size(454, 44);
@@ -248,6 +249,48 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_adaptiveRate
+            // 
+            this.checkBox_adaptiveRate.AutoSize = true;
+            this.checkBox_adaptiveRate.Location = new System.Drawing.Point(6, 153);
+            this.checkBox_adaptiveRate.Name = "checkBox_adaptiveRate";
+            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(188, 17);
+            this.checkBox_adaptiveRate.TabIndex = 43;
+            this.checkBox_adaptiveRate.Text = "Adaptive Learning and Momentum";
+            this.checkBox_adaptiveRate.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown_momentum
+            // 
+            this.numericUpDown_momentum.DecimalPlaces = 5;
+            this.numericUpDown_momentum.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            this.numericUpDown_momentum.Location = new System.Drawing.Point(115, 236);
+            this.numericUpDown_momentum.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_momentum.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown_momentum.Name = "numericUpDown_momentum";
+            this.numericUpDown_momentum.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_momentum.TabIndex = 42;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 238);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 13);
+            this.label9.TabIndex = 41;
+            this.label9.Text = "Momentum";
             // 
             // label_biasPath
             // 
@@ -369,6 +412,7 @@
             this.richTextBox_Summary.Size = new System.Drawing.Size(599, 366);
             this.richTextBox_Summary.TabIndex = 0;
             this.richTextBox_Summary.Text = "";
+            this.richTextBox_Summary.WordWrap = false;
             // 
             // numericUpDown_loops
             // 
@@ -817,48 +861,6 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 238);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 13);
-            this.label9.TabIndex = 41;
-            this.label9.Text = "Momentum";
-            // 
-            // numericUpDown_momentum
-            // 
-            this.numericUpDown_momentum.DecimalPlaces = 5;
-            this.numericUpDown_momentum.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            196608});
-            this.numericUpDown_momentum.Location = new System.Drawing.Point(115, 236);
-            this.numericUpDown_momentum.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_momentum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown_momentum.Name = "numericUpDown_momentum";
-            this.numericUpDown_momentum.Size = new System.Drawing.Size(140, 20);
-            this.numericUpDown_momentum.TabIndex = 42;
-            // 
-            // checkBox_adaptiveRate
-            // 
-            this.checkBox_adaptiveRate.AutoSize = true;
-            this.checkBox_adaptiveRate.Location = new System.Drawing.Point(6, 153);
-            this.checkBox_adaptiveRate.Name = "checkBox_adaptiveRate";
-            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(188, 17);
-            this.checkBox_adaptiveRate.TabIndex = 43;
-            this.checkBox_adaptiveRate.Text = "Adaptive Learning and Momentum";
-            this.checkBox_adaptiveRate.UseVisualStyleBackColor = true;
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -880,6 +882,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).EndInit();
@@ -892,7 +895,6 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             this.ResumeLayout(false);
 
         }

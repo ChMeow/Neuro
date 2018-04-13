@@ -581,12 +581,14 @@ namespace NeuroNet_Project
                         int DP = (int)numericUpDown_DP.Value;
                         for (int k = 0; k < result.Length; k++)
                         {
-                            resultSingle = resultSingle + Math.Round(result[k], DP) 
-                                           + "(" + Math.Round(different[k], DP) + ")" + "\t";
+                            
+
+                            resultSingle = resultSingle + String.Format("{0:f" + DP + "}", Math.Round(result[k], DP))
+                                         + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
                         }
                         resultSingle = resultSingle + "\r\n";
                         resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
-                        resultRMS = "RMS Error: " + cost;
+                        resultRMS = "RMS Error: " + String.Format("{0:f" + DP + "}", cost);
                     }
                     resultAll = resultParameter + "\r\n" + "N: " + N + " , " + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
