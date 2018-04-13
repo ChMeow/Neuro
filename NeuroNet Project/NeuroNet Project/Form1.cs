@@ -590,7 +590,7 @@ namespace NeuroNet_Project
                         resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
                         resultRMS = "RMS Error: " + String.Format("{0:f" + 10 + "}", cost);
                     }
-                    resultAll = resultParameter + "\r\n" + "N: " + N + " , " + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
+                    resultAll = resultParameter + "\r\n" + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
                     net.WtoF(N, C + i, label_WeightPath.Text);
                     net.BtoF(N, C + i, label_biasPath.Text);
