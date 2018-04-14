@@ -140,9 +140,11 @@
             this.richTextBox_HowtoUse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox_HowtoUse.Location = new System.Drawing.Point(0, 0);
             this.richTextBox_HowtoUse.Name = "richTextBox_HowtoUse";
+            this.richTextBox_HowtoUse.ReadOnly = true;
             this.richTextBox_HowtoUse.Size = new System.Drawing.Size(663, 553);
             this.richTextBox_HowtoUse.TabIndex = 0;
             this.richTextBox_HowtoUse.Text = "";
+            this.richTextBox_HowtoUse.WordWrap = false;
             // 
             // Info
             // 
