@@ -19,11 +19,7 @@ namespace FileProcessing
            
             FileName.AddRange(Directory.GetFiles(path));
             FileName.Sort(new NaturalStringComparer(false));
-
-           
-            
-           
-           
+         
             float[] data = new float[FileName.Count];
             
 
@@ -191,6 +187,16 @@ namespace FileProcessing
             for (int i = 0; i < result.Length; i++)
             costx[i] = -(result[i] - expected[i]);
             return costx;
+        }
+
+        public static void removeNull(string Path)
+        {
+                List<string> FileName = new List<string>();
+
+                FileName.AddRange(Directory.GetFiles(Path));
+                FileName.Sort(new NaturalStringComparer(false));
+
+            
         }
     }
 }

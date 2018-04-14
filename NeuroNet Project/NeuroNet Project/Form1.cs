@@ -344,6 +344,16 @@ namespace NeuroNet_Project
             }
         }
 
+        private void pictureBox_Info_Click(object sender, EventArgs e)
+        {
+            Info helpInfo = new Info();
+            Form checkhelp = Application.OpenForms["Info"];
+            if (checkhelp == null)
+                helpInfo.Show();
+            else
+                Application.OpenForms["Info"].Focus();
+        }
+
         /// <summary>
         /// NOT YET DONE
         /// </summary>
@@ -395,6 +405,9 @@ namespace NeuroNet_Project
             pictureBox_Switch.Image = new Bitmap(_imageStream);
             _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.switch2.bmp");
             pictureBox_Switch2.Image = new Bitmap(_imageStream);
+            _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.play.png");
+            pictureBox_StopCont.Image = new Bitmap(_imageStream);
+
 
             // Read the file and display it line by line.
             setPath = setPath + "\\config.ini";
@@ -437,9 +450,9 @@ namespace NeuroNet_Project
         {
             _assembly = Assembly.GetExecutingAssembly();
             if (isPlaying == true)
-                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.Stop.bmp");
+                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.stop.png");
             else
-                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.Play.bmp");
+                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.play.png");
             pictureBox_StopCont.Image = new Bitmap(_imageStream);
         }
 
