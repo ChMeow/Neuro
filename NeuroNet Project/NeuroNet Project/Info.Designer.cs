@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Info));
             this.tabControl_2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox_Activation = new System.Windows.Forms.RichTextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox_Rate = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.richTextBox_BackPropagation = new System.Windows.Forms.RichTextBox();
@@ -57,7 +57,7 @@
             this.tabControl_2.Multiline = true;
             this.tabControl_2.Name = "tabControl_2";
             this.tabControl_2.SelectedIndex = 0;
-            this.tabControl_2.Size = new System.Drawing.Size(671, 579);
+            this.tabControl_2.Size = new System.Drawing.Size(854, 585);
             this.tabControl_2.TabIndex = 0;
             // 
             // tabPage1
@@ -66,10 +66,21 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(663, 553);
+            this.tabPage1.Size = new System.Drawing.Size(846, 559);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Activation Function";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox_Activation
+            // 
+            this.richTextBox_Activation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox_Activation.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox_Activation.Name = "richTextBox_Activation";
+            this.richTextBox_Activation.ReadOnly = true;
+            this.richTextBox_Activation.Size = new System.Drawing.Size(840, 553);
+            this.richTextBox_Activation.TabIndex = 0;
+            this.richTextBox_Activation.Text = "";
+            this.richTextBox_Activation.WordWrap = false;
             // 
             // tabPage2
             // 
@@ -81,17 +92,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Learning Rate and Momentum";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox_Activation
-            // 
-            this.richTextBox_Activation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox_Activation.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox_Activation.Name = "richTextBox_Activation";
-            this.richTextBox_Activation.ReadOnly = true;
-            this.richTextBox_Activation.Size = new System.Drawing.Size(657, 547);
-            this.richTextBox_Activation.TabIndex = 0;
-            this.richTextBox_Activation.Text = "";
-            this.richTextBox_Activation.WordWrap = false;
             // 
             // richTextBox_Rate
             // 
@@ -150,7 +150,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 579);
+            this.ClientSize = new System.Drawing.Size(854, 585);
             this.Controls.Add(this.tabControl_2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Info";
