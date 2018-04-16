@@ -30,7 +30,7 @@ namespace NeuroNet_Project
         float[] input;
         float[] expected;
         float[] result = new float[1];
-        int N = 0, C = 0, previousN = 0;
+        int N = 0, C = 0;
         int[] checkNC = new int[3];
         Assembly _assembly;
         Stream _imageStream;
@@ -41,7 +41,7 @@ namespace NeuroNet_Project
         float[] different;
         int[] weightInfo;
         float tempAdaptiveCorrection = 0;
-
+        
         string resultSingle;
         string resultAll;
         string resultLoops;
