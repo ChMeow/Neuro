@@ -51,7 +51,7 @@ namespace NeuroNet_Project
         string CurrentTime;
 
 
-        //s
+        //
 
         public Form_Main()
         {
