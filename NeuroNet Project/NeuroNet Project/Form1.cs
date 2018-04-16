@@ -47,6 +47,8 @@ namespace NeuroNet_Project
         string resultLoops;
         string resultRMS;
         string resultParameter;
+        string resultReportWeight;
+        string CurrentTime;
 
 
 
@@ -89,6 +91,7 @@ namespace NeuroNet_Project
                 if (checkNC[2] != P_layer - 2)
                 {
                     richTextBox_Summary.Focus();
+                    TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
                     richTextBox_Summary.AppendText("ERROR, Unable to proceed, Weight Data Not Match" + "\r\n");
                     goto endofthisbutton;
@@ -100,6 +103,7 @@ namespace NeuroNet_Project
             if (D_loops != D_Compare || D_loops < 0)
             {
                 richTextBox_Summary.Focus();
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
                 richTextBox_Summary.AppendText("ERROR, Input Output Data Not Match, -1" + "\r\n");
                 goto endofthisbutton;
@@ -121,14 +125,6 @@ namespace NeuroNet_Project
             int gg = 0; // don't put code beyond this point.
         }
 
-        private void button_Stop_Click(object sender, EventArgs e)
-        {
-            if (backgroundWorker1.WorkerSupportsCancellation == true)
-            {
-                backgroundWorker1.CancelAsync();
-            }
-            panel_Loading.SendToBack();
-        }
 
         private void button_Input_Click(object sender, EventArgs e)
         {
@@ -168,9 +164,10 @@ namespace NeuroNet_Project
         {
             inputFiles = Directory.GetFiles(label_InputPath.Text);
             richTextBox_Summary.Focus();
-            richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " >>> ");
-            richTextBox_Summary.SelectionColor = Color.Aqua;
+            TimeNow();
+            richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+            richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " . . . ");
+            richTextBox_Summary.SelectionColor = Color.Lime;
             richTextBox_Summary.AppendText(inputFiles.Length + "\r\n");
         }
 
@@ -204,9 +201,10 @@ namespace NeuroNet_Project
         {
             outputFiles = Directory.GetFiles(label_OutputPath.Text);
             richTextBox_Summary.Focus();
-            richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " >>> ");
-            richTextBox_Summary.SelectionColor = Color.Aqua;
+            TimeNow();
+            richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+            richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " . . . ");
+            richTextBox_Summary.SelectionColor = Color.Lime;
             richTextBox_Summary.AppendText(outputFiles.Length + "\r\n");
         }
 
@@ -364,8 +362,9 @@ namespace NeuroNet_Project
             weightFolder = Directory.GetDirectories(label_WeightPath.Text);
             // weight checking not yet complete
         }
-        
-        
+
+
+
         // GUI SETTING ///////////////////////////////////////////////////////////////////////////////////////////
         private void button_SaveSetting_Click(object sender, EventArgs e)
         {
@@ -391,8 +390,9 @@ namespace NeuroNet_Project
 
             file.Close();
             richTextBox_Summary.Focus();
+            TimeNow();
             richTextBox_Summary.SelectionColor = Color.Lime;
-            richTextBox_Summary.AppendText("Setting Saved" + "\r\n");
+            richTextBox_Summary.AppendText("Setting Saved." + "\r\n");
             GC.Collect();
         }
 
@@ -436,8 +436,9 @@ namespace NeuroNet_Project
                 catch (Exception exx)
                 {
                     richTextBox_Summary.Focus();
+                    TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
-                    richTextBox_Summary.AppendText("Setting File Error" + "\r\n");
+                    richTextBox_Summary.AppendText("Config File Error !!!" + "\r\n");
                 }
 
                 file.Close();
@@ -473,7 +474,7 @@ namespace NeuroNet_Project
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             richTextBox_Summary.Focus();
-            richTextBox_Summary.SelectionColor = Color.Aqua;
+            richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
             switch (e.ProgressPercentage)
             {
                 case 1:
@@ -486,7 +487,20 @@ namespace NeuroNet_Project
                     label_loopsCounter.Text = "Loops: " + loopsCounter;
                     break;
                 case 3:
-                    richTextBox_Summary.AppendText("Neural Network Initialized" + "\r\n");
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+                    richTextBox_Summary.AppendText("Neural Network Initialized");
+                    break;
+                case 4:
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+                    richTextBox_Summary.AppendText("Weight and bias saved to " );
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(" . . . " + resultReportWeight + "\r\n");
+                    break;
+                case 5:
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(" . . . OK " + "\r\n");
                     break;
                 default:
                     break;
@@ -498,25 +512,27 @@ namespace NeuroNet_Project
             if (e.Cancelled == true)
             {
                 richTextBox_Summary.Focus();
-
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("\r\n" + "Cancelled" + "\r\n");
+                richTextBox_Summary.AppendText("Cancelled by user !!!" + "\r\n" );
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
             }
             else if (e.Error != null)
             {
                 richTextBox_Summary.Focus();
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("\r\n" + "Error" + "\r\n");
+                richTextBox_Summary.AppendText("Error !!!" + "\r\n");
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
             }
             else
             {
                 richTextBox_Summary.Focus();
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Lime;
-                richTextBox_Summary.AppendText("\r\n" + "Done" + "\r\n");
+                richTextBox_Summary.AppendText(@"BackPropagation completed. " + "\r\n");
                 checkPlaying = false;
                 checkBox_UseExistW.Checked = true;
                 setPlayStopButton(checkPlaying);
@@ -534,9 +550,9 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == false) C = 0;
 
 
-            
-            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
             worker.ReportProgress(3);
+            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
+            worker.ReportProgress(5);
 
             for (int i = 1; i < P_loops + 1; i++)
             {
@@ -564,7 +580,7 @@ namespace NeuroNet_Project
                     loopsCounter = i + previousLoopsCounter;
                     worker.ReportProgress(2);
                 }
-                if( i % P_save == 0 && i!=0 )
+                if( i % 1000 == 0 && i!=0 )
                 {
                     resultAll = "";
                     resultSingle = "";
@@ -586,7 +602,7 @@ namespace NeuroNet_Project
 
                         for(N =0; N < different.Length; N++)
                         {
-                            tempAdaptiveCorrection += different[N];
+                            tempAdaptiveCorrection += (float)Math.Abs(different[N]);
                         }
                         // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
                         if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
@@ -605,15 +621,29 @@ namespace NeuroNet_Project
                     }
                     resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
-                    net.WtoF(N, C + i, label_WeightPath.Text);
-                    net.BtoF(N, C + i, label_biasPath.Text);
+                    //net.WtoF(N, C + i, label_WeightPath.Text);
+                    //net.BtoF(N, C + i, label_biasPath.Text);
                     worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
                 }
-                    
+                if (i % P_save == 0 && i != 0)
+                {
+                    resultReportWeight = @"\N" + N + "C" + loopsCounter + "L_.txt";
+                    net.WtoF(N, C + i, label_WeightPath.Text);
+                    net.BtoF(N, C + i, label_biasPath.Text);
+                    worker.ReportProgress(4);
+                }
             }
            
             worker.Dispose();
 
+        }
+
+        public void TimeNow()
+        {
+            CurrentTime = " [" + DateTime.Now.ToString("HH") + " " + DateTime.Now.ToString("mm") + " " + DateTime.Now.ToString("ss") + "]  ";
+            richTextBox_Summary.SelectionColor = Color.PowderBlue;
+            richTextBox_Summary.AppendText(CurrentTime);
+            return;
         }
     }
             

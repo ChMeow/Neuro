@@ -38,6 +38,7 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pictureBox_Info = new System.Windows.Forms.PictureBox();
             this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
             this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -90,12 +91,12 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.pictureBox_Info = new System.Windows.Forms.PictureBox();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
@@ -108,7 +109,6 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -253,6 +253,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox_Info
+            // 
+            this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
+            this.pictureBox_Info.Location = new System.Drawing.Point(10, 515);
+            this.pictureBox_Info.Name = "pictureBox_Info";
+            this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
+            this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Info.TabIndex = 44;
+            this.pictureBox_Info.TabStop = false;
+            this.pictureBox_Info.Click += new System.EventHandler(this.pictureBox_Info_Click);
             // 
             // checkBox_adaptiveRate
             // 
@@ -866,17 +877,6 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // pictureBox_Info
-            // 
-            this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
-            this.pictureBox_Info.Location = new System.Drawing.Point(10, 515);
-            this.pictureBox_Info.Name = "pictureBox_Info";
-            this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
-            this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Info.TabIndex = 44;
-            this.pictureBox_Info.TabStop = false;
-            this.pictureBox_Info.Click += new System.EventHandler(this.pictureBox_Info_Click);
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -899,6 +899,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
@@ -912,7 +913,6 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
             this.ResumeLayout(false);
 
         }
