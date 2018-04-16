@@ -91,6 +91,11 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.numericUpDown_DPV = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button_MainFolder = new System.Windows.Forms.Button();
+            this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -109,6 +114,8 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -205,6 +212,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(-1, 0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
@@ -708,9 +716,11 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.numericUpDown_DPV);
             this.tabPage3.Controls.Add(this.label_Vbp);
             this.tabPage3.Controls.Add(this.button_VBP);
             this.tabPage3.Controls.Add(this.groupBox2);
+            this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.comboBox_Vact);
             this.tabPage3.Controls.Add(this.labelWinfo);
@@ -731,7 +741,7 @@
             // label_Vbp
             // 
             this.label_Vbp.AutoSize = true;
-            this.label_Vbp.Location = new System.Drawing.Point(99, 75);
+            this.label_Vbp.Location = new System.Drawing.Point(99, 48);
             this.label_Vbp.Name = "label_Vbp";
             this.label_Vbp.Size = new System.Drawing.Size(13, 13);
             this.label_Vbp.TabIndex = 14;
@@ -739,7 +749,7 @@
             // 
             // button_VBP
             // 
-            this.button_VBP.Location = new System.Drawing.Point(12, 70);
+            this.button_VBP.Location = new System.Drawing.Point(12, 43);
             this.button_VBP.Name = "button_VBP";
             this.button_VBP.Size = new System.Drawing.Size(75, 23);
             this.button_VBP.TabIndex = 13;
@@ -806,7 +816,7 @@
             // label_Vw
             // 
             this.label_Vw.AutoSize = true;
-            this.label_Vw.Location = new System.Drawing.Point(99, 48);
+            this.label_Vw.Location = new System.Drawing.Point(99, 77);
             this.label_Vw.Name = "label_Vw";
             this.label_Vw.Size = new System.Drawing.Size(13, 13);
             this.label_Vw.TabIndex = 4;
@@ -853,7 +863,7 @@
             // 
             // button_Vw
             // 
-            this.button_Vw.Location = new System.Drawing.Point(12, 43);
+            this.button_Vw.Location = new System.Drawing.Point(12, 72);
             this.button_Vw.Name = "button_Vw";
             this.button_Vw.Size = new System.Drawing.Size(75, 23);
             this.button_Vw.TabIndex = 1;
@@ -876,6 +886,55 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // numericUpDown_DPV
+            // 
+            this.numericUpDown_DPV.Location = new System.Drawing.Point(672, 48);
+            this.numericUpDown_DPV.Name = "numericUpDown_DPV";
+            this.numericUpDown_DPV.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_DPV.TabIndex = 15;
+            this.numericUpDown_DPV.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(557, 53);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(75, 13);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Decimal Place";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.textBox_MainFolder);
+            this.tabPage4.Controls.Add(this.button_MainFolder);
+            this.tabPage4.Location = new System.Drawing.Point(4, 4);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(934, 580);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Other settings";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button_MainFolder
+            // 
+            this.button_MainFolder.Location = new System.Drawing.Point(36, 30);
+            this.button_MainFolder.Name = "button_MainFolder";
+            this.button_MainFolder.Size = new System.Drawing.Size(95, 21);
+            this.button_MainFolder.TabIndex = 0;
+            this.button_MainFolder.Text = "Main Folder";
+            this.button_MainFolder.UseVisualStyleBackColor = true;
+            this.button_MainFolder.Click += new System.EventHandler(this.button_MainFolder_Click);
+            // 
+            // textBox_MainFolder
+            // 
+            this.textBox_MainFolder.Location = new System.Drawing.Point(137, 31);
+            this.textBox_MainFolder.Name = "textBox_MainFolder";
+            this.textBox_MainFolder.Size = new System.Drawing.Size(667, 20);
+            this.textBox_MainFolder.TabIndex = 1;
             // 
             // Form_Main
             // 
@@ -913,6 +972,9 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -981,6 +1043,11 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox_adaptiveRate;
         private System.Windows.Forms.PictureBox pictureBox_Info;
+        private System.Windows.Forms.NumericUpDown numericUpDown_DPV;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox textBox_MainFolder;
+        private System.Windows.Forms.Button button_MainFolder;
     }
 }
 

@@ -130,7 +130,7 @@ namespace NeuroNet_Project
         {
             var inputSelect = new FolderSelectDialog();
             inputSelect.Title = "Select Input Path";
-            inputSelect.InitialDirectory = @"c:\";
+            inputSelect.InitialDirectory = textBox_MainFolder.Text;
             if (inputSelect.ShowDialog(IntPtr.Zero))
             {
                 label_InputPath.Text = inputSelect.FileName;
@@ -141,7 +141,7 @@ namespace NeuroNet_Project
         {
             var OutputSelect = new FolderSelectDialog();
             OutputSelect.Title = "Select Output Path";
-            OutputSelect.InitialDirectory = @"c:\";
+            OutputSelect.InitialDirectory = textBox_MainFolder.Text;
             if (OutputSelect.ShowDialog(IntPtr.Zero))
             {
                 label_OutputPath.Text = OutputSelect.FileName;
@@ -152,7 +152,7 @@ namespace NeuroNet_Project
         {
             var WeightSelect = new FolderSelectDialog();
             WeightSelect.Title = "Select Weight Path";
-            WeightSelect.InitialDirectory = @"c:\";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
             if (WeightSelect.ShowDialog(IntPtr.Zero))
             {
                 label_WeightPath.Text = WeightSelect.FileName;
@@ -218,7 +218,7 @@ namespace NeuroNet_Project
             {
                 string saveLog = "";
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.InitialDirectory = @"C:\";
+                saveFileDialog1.InitialDirectory = textBox_MainFolder.Text;
                 saveFileDialog1.Title = "Save text Files";
                 //saveFileDialog1.CheckFileExists = true;
                 saveFileDialog1.CheckPathExists = true;
@@ -240,7 +240,7 @@ namespace NeuroNet_Project
         {
             var WeightSelect = new FolderSelectDialog();
             WeightSelect.Title = "Select Input Path";
-            WeightSelect.InitialDirectory = @"c:\";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
             if (WeightSelect.ShowDialog(IntPtr.Zero))
             {
                 label_Vin.Text = WeightSelect.FileName;
@@ -253,14 +253,14 @@ namespace NeuroNet_Project
         {
             var WeightSelect = new FolderSelectDialog();
             WeightSelect.Title = "Select Weight Path";
-            WeightSelect.InitialDirectory = @"c:\";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
             if (WeightSelect.ShowDialog(IntPtr.Zero))
             {
                 label_Vw.Text = WeightSelect.FileName;
             }
             weightInfo = fileProcess.checkWeightInfo(label_Vw.Text);
             string tempW = "";
-            tempW = "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
+            tempW = "Weight Path:" + label_Vw.Text + "\r\n" + "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
             for (int i = 0; i < weightInfo.Length - 1; i++) tempW = tempW + weightInfo[i] + " , ";
             tempW = tempW + weightInfo[weightInfo.Length - 1] + " }";
             labelWinfo.Text = tempW;
@@ -274,6 +274,7 @@ namespace NeuroNet_Project
             checkNC = fileProcess.checkWeight(label_WeightPath.Text);
             N = checkNC[0];
             C = checkNC[1];
+            int DPV = (int)numericUpDown_DPV.Value;
 
             existingWeightPath = label_Vw.Text + @"\N" + N + "C" + C + "L";
             existingBiasPath = label_Vbp.Text + @"\N" + N + "C" + C + "L";
@@ -286,7 +287,7 @@ namespace NeuroNet_Project
             {
                 input = fileProcess.getData(label_Vin.Text, j);
                 tempV = net.FeedForward(input, P_activ);
-                for (int g = 0; g < tempV.Length; g++) VResult = VResult + Math.Round(tempV[g], 5) + "\t";
+                for (int g = 0; g < tempV.Length; g++) VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
                 VResult = VResult + "\r\n";
             }
             richTextBox_Vout.Text = VResult;
@@ -296,7 +297,7 @@ namespace NeuroNet_Project
         {
             string saveLog = "";
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.InitialDirectory = @"C:\";
+            saveFileDialog1.InitialDirectory = textBox_MainFolder.Text;
             saveFileDialog1.Title = "Save text Files";
             //saveFileDialog1.CheckFileExists = true;
             saveFileDialog1.CheckPathExists = true;
@@ -322,7 +323,7 @@ namespace NeuroNet_Project
         {
             var biasSelect = new FolderSelectDialog();
             biasSelect.Title = "Select Bias Path";
-            biasSelect.InitialDirectory = @"c:\";
+            biasSelect.InitialDirectory = textBox_MainFolder.Text;
             if (biasSelect.ShowDialog(IntPtr.Zero))
             {
                 label_biasPath.Text = biasSelect.FileName;
@@ -334,7 +335,7 @@ namespace NeuroNet_Project
             {
                 var biasSelect = new FolderSelectDialog();
                 biasSelect.Title = "Select Bias Path";
-                biasSelect.InitialDirectory = @"c:\";
+                biasSelect.InitialDirectory = textBox_MainFolder.Text;
                 if (biasSelect.ShowDialog(IntPtr.Zero))
                 {
                     label_Vbp.Text = biasSelect.FileName;
@@ -363,6 +364,17 @@ namespace NeuroNet_Project
             // weight checking not yet complete
         }
 
+        private void button_MainFolder_Click(object sender, EventArgs e)
+        {
+            var OutputSelect = new FolderSelectDialog();
+            OutputSelect.Title = "Select Main Folder Path for Data";
+            OutputSelect.InitialDirectory = @"c:\";
+            if (OutputSelect.ShowDialog(IntPtr.Zero))
+            {
+                textBox_MainFolder.Text = OutputSelect.FileName;
+            }
+        }
+
 
 
         // GUI SETTING ///////////////////////////////////////////////////////////////////////////////////////////
@@ -386,6 +398,7 @@ namespace NeuroNet_Project
             file.WriteLine(numericUpDown_learn.Value);
             file.WriteLine(numericUpDown_DP.Value);
             file.WriteLine(numericUpDown_momentum.Value);
+            file.WriteLine(textBox_MainFolder.Text);
             //file.WriteLine(numericUpDown_momentum.Value);
 
             file.Close();
@@ -431,6 +444,7 @@ namespace NeuroNet_Project
                     numericUpDown_learn.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_DP.Value    = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
+                    textBox_MainFolder.Text = file.ReadLine();
                     // numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
                 }
                 catch (Exception exx)
