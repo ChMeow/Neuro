@@ -56,7 +56,7 @@ namespace NeuroNet_Project
         public Form_Main()
         {
             InitializeComponent();
-            // need this 4 line to initialize Worker 1////////////////
+            // need this 4 line to initialize Worker 1///////////////
 
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
