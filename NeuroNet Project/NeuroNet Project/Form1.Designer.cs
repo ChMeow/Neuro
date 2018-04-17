@@ -93,10 +93,10 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.buttonRestart = new System.Windows.Forms.Button();
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.buttonRestart = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -368,14 +368,19 @@
             // 
             // numericUpDown_save
             // 
+            this.numericUpDown_save.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDown_save.Location = new System.Drawing.Point(115, 340);
             this.numericUpDown_save.Maximum = new decimal(new int[] {
-            100000,
+            1000000,
             0,
             0,
             0});
             this.numericUpDown_save.Minimum = new decimal(new int[] {
-            1,
+            1000,
             0,
             0,
             0});
@@ -383,7 +388,7 @@
             this.numericUpDown_save.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown_save.TabIndex = 36;
             this.numericUpDown_save.Value = new decimal(new int[] {
-            1,
+            1000,
             0,
             0,
             0});
@@ -441,6 +446,11 @@
             // 
             // numericUpDown_loops
             // 
+            this.numericUpDown_loops.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDown_loops.Location = new System.Drawing.Point(115, 262);
             this.numericUpDown_loops.Maximum = new decimal(new int[] {
             100000000,
@@ -448,7 +458,7 @@
             0,
             0});
             this.numericUpDown_loops.Minimum = new decimal(new int[] {
-            1,
+            1000,
             0,
             0,
             0});
@@ -456,7 +466,7 @@
             this.numericUpDown_loops.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown_loops.TabIndex = 17;
             this.numericUpDown_loops.Value = new decimal(new int[] {
-            1,
+            1000,
             0,
             0,
             0});
@@ -918,6 +928,16 @@
             this.tabPage4.Text = "Other settings";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // buttonRestart
+            // 
+            this.buttonRestart.Location = new System.Drawing.Point(36, 543);
+            this.buttonRestart.Name = "buttonRestart";
+            this.buttonRestart.Size = new System.Drawing.Size(95, 21);
+            this.buttonRestart.TabIndex = 2;
+            this.buttonRestart.Text = "Restart";
+            this.buttonRestart.UseVisualStyleBackColor = true;
+            this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
+            // 
             // textBox_MainFolder
             // 
             this.textBox_MainFolder.Location = new System.Drawing.Point(137, 31);
@@ -940,16 +960,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // buttonRestart
-            // 
-            this.buttonRestart.Location = new System.Drawing.Point(36, 543);
-            this.buttonRestart.Name = "buttonRestart";
-            this.buttonRestart.Size = new System.Drawing.Size(95, 21);
-            this.buttonRestart.TabIndex = 2;
-            this.buttonRestart.Text = "Restart";
-            this.buttonRestart.UseVisualStyleBackColor = true;
-            this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
             // 
             // Form_Main
             // 
