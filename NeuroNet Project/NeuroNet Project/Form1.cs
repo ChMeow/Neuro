@@ -106,7 +106,8 @@ namespace NeuroNet_Project
                 richTextBox_Summary.AppendText(@"ERROR! Unable to proceed, input / output data not match." + "\r\n");
                 goto endofthisbutton;
             }
-            //get weightpath as part of the neuro construction //
+
+            label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
 
             if (backgroundWorker1.IsBusy != true)
             {
@@ -120,7 +121,7 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == false) requestParameter(true);
 
             endofthisbutton:
-            int gg = 0; // don't put code beyond this point.
+            int gg = 0; // don't put any code beyond this point.
         }
 
 
@@ -500,6 +501,18 @@ namespace NeuroNet_Project
                     richTextBox_currentError.Text = resultRMS;
                     richTextBox_CurrentLoop.Text = resultLoops + "\t" +"N: " + N;
                     richTextBox_CurrentY.Text = resultSingle;
+                    if(checkBox_adaptiveRate.Checked == true)
+                    {
+                        label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", tempAdaptiveCorrection);
+                        if ((float)numericUpDown_learn.Value > tempAdaptiveCorrection) label_LRM.Text = label_LRM.Text + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", tempAdaptiveCorrection / 2);
+                        else label_LRM.Text = label_LRM.Text + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
+                    }
+                    else
+                    {
+                        label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
+                    }
+                    
+
                     break;
                 case 2:
                     label_loopsCounter.Text = "Loops: " + loopsCounter;
@@ -618,8 +631,9 @@ namespace NeuroNet_Project
                         temp = fileProcess.error(result, expected);
                         cost = (float)Math.Round(temp,5);
                         different = fileProcess.diff(result, expected);
+                        tempAdaptiveCorrection = 0;
 
-                        for(N =0; N < different.Length; N++)
+                        for (N =0; N < different.Length; N++)
                         {
                             tempAdaptiveCorrection += (float)Math.Abs(different[N]);
                         }

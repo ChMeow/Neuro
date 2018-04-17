@@ -97,6 +97,7 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label_LRM = new System.Windows.Forms.Label();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -123,6 +124,7 @@
             // 
             this.panel_Loading.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panel_Loading.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_Loading.Controls.Add(this.label_LRM);
             this.panel_Loading.Controls.Add(this.richTextBox_CurrentY);
             this.panel_Loading.Controls.Add(this.richTextBox_currentError);
             this.panel_Loading.Controls.Add(this.richTextBox_CurrentLoop);
@@ -961,6 +963,17 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // label_LRM
+            // 
+            this.label_LRM.AutoSize = true;
+            this.label_LRM.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_LRM.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label_LRM.Location = new System.Drawing.Point(12, 550);
+            this.label_LRM.Name = "label_LRM";
+            this.label_LRM.Size = new System.Drawing.Size(148, 13);
+            this.label_LRM.TabIndex = 7;
+            this.label_LRM.Text = "Momentum: -- Learning rate  --";
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1074,6 +1087,7 @@
         private System.Windows.Forms.TextBox textBox_MainFolder;
         private System.Windows.Forms.Button button_MainFolder;
         private System.Windows.Forms.Button buttonRestart;
+        private System.Windows.Forms.Label label_LRM;
     }
 }
 
