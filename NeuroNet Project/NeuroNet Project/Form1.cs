@@ -41,6 +41,7 @@ namespace NeuroNet_Project
         float[] different;
         int[] weightInfo;
         float tempAdaptiveCorrection = 0;
+        float[] tempMaxMin = new float[2];
         
         string resultSingle;
         string resultAll;
@@ -397,6 +398,7 @@ namespace NeuroNet_Project
             file.WriteLine(numericUpDown_learn.Value);
             file.WriteLine(numericUpDown_DP.Value);
             file.WriteLine(numericUpDown_momentum.Value);
+            file.WriteLine(numericUpDown_DecayRate.Value);
             file.WriteLine(textBox_MainFolder.Text);
             //file.WriteLine(numericUpDown_momentum.Value);
 
@@ -448,6 +450,8 @@ namespace NeuroNet_Project
                     numericUpDown_learn.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_DP.Value    = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_DecayRate.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_DecayRate.Enabled = false;
                     textBox_MainFolder.Text = file.ReadLine();
                     // numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
                 }
@@ -465,7 +469,13 @@ namespace NeuroNet_Project
 
             }
         }
-        
+
+        private void checkBox_adaptiveRate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_adaptiveRate.Checked != true) numericUpDown_DecayRate.Enabled = false;
+            else numericUpDown_DecayRate.Enabled = true;
+        }
+
         public void setPlayStopButton(bool isPlaying)
         {
             _assembly = Assembly.GetExecutingAssembly();
@@ -501,11 +511,14 @@ namespace NeuroNet_Project
                     richTextBox_currentError.Text = resultRMS;
                     richTextBox_CurrentLoop.Text = resultLoops + "\t" +"N: " + N;
                     richTextBox_CurrentY.Text = resultSingle;
-                    if(checkBox_adaptiveRate.Checked == true)
+                    float newLR = 0;
+                    float newM = 0;
+                    newLR = (float)numericUpDown_learn.Value * (float)Math.Exp(-tempAdaptiveCorrection / (float)numericUpDown_DecayRate.Value); 
+                    newM = (float)numericUpDown_momentum.Value * (float)Math.Exp(-tempAdaptiveCorrection / (float)numericUpDown_DecayRate.Value);
+
+                    if (checkBox_adaptiveRate.Checked == true)
                     {
-                        label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", tempAdaptiveCorrection);
-                        if ((float)numericUpDown_learn.Value > tempAdaptiveCorrection) label_LRM.Text = label_LRM.Text + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", tempAdaptiveCorrection / 2);
-                        else label_LRM.Text = label_LRM.Text + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
+                        label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", newM) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", newLR);
                     }
                     else
                     {
@@ -608,7 +621,7 @@ namespace NeuroNet_Project
                     input = fileProcess.getData(label_InputPath.Text, tempTarget);
                     expected = fileProcess.getData(label_OutputPath.Text, tempTarget);
                     net.FeedForward(input, P_activ);
-                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection);
+                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);
                     loopsCounter = i + previousLoopsCounter;
                     worker.ReportProgress(2);
                 }
@@ -631,14 +644,16 @@ namespace NeuroNet_Project
                         temp = fileProcess.error(result, expected);
                         cost = (float)Math.Round(temp,5);
                         different = fileProcess.diff(result, expected);
-                        tempAdaptiveCorrection = 0;
-
-                        for (N =0; N < different.Length; N++)
-                        {
-                            tempAdaptiveCorrection += (float)Math.Abs(different[N]);
-                        }
+                        tempAdaptiveCorrection = loopsCounter;
+                        tempMaxMin[0] = tempMaxMin[1] = 0;
+                        //for (N =0; N < different.Length ; N++)
+                        //{
+                        //    tempMaxMin[0] = (float)Math.Min(different[N], tempMaxMin[0]);
+                        //    tempMaxMin[1] = (float)Math.Max(different[N], tempMaxMin[1]);
+                        //    tempAdaptiveCorrection = tempMaxMin[1] - tempMaxMin[0];
+                        //}
                         // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
-                        if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
+                        // if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
 
                         int DP = (int)numericUpDown_DP.Value;
                         for (int k = 0; k < result.Length; k++)

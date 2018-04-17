@@ -52,7 +52,7 @@ namespace NeuroV3
         /// High level back porpagation
         /// Note: It is expexted the one feed forward was done before this back prop.
         /// <param name="expected">The expected output form the last feedforward</param>
-        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight)
+        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate)
         {
             // run over all layers backwards
             for (int i = layers.Length - 1; i >= 0; i--)
@@ -70,13 +70,13 @@ namespace NeuroV3
             //Update weights
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight);
+                layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
             }
 
             //Update bias
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight);
+                layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
             }
         }
 
@@ -326,20 +326,38 @@ namespace NeuroV3
             }
 
             /// Updating weights
-            public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight)
+            public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight, float decayRate)
             {
                 if(adaptive == true)
                 {
-                    if (LearnRate > adaptiveWeight) LearnRate = adaptiveWeight / 2;
+                    float newLR = 0;
+                    float newM = 0;
+                    newLR = LearnRate * (float) Math.Exp(-adaptiveWeight / decayRate);
+                    newM = momentum * (float)Math.Exp(-adaptiveWeight / decayRate);
+
+                    //newLR = LearnRate * ((1000 - adaptiveWeight) / 1000);
+                    //newM = momentum * ((1 - LearnRate) + newLR);
+
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
                         for (int j = 0; j < numberOfInputs; j++)
                         {
-                            weights[i, j] -= weightsDelta[i, j] * LearnRate;
-                            weights[i, j] -= adaptiveWeight * momentumWeight[i, j];
+                            weights[i, j] -= weightsDelta[i, j] * newLR;
+                            weights[i, j] -= newM * momentumWeight[i, j];
                             momentumWeight[i, j] = weightsDelta[i, j];
                         }
                     }
+
+                    //if (LearnRate > adaptiveWeight) LearnRate = adaptiveWeight / 2;
+                    //for (int i = 0; i < numberOfOuputs; i++)
+                    //{
+                    //    for (int j = 0; j < numberOfInputs; j++)
+                    //    {
+                    //        weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                    //        weights[i, j] -= adaptiveWeight * momentumWeight[i, j];
+                    //        momentumWeight[i, j] = weightsDelta[i, j];
+                    //    }
+                    //}
                 }
                 else
                 {
@@ -355,17 +373,29 @@ namespace NeuroV3
                 }
             }
 
-            public void UpdateBias(float LearnRate, float momentum, bool adaptive, float adaptiveBias)
+            public void UpdateBias(float LearnRate, float momentum, bool adaptive, float adaptiveBias, float decayRate)
             {
                 if(adaptive == true)
                 {
-                    if (LearnRate > adaptiveBias) LearnRate = adaptiveBias / 2;
+                    float newLR = 0;
+                    float newM = 0;
+                    newLR = LearnRate * (float)Math.Exp(-adaptiveBias / decayRate);
+                    newM = momentum * (float)Math.Exp(-adaptiveBias / decayRate);
+
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
-                        bias[i] -= gamma[i] * LearnRate;
-                        bias[i] -= adaptiveBias * momentumBias[i];
+                        bias[i] -= gamma[i] * newLR;
+                        bias[i] -= newM * momentumBias[i];
                         momentumBias[i] = gamma[i];
                     }
+
+                    //if (LearnRate > adaptiveBias) LearnRate = adaptiveBias / 2;
+                    //for (int i = 0; i < numberOfOuputs; i++)
+                    //{
+                    //    bias[i] -= gamma[i] * LearnRate;
+                    //    bias[i] -= adaptiveBias * momentumBias[i];
+                    //    momentumBias[i] = gamma[i];
+                    //}
                 }
                 else
                 {

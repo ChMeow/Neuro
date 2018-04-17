@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Main));
             this.panel_Loading = new System.Windows.Forms.Panel();
+            this.label_LRM = new System.Windows.Forms.Label();
             this.richTextBox_CurrentY = new System.Windows.Forms.RichTextBox();
             this.richTextBox_currentError = new System.Windows.Forms.RichTextBox();
             this.richTextBox_CurrentLoop = new System.Windows.Forms.RichTextBox();
@@ -97,7 +98,8 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.label_LRM = new System.Windows.Forms.Label();
+            this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -118,6 +120,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -135,6 +138,17 @@
             this.panel_Loading.Name = "panel_Loading";
             this.panel_Loading.Size = new System.Drawing.Size(942, 606);
             this.panel_Loading.TabIndex = 0;
+            // 
+            // label_LRM
+            // 
+            this.label_LRM.AutoSize = true;
+            this.label_LRM.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_LRM.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label_LRM.Location = new System.Drawing.Point(12, 550);
+            this.label_LRM.Name = "label_LRM";
+            this.label_LRM.Size = new System.Drawing.Size(148, 13);
+            this.label_LRM.TabIndex = 7;
+            this.label_LRM.Text = "Momentum: -- Learning rate  --";
             // 
             // richTextBox_CurrentY
             // 
@@ -225,12 +239,14 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.numericUpDown_DecayRate);
             this.tabPage1.Controls.Add(this.pictureBox_Info);
             this.tabPage1.Controls.Add(this.checkBox_adaptiveRate);
             this.tabPage1.Controls.Add(this.numericUpDown_momentum);
             this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.label_biasPath);
             this.tabPage1.Controls.Add(this.button_BiasPath);
+            this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.label8);
             this.tabPage1.Controls.Add(this.numericUpDown_DP);
             this.tabPage1.Controls.Add(this.pictureBox_Switch2);
@@ -281,10 +297,11 @@
             this.checkBox_adaptiveRate.AutoSize = true;
             this.checkBox_adaptiveRate.Location = new System.Drawing.Point(6, 153);
             this.checkBox_adaptiveRate.Name = "checkBox_adaptiveRate";
-            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(188, 17);
+            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(191, 17);
             this.checkBox_adaptiveRate.TabIndex = 43;
-            this.checkBox_adaptiveRate.Text = "Adaptive Learning and Momentum";
+            this.checkBox_adaptiveRate.Text = "Decaying Learning and Momentum";
             this.checkBox_adaptiveRate.UseVisualStyleBackColor = true;
+            this.checkBox_adaptiveRate.CheckedChanged += new System.EventHandler(this.checkBox_adaptiveRate_CheckedChanged);
             // 
             // numericUpDown_momentum
             // 
@@ -963,16 +980,31 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // label_LRM
+            // numericUpDown_DecayRate
             // 
-            this.label_LRM.AutoSize = true;
-            this.label_LRM.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_LRM.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label_LRM.Location = new System.Drawing.Point(12, 550);
-            this.label_LRM.Name = "label_LRM";
-            this.label_LRM.Size = new System.Drawing.Size(148, 13);
-            this.label_LRM.TabIndex = 7;
-            this.label_LRM.Text = "Momentum: -- Learning rate  --";
+            this.numericUpDown_DecayRate.Location = new System.Drawing.Point(115, 392);
+            this.numericUpDown_DecayRate.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.numericUpDown_DecayRate.Name = "numericUpDown_DecayRate";
+            this.numericUpDown_DecayRate.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_DecayRate.TabIndex = 45;
+            this.numericUpDown_DecayRate.Value = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 394);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(64, 13);
+            this.label12.TabIndex = 38;
+            this.label12.Text = "Decay Rate";
             // 
             // Form_Main
             // 
@@ -1013,6 +1045,7 @@
             this.groupBox2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1088,6 +1121,8 @@
         private System.Windows.Forms.Button button_MainFolder;
         private System.Windows.Forms.Button buttonRestart;
         private System.Windows.Forms.Label label_LRM;
+        private System.Windows.Forms.NumericUpDown numericUpDown_DecayRate;
+        private System.Windows.Forms.Label label12;
     }
 }
 
