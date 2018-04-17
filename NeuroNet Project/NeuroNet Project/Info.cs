@@ -24,6 +24,7 @@ namespace NeuroNet_Project
             string FilePath;
 
             currentPath = Directory.GetCurrentDirectory();
+            currentPath += @"\references";
             try
             {
                 FilePath = currentPath + @"\Info_activation.rtf";
@@ -31,7 +32,7 @@ namespace NeuroNet_Project
             }
             catch (FileNotFoundException ex)
             {
-                richTextBox_Activation.Text = "FILE NOT FOUND :(";
+                richTextBox_Activation.Text = @"FILE NOT FOUND!  (╯°Д°）╯︵ ┻━┻ ";
             }
 
             try
@@ -41,7 +42,7 @@ namespace NeuroNet_Project
             }
             catch (FileNotFoundException ex)
             {
-                richTextBox_Rate.Text = "FILE NOT FOUND :(";
+                richTextBox_Rate.Text = @"FILE NOT FOUND!  (╯°Д°）╯︵ ┻━┻ ";
             }
 
             try
@@ -51,7 +52,7 @@ namespace NeuroNet_Project
             }
             catch (FileNotFoundException ex)
             {
-                richTextBox_BackPropagation.Text = "FILE NOT FOUND :(";
+                richTextBox_BackPropagation.Text = @"FILE NOT FOUND!  (╯°Д°）╯︵ ┻━┻ ";
             }
 
             try
@@ -61,7 +62,17 @@ namespace NeuroNet_Project
             }
             catch (FileNotFoundException ex)
             {
-                richTextBox_HowtoUse.Text = "FILE NOT FOUND :(";
+                richTextBox_HowtoUse.Text = @"FILE NOT FOUND!  (╯°Д°）╯︵ ┻━┻ ";
+            }
+
+            try
+            {
+                FilePath = currentPath + @"\Info_Bug.rtf";
+                richTextBox_Bug.LoadFile(FilePath);
+            }
+            catch (FileNotFoundException ex)
+            {
+                richTextBox_Bug.Text = @"FILE NOT FOUND!  (╯°Д°）╯︵ ┻━┻ ";
             }
         }
     }

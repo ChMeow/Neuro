@@ -76,10 +76,12 @@
             this.button_saveLog = new System.Windows.Forms.Button();
             this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.numericUpDown_DPV = new System.Windows.Forms.NumericUpDown();
             this.label_Vbp = new System.Windows.Forms.Label();
             this.button_VBP = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.richTextBox_Vout = new System.Windows.Forms.RichTextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.comboBox_Vact = new System.Windows.Forms.ComboBox();
             this.labelWinfo = new System.Windows.Forms.Label();
@@ -90,12 +92,11 @@
             this.button_Vgo = new System.Windows.Forms.Button();
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.numericUpDown_DPV = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.button_MainFolder = new System.Windows.Forms.Button();
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
+            this.button_MainFolder = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.buttonRestart = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -113,8 +114,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_layer)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -428,6 +429,7 @@
             // richTextBox_Summary
             // 
             this.richTextBox_Summary.BackColor = System.Drawing.SystemColors.MenuText;
+            this.richTextBox_Summary.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox_Summary.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.richTextBox_Summary.Location = new System.Drawing.Point(8, 16);
             this.richTextBox_Summary.Name = "richTextBox_Summary";
@@ -706,6 +708,7 @@
             // 
             // richTextBox_FinalResult
             // 
+            this.richTextBox_FinalResult.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox_FinalResult.Location = new System.Drawing.Point(6, 14);
             this.richTextBox_FinalResult.Name = "richTextBox_FinalResult";
             this.richTextBox_FinalResult.ReadOnly = true;
@@ -737,6 +740,18 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Validation";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown_DPV
+            // 
+            this.numericUpDown_DPV.Location = new System.Drawing.Point(672, 48);
+            this.numericUpDown_DPV.Name = "numericUpDown_DPV";
+            this.numericUpDown_DPV.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_DPV.TabIndex = 15;
+            this.numericUpDown_DPV.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             // 
             // label_Vbp
             // 
@@ -770,11 +785,21 @@
             // 
             // richTextBox_Vout
             // 
+            this.richTextBox_Vout.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox_Vout.Location = new System.Drawing.Point(8, 17);
             this.richTextBox_Vout.Name = "richTextBox_Vout";
             this.richTextBox_Vout.Size = new System.Drawing.Size(900, 412);
             this.richTextBox_Vout.TabIndex = 5;
             this.richTextBox_Vout.Text = "";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(557, 53);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(75, 13);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Decimal Place";
             // 
             // label10
             // 
@@ -881,35 +906,9 @@
             this.button_Vin.UseVisualStyleBackColor = true;
             this.button_Vin.Click += new System.EventHandler(this.button_Vin_Click);
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // numericUpDown_DPV
-            // 
-            this.numericUpDown_DPV.Location = new System.Drawing.Point(672, 48);
-            this.numericUpDown_DPV.Name = "numericUpDown_DPV";
-            this.numericUpDown_DPV.Size = new System.Drawing.Size(140, 20);
-            this.numericUpDown_DPV.TabIndex = 15;
-            this.numericUpDown_DPV.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(557, 53);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(75, 13);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Decimal Place";
-            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.buttonRestart);
             this.tabPage4.Controls.Add(this.textBox_MainFolder);
             this.tabPage4.Controls.Add(this.button_MainFolder);
             this.tabPage4.Location = new System.Drawing.Point(4, 4);
@@ -918,6 +917,13 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Other settings";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // textBox_MainFolder
+            // 
+            this.textBox_MainFolder.Location = new System.Drawing.Point(137, 31);
+            this.textBox_MainFolder.Name = "textBox_MainFolder";
+            this.textBox_MainFolder.Size = new System.Drawing.Size(667, 20);
+            this.textBox_MainFolder.TabIndex = 1;
             // 
             // button_MainFolder
             // 
@@ -929,12 +935,21 @@
             this.button_MainFolder.UseVisualStyleBackColor = true;
             this.button_MainFolder.Click += new System.EventHandler(this.button_MainFolder_Click);
             // 
-            // textBox_MainFolder
+            // backgroundWorker1
             // 
-            this.textBox_MainFolder.Location = new System.Drawing.Point(137, 31);
-            this.textBox_MainFolder.Name = "textBox_MainFolder";
-            this.textBox_MainFolder.Size = new System.Drawing.Size(667, 20);
-            this.textBox_MainFolder.TabIndex = 1;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // buttonRestart
+            // 
+            this.buttonRestart.Location = new System.Drawing.Point(36, 543);
+            this.buttonRestart.Name = "buttonRestart";
+            this.buttonRestart.Size = new System.Drawing.Size(95, 21);
+            this.buttonRestart.TabIndex = 2;
+            this.buttonRestart.Text = "Restart";
+            this.buttonRestart.UseVisualStyleBackColor = true;
+            this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
             // 
             // Form_Main
             // 
@@ -971,8 +986,8 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
@@ -1048,6 +1063,7 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox textBox_MainFolder;
         private System.Windows.Forms.Button button_MainFolder;
+        private System.Windows.Forms.Button buttonRestart;
     }
 }
 

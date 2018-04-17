@@ -51,8 +51,6 @@ namespace NeuroNet_Project
         string CurrentTime;
 
 
-        //
-
         public Form_Main()
         {
             InitializeComponent();
@@ -93,7 +91,7 @@ namespace NeuroNet_Project
                     richTextBox_Summary.Focus();
                     TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
-                    richTextBox_Summary.AppendText("ERROR, Unable to proceed, Weight Data Not Match" + "\r\n");
+                    richTextBox_Summary.AppendText("ERROR! Unable to proceed, weight data not match." + "\r\n");
                     goto endofthisbutton;
                 }
                 previousLoopsCounter = C;
@@ -105,7 +103,7 @@ namespace NeuroNet_Project
                 richTextBox_Summary.Focus();
                 TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("ERROR, Input Output Data Not Match, -1" + "\r\n");
+                richTextBox_Summary.AppendText(@"ERROR! Unable to proceed, input / output data not match." + "\r\n");
                 goto endofthisbutton;
             }
             //get weightpath as part of the neuro construction //
@@ -409,6 +407,11 @@ namespace NeuroNet_Project
             GC.Collect();
         }
 
+        private void buttonRestart_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
         private void Form_Main_Load(object sender, EventArgs e)
         {
             string setPath;
@@ -452,7 +455,8 @@ namespace NeuroNet_Project
                     richTextBox_Summary.Focus();
                     TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
-                    richTextBox_Summary.AppendText("Config File Error !!!" + "\r\n");
+                    richTextBox_Summary.AppendText("Config File Error !!!");
+                    ErrorText();
                 }
 
                 file.Close();
@@ -494,7 +498,7 @@ namespace NeuroNet_Project
                 case 1:
                     richTextBox_FinalResult.AppendText(resultAll);
                     richTextBox_currentError.Text = resultRMS;
-                    richTextBox_CurrentLoop.Text = resultLoops;
+                    richTextBox_CurrentLoop.Text = resultLoops + "\t" +"N: " + N;
                     richTextBox_CurrentY.Text = resultSingle;
                     break;
                 case 2:
@@ -537,7 +541,8 @@ namespace NeuroNet_Project
                 richTextBox_Summary.Focus();
                 TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("Error !!!" + "\r\n");
+                richTextBox_Summary.AppendText("Error !!!");
+                ErrorText();
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
             }
@@ -657,6 +662,12 @@ namespace NeuroNet_Project
             CurrentTime = " [" + DateTime.Now.ToString("HH") + " " + DateTime.Now.ToString("mm") + " " + DateTime.Now.ToString("ss") + "]  ";
             richTextBox_Summary.SelectionColor = Color.PowderBlue;
             richTextBox_Summary.AppendText(CurrentTime);
+            return;
+        }
+        public void ErrorText()
+        {
+            richTextBox_Summary.SelectionColor = Color.Yellow;
+            richTextBox_Summary.AppendText("  Σ( ﾟДﾟ ?)" + "\r\n");
             return;
         }
     }
