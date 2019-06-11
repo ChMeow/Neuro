@@ -10,16 +10,18 @@ namespace NeuroV3
     public class Neuro
     {
         float LearnRate;
+        float momentum;
         int[] layer; //layer information
         Layer[] layers; //layers in the network
 
 
 
         /// Constructor setting up layers
-        public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
+        public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath, string BiasPath, float momentum) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
         {
             //deep copy layers
             this.LearnRate = LearnRate;
+            this.momentum = momentum;
             this.layer = new int[layer.Length];
             for (int i = 0; i < layer.Length; i++)
                 this.layer[i] = layer[i];
@@ -29,7 +31,7 @@ namespace NeuroV3
 
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i] = new Layer(layer[i], layer[i + 1], WeightPath, i, UpdateExistingWeight); // layer[i] represent the input nodes and layer[i+1] represent output nodes.
+                layers[i] = new Layer(layer[i], layer[i + 1], WeightPath, i, UpdateExistingWeight, BiasPath); // layer[i] represent the input nodes and layer[i+1] represent output nodes.
             }
         }
 
@@ -50,7 +52,7 @@ namespace NeuroV3
         /// High level back porpagation
         /// Note: It is expexted the one feed forward was done before this back prop.
         /// <param name="expected">The expected output form the last feedforward</param>
-        public void BackProp(float[] expected, int Activate)
+        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate)
         {
             // run over all layers backwards
             for (int i = layers.Length - 1; i >= 0; i--)
@@ -68,7 +70,13 @@ namespace NeuroV3
             //Update weights
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i].UpdateWeights(LearnRate);
+                layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+            }
+
+            //Update bias
+            for (int i = 0; i < layers.Length; i++)
+            {
+                layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
             }
         }
 
@@ -79,6 +87,15 @@ namespace NeuroV3
             for (int L = 0; L < layers.Length; L++)
             {
                 layers[L].WeightsToFiles(N, C, L, savePath);
+            }
+        }
+
+        public void BtoF(int N, int C, string savePath)
+        {
+            //Output weights to Files
+            for (int L = 0; L < layers.Length; L++)
+            {
+                layers[L].BiasToFiles(N, C, L, savePath);
             }
         }
 
@@ -99,15 +116,19 @@ namespace NeuroV3
             public float[] inputs; //inputs in into this layer
             public float[,] weights; //weights of this layer
             public float[,] weightsDelta; //deltas of this layer
+            public float[] bias;
+            public float[,] momentumWeight; // it contains previous weight for momentum
+            public float[] momentumBias;
             public float[] gamma; //gamma of this layer
             public float[] error; //error of the output layer
+            public float cummulativeError; // experimental for adaptive momentum and learning rate
 
             public static Random random = new Random(); //Static random class variable
 
             /// Constructor initilizes vaiour data structures
             /// <param name="numberOfInputs">Number of neurons in the previous layer</param>
             /// <param name="numberOfOuputs">Number of neurons in the current layer</param>
-            public Layer(int numberOfInputs, int numberOfOuputs, string WeightPath, int CountL, bool UpdateExistingWeight)
+            public Layer(int numberOfInputs, int numberOfOuputs, string WeightPath, int CountL, bool UpdateExistingWeight, string BiasPath)
             {
                 this.numberOfInputs = numberOfInputs;
                 this.numberOfOuputs = numberOfOuputs;
@@ -117,13 +138,20 @@ namespace NeuroV3
                 inputs = new float[numberOfInputs];
                 weights = new float[numberOfOuputs, numberOfInputs];
                 weightsDelta = new float[numberOfOuputs, numberOfInputs];
+                bias = new float[numberOfOuputs];
+                momentumWeight = new float[numberOfOuputs, numberOfInputs];
+                momentumBias = new float[numberOfOuputs];
                 gamma = new float[numberOfOuputs];
                 error = new float[numberOfOuputs];
+
                 bool WeightExist;
                 if (UpdateExistingWeight == true) WeightExist = true;
                 else WeightExist = false;
                 InitilizeWeights(WeightExist, WeightPath, CountL); //initilize weights
+
+                InitilizeBias(UpdateExistingWeight, BiasPath, CountL);
             }
+
 
             /// Initilize weights between -0.5 and 0.5
             public void InitilizeWeights(bool WeightExist, string WeightPath, int CountL)
@@ -175,6 +203,52 @@ namespace NeuroV3
                 }
             }
 
+
+            // bias
+            public void InitilizeBias(bool BiasExist, string BiasPath, int CountL)
+            {
+                if (BiasExist == true)
+                {
+                    BiasPath = BiasPath + CountL + @".txt";
+                    int k = 0;
+                    int loop = 0;
+                    string[] split;
+                    char[] tab = new char[3];
+                    tab[0] = Convert.ToChar("\t");
+                    tab[1] = Convert.ToChar("\r");
+                    tab[2] = Convert.ToChar("\n");
+
+                    string readText = File.ReadAllText(BiasPath);
+                    split = readText.Split(tab);
+                    string[] split2 = new string[split.Length];
+                    for (int jj = 0; jj < split.Length; jj++)
+                    {
+                        if (split[jj] != "")
+                        {
+                            split2[k] = split[jj];
+                            k++;
+                        }
+                    }
+
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    { 
+                            double temp = 0;
+                            temp = Convert.ToDouble(split2[loop]);
+                            bias[i] = (float)temp;
+                            loop++;
+                    }
+                    
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        bias[i] = (float)random.NextDouble() - 0.5f;
+                    }
+                }
+            }
+
+
             /// Feedforward this layer with a given input
             /// <param name="inputs">The output values of the previous layer</param>
             public float[] FeedForward(float[] inputs, int Activate)
@@ -189,7 +263,7 @@ namespace NeuroV3
                     {
                         outputs[i] += inputs[j] * weights[i, j];
                     }
-
+                    outputs[i] += bias[i];
                     outputs[i] = Activ(outputs[i], Activate);
                 }
 
@@ -201,9 +275,13 @@ namespace NeuroV3
             /// <param name="expected">The expected output</param>
             public void BackPropOutput(float[] expected, int Activate)
             {
+
                 //Error dervative of the cost function
                 for (int i = 0; i < numberOfOuputs; i++)
+                {
                     error[i] = outputs[i] - expected[i];
+                }
+
 
                 //Gamma calculation
                 for (int i = 0; i < numberOfOuputs; i++)
@@ -248,15 +326,87 @@ namespace NeuroV3
             }
 
             /// Updating weights
-            public void UpdateWeights(float LearnRate)
+            public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight, float decayRate)
             {
-                for (int i = 0; i < numberOfOuputs; i++)
+                if(adaptive == true)
                 {
-                    for (int j = 0; j < numberOfInputs; j++)
+                    float newLR = 0;
+                    float newM = 0;
+                    newLR = LearnRate * (float) Math.Exp(-adaptiveWeight / decayRate);
+                    newM = momentum * (float)Math.Exp(-adaptiveWeight / decayRate);
+
+                    //newLR = LearnRate * ((1000 - adaptiveWeight) / 1000);
+                    //newM = momentum * ((1 - LearnRate) + newLR);
+
+                    for (int i = 0; i < numberOfOuputs; i++)
                     {
-                        weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weights[i, j] -= weightsDelta[i, j] * newLR;
+                            weights[i, j] -= newM * momentumWeight[i, j];
+                            momentumWeight[i, j] = weightsDelta[i, j];
+                        }
+                    }
+
+                    //if (LearnRate > adaptiveWeight) LearnRate = adaptiveWeight / 2;
+                    //for (int i = 0; i < numberOfOuputs; i++)
+                    //{
+                    //    for (int j = 0; j < numberOfInputs; j++)
+                    //    {
+                    //        weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                    //        weights[i, j] -= adaptiveWeight * momentumWeight[i, j];
+                    //        momentumWeight[i, j] = weightsDelta[i, j];
+                    //    }
+                    //}
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                            weights[i, j] -= momentum * momentumWeight[i, j];
+                            momentumWeight[i, j] = weightsDelta[i, j];
+                        }
                     }
                 }
+            }
+
+            public void UpdateBias(float LearnRate, float momentum, bool adaptive, float adaptiveBias, float decayRate)
+            {
+                if(adaptive == true)
+                {
+                    float newLR = 0;
+                    float newM = 0;
+                    newLR = LearnRate * (float)Math.Exp(-adaptiveBias / decayRate);
+                    newM = momentum * (float)Math.Exp(-adaptiveBias / decayRate);
+
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        bias[i] -= gamma[i] * newLR;
+                        bias[i] -= newM * momentumBias[i];
+                        momentumBias[i] = gamma[i];
+                    }
+
+                    //if (LearnRate > adaptiveBias) LearnRate = adaptiveBias / 2;
+                    //for (int i = 0; i < numberOfOuputs; i++)
+                    //{
+                    //    bias[i] -= gamma[i] * LearnRate;
+                    //    bias[i] -= adaptiveBias * momentumBias[i];
+                    //    momentumBias[i] = gamma[i];
+                    //}
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        bias[i] -= gamma[i] * LearnRate;
+                        bias[i] -= momentum * momentumBias[i];
+                        momentumBias[i] = gamma[i];
+                    }
+                }
+                
             }
 
             public void WeightsToFiles(int N, int C, int L, string savePath)
@@ -275,7 +425,15 @@ namespace NeuroV3
                 }
             }
 
-
+            public void BiasToFiles(int N, int C, int L, string savePath)
+            {
+                int i = 0;
+                string FinalBias = "";
+                string B_SavePath = savePath + @"\N" + N + "C" + C + "L" + L + ".txt";
+                for (i = 0; i < numberOfOuputs; i++)
+                    FinalBias = FinalBias + bias[i] + "\r\n";
+                File.WriteAllText(B_SavePath, FinalBias);
+            }
 
 
 

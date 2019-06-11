@@ -23,13 +23,14 @@ namespace NeuroNet_Project
         string[] outputFiles;
         string[] weightFolder;
         string existingWeightPath; // with part of the name included, N and C value // C is the continue cycle, N is for seperate cycle. ie. N will increase a number if use existing weight is unchecked.
+        string existingBiasPath;
         int P_activ, P_loops, P_layer, P_nodes, P_save, D_loops, D_Compare;
         float P_learn;
         int[] layer;
         float[] input;
         float[] expected;
         float[] result = new float[1];
-        int N = 0, C = 0, previousN = 0;
+        int N = 0, C = 0;
         int[] checkNC = new int[3];
         Assembly _assembly;
         Stream _imageStream;
@@ -39,20 +40,22 @@ namespace NeuroNet_Project
         float cost;
         float[] different;
         int[] weightInfo;
-
+        float tempAdaptiveCorrection = 0;
+        float[] tempMaxMin = new float[2];
+        
         string resultSingle;
         string resultAll;
         string resultLoops;
         string resultRMS;
         string resultParameter;
-
-
+        string resultReportWeight;
+        string CurrentTime;
 
 
         public Form_Main()
         {
             InitializeComponent();
-            // need this 4 line to initialize Worker 1////////////////
+            // need this 4 line to initialize Worker 1///////////////
 
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
@@ -83,11 +86,13 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == true)
             {
                 existingWeightPath = label_WeightPath.Text + @"\N" + N + "C" + C + "L";
+                existingBiasPath = label_biasPath.Text + @"\N" + N + "C" + C + "L";
                 if (checkNC[2] != P_layer - 2)
                 {
                     richTextBox_Summary.Focus();
+                    TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
-                    richTextBox_Summary.AppendText("ERROR, Unable to proceed, Weight Data Not Match" + "\r\n");
+                    richTextBox_Summary.AppendText("ERROR! Unable to proceed, weight data not match." + "\r\n");
                     goto endofthisbutton;
                 }
                 previousLoopsCounter = C;
@@ -97,11 +102,13 @@ namespace NeuroNet_Project
             if (D_loops != D_Compare || D_loops < 0)
             {
                 richTextBox_Summary.Focus();
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("ERROR, Input Output Data Not Match, -1" + "\r\n");
+                richTextBox_Summary.AppendText(@"ERROR! Unable to proceed, input / output data not match." + "\r\n");
                 goto endofthisbutton;
             }
-            //get weightpath as part of the neuro construction //
+
+            label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
 
             if (backgroundWorker1.IsBusy != true)
             {
@@ -115,23 +122,15 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == false) requestParameter(true);
 
             endofthisbutton:
-            int gg = 0; // don't put code beyond this point.
+            int gg = 0; // don't put any code beyond this point.
         }
 
-        private void button_Stop_Click(object sender, EventArgs e)
-        {
-            if (backgroundWorker1.WorkerSupportsCancellation == true)
-            {
-                backgroundWorker1.CancelAsync();
-            }
-            panel_Loading.SendToBack();
-        }
 
         private void button_Input_Click(object sender, EventArgs e)
         {
             var inputSelect = new FolderSelectDialog();
             inputSelect.Title = "Select Input Path";
-            inputSelect.InitialDirectory = @"c:\";
+            inputSelect.InitialDirectory = textBox_MainFolder.Text;
             if (inputSelect.ShowDialog(IntPtr.Zero))
             {
                 label_InputPath.Text = inputSelect.FileName;
@@ -142,7 +141,7 @@ namespace NeuroNet_Project
         {
             var OutputSelect = new FolderSelectDialog();
             OutputSelect.Title = "Select Output Path";
-            OutputSelect.InitialDirectory = @"c:\";
+            OutputSelect.InitialDirectory = textBox_MainFolder.Text;
             if (OutputSelect.ShowDialog(IntPtr.Zero))
             {
                 label_OutputPath.Text = OutputSelect.FileName;
@@ -153,7 +152,7 @@ namespace NeuroNet_Project
         {
             var WeightSelect = new FolderSelectDialog();
             WeightSelect.Title = "Select Weight Path";
-            WeightSelect.InitialDirectory = @"c:\";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
             if (WeightSelect.ShowDialog(IntPtr.Zero))
             {
                 label_WeightPath.Text = WeightSelect.FileName;
@@ -165,9 +164,10 @@ namespace NeuroNet_Project
         {
             inputFiles = Directory.GetFiles(label_InputPath.Text);
             richTextBox_Summary.Focus();
-            richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " >>> ");
-            richTextBox_Summary.SelectionColor = Color.Aqua;
+            TimeNow();
+            richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+            richTextBox_Summary.AppendText("Number of input in " + label_InputPath.Text + " . . . ");
+            richTextBox_Summary.SelectionColor = Color.Lime;
             richTextBox_Summary.AppendText(inputFiles.Length + "\r\n");
         }
 
@@ -201,9 +201,10 @@ namespace NeuroNet_Project
         {
             outputFiles = Directory.GetFiles(label_OutputPath.Text);
             richTextBox_Summary.Focus();
-            richTextBox_Summary.SelectionColor = Color.White;
-            richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " >>> ");
-            richTextBox_Summary.SelectionColor = Color.Aqua;
+            TimeNow();
+            richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+            richTextBox_Summary.AppendText("Number of output in " + label_OutputPath.Text + " . . . ");
+            richTextBox_Summary.SelectionColor = Color.Lime;
             richTextBox_Summary.AppendText(outputFiles.Length + "\r\n");
         }
 
@@ -217,7 +218,7 @@ namespace NeuroNet_Project
             {
                 string saveLog = "";
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.InitialDirectory = @"C:\";
+                saveFileDialog1.InitialDirectory = textBox_MainFolder.Text;
                 saveFileDialog1.Title = "Save text Files";
                 //saveFileDialog1.CheckFileExists = true;
                 saveFileDialog1.CheckPathExists = true;
@@ -239,7 +240,7 @@ namespace NeuroNet_Project
         {
             var WeightSelect = new FolderSelectDialog();
             WeightSelect.Title = "Select Input Path";
-            WeightSelect.InitialDirectory = @"c:\";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
             if (WeightSelect.ShowDialog(IntPtr.Zero))
             {
                 label_Vin.Text = WeightSelect.FileName;
@@ -252,14 +253,14 @@ namespace NeuroNet_Project
         {
             var WeightSelect = new FolderSelectDialog();
             WeightSelect.Title = "Select Weight Path";
-            WeightSelect.InitialDirectory = @"c:\";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
             if (WeightSelect.ShowDialog(IntPtr.Zero))
             {
                 label_Vw.Text = WeightSelect.FileName;
             }
             weightInfo = fileProcess.checkWeightInfo(label_Vw.Text);
             string tempW = "";
-            tempW = "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
+            tempW = "Weight Path:" + label_Vw.Text + "\r\n" + "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
             for (int i = 0; i < weightInfo.Length - 1; i++) tempW = tempW + weightInfo[i] + " , ";
             tempW = tempW + weightInfo[weightInfo.Length - 1] + " }";
             labelWinfo.Text = tempW;
@@ -273,18 +274,20 @@ namespace NeuroNet_Project
             checkNC = fileProcess.checkWeight(label_WeightPath.Text);
             N = checkNC[0];
             C = checkNC[1];
+            int DPV = (int)numericUpDown_DPV.Value;
 
             existingWeightPath = label_Vw.Text + @"\N" + N + "C" + C + "L";
+            existingBiasPath = label_Vbp.Text + @"\N" + N + "C" + C + "L";
 
             string VResult = "";
             float[] tempV;
-            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath); //intiilize network
+            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
             P_activ = comboBox_Vact.SelectedIndex + 1;
             for (int j = 0; j < D_loops; j++)
             {
                 input = fileProcess.getData(label_Vin.Text, j);
                 tempV = net.FeedForward(input, P_activ);
-                for (int g = 0; g < tempV.Length; g++) VResult = VResult + Math.Round(tempV[g], 5) + "\t";
+                for (int g = 0; g < tempV.Length; g++) VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
                 VResult = VResult + "\r\n";
             }
             richTextBox_Vout.Text = VResult;
@@ -294,7 +297,7 @@ namespace NeuroNet_Project
         {
             string saveLog = "";
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.InitialDirectory = @"C:\";
+            saveFileDialog1.InitialDirectory = textBox_MainFolder.Text;
             saveFileDialog1.Title = "Save text Files";
             //saveFileDialog1.CheckFileExists = true;
             saveFileDialog1.CheckPathExists = true;
@@ -316,6 +319,40 @@ namespace NeuroNet_Project
             richTextBox_Vout.Text = "";
         }
 
+        private void button_BiasPath_Click(object sender, EventArgs e)
+        {
+            var biasSelect = new FolderSelectDialog();
+            biasSelect.Title = "Select Bias Path";
+            biasSelect.InitialDirectory = textBox_MainFolder.Text;
+            if (biasSelect.ShowDialog(IntPtr.Zero))
+            {
+                label_biasPath.Text = biasSelect.FileName;
+            }
+        }
+
+        private void button_VBP_Click(object sender, EventArgs e)
+        {
+            {
+                var biasSelect = new FolderSelectDialog();
+                biasSelect.Title = "Select Bias Path";
+                biasSelect.InitialDirectory = textBox_MainFolder.Text;
+                if (biasSelect.ShowDialog(IntPtr.Zero))
+                {
+                    label_Vbp.Text = biasSelect.FileName;
+                }
+            }
+        }
+
+        private void pictureBox_Info_Click(object sender, EventArgs e)
+        {
+            Info helpInfo = new Info();
+            Form checkhelp = Application.OpenForms["Info"];
+            if (checkhelp == null)
+                helpInfo.Show();
+            else
+                Application.OpenForms["Info"].Focus();
+        }
+
         /// <summary>
         /// NOT YET DONE
         /// </summary>
@@ -326,8 +363,20 @@ namespace NeuroNet_Project
             weightFolder = Directory.GetDirectories(label_WeightPath.Text);
             // weight checking not yet complete
         }
-        
-        
+
+        private void button_MainFolder_Click(object sender, EventArgs e)
+        {
+            var OutputSelect = new FolderSelectDialog();
+            OutputSelect.Title = "Select Main Folder Path for Data";
+            OutputSelect.InitialDirectory = @"c:\";
+            if (OutputSelect.ShowDialog(IntPtr.Zero))
+            {
+                textBox_MainFolder.Text = OutputSelect.FileName;
+            }
+        }
+
+
+
         // GUI SETTING ///////////////////////////////////////////////////////////////////////////////////////////
         private void button_SaveSetting_Click(object sender, EventArgs e)
         {
@@ -340,19 +389,30 @@ namespace NeuroNet_Project
             file.WriteLine(label_InputPath.Text);
             file.WriteLine(label_OutputPath.Text);
             file.WriteLine(label_WeightPath.Text);
+            file.WriteLine(label_biasPath.Text);
             file.WriteLine(numericUpDown_save.Value);
             file.WriteLine(comboBox_ActivateFunction.Text);
             file.WriteLine(numericUpDown_layer.Value);
             file.WriteLine(numericUpDown_nodes.Value);
             file.WriteLine(numericUpDown_loops.Value);
             file.WriteLine(numericUpDown_learn.Value);
+            file.WriteLine(numericUpDown_DP.Value);
+            file.WriteLine(numericUpDown_momentum.Value);
+            file.WriteLine(numericUpDown_DecayRate.Value);
+            file.WriteLine(textBox_MainFolder.Text);
             //file.WriteLine(numericUpDown_momentum.Value);
 
             file.Close();
             richTextBox_Summary.Focus();
+            TimeNow();
             richTextBox_Summary.SelectionColor = Color.Lime;
-            richTextBox_Summary.AppendText("Setting Saved" + "\r\n");
+            richTextBox_Summary.AppendText("Setting Saved." + "\r\n");
             GC.Collect();
+        }
+
+        private void buttonRestart_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
         }
 
         private void Form_Main_Load(object sender, EventArgs e)
@@ -364,6 +424,9 @@ namespace NeuroNet_Project
             pictureBox_Switch.Image = new Bitmap(_imageStream);
             _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.switch2.bmp");
             pictureBox_Switch2.Image = new Bitmap(_imageStream);
+            _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.play.png");
+            pictureBox_StopCont.Image = new Bitmap(_imageStream);
+
 
             // Read the file and display it line by line.
             setPath = setPath + "\\config.ini";
@@ -378,19 +441,27 @@ namespace NeuroNet_Project
                     label_InputPath.Text = file.ReadLine();
                     label_OutputPath.Text = file.ReadLine();
                     label_WeightPath.Text = file.ReadLine();
+                    label_biasPath.Text = file.ReadLine();
                     numericUpDown_save.Value = Convert.ToDecimal(file.ReadLine());
                     comboBox_ActivateFunction.Text = file.ReadLine();
                     numericUpDown_layer.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_nodes.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_loops.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_learn.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_DP.Value    = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_DecayRate.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_DecayRate.Enabled = false;
+                    textBox_MainFolder.Text = file.ReadLine();
                     // numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
                 }
                 catch (Exception exx)
                 {
                     richTextBox_Summary.Focus();
+                    TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
-                    richTextBox_Summary.AppendText("Setting File Error" + "\r\n");
+                    richTextBox_Summary.AppendText("Config File Error !!!");
+                    ErrorText();
                 }
 
                 file.Close();
@@ -398,14 +469,20 @@ namespace NeuroNet_Project
 
             }
         }
-        
+
+        private void checkBox_adaptiveRate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_adaptiveRate.Checked != true) numericUpDown_DecayRate.Enabled = false;
+            else numericUpDown_DecayRate.Enabled = true;
+        }
+
         public void setPlayStopButton(bool isPlaying)
         {
             _assembly = Assembly.GetExecutingAssembly();
             if (isPlaying == true)
-                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.Stop.bmp");
+                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.stop.png");
             else
-                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.Play.bmp");
+                _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.play.png");
             pictureBox_StopCont.Image = new Bitmap(_imageStream);
         }
 
@@ -426,20 +503,48 @@ namespace NeuroNet_Project
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             richTextBox_Summary.Focus();
-            richTextBox_Summary.SelectionColor = Color.Aqua;
+            richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
             switch (e.ProgressPercentage)
             {
                 case 1:
                     richTextBox_FinalResult.AppendText(resultAll);
                     richTextBox_currentError.Text = resultRMS;
-                    richTextBox_CurrentLoop.Text = resultLoops;
+                    richTextBox_CurrentLoop.Text = resultLoops + "\t" +"N: " + N;
                     richTextBox_CurrentY.Text = resultSingle;
+                    float newLR = 0;
+                    float newM = 0;
+                    newLR = (float)numericUpDown_learn.Value * (float)Math.Exp(-tempAdaptiveCorrection / (float)numericUpDown_DecayRate.Value); 
+                    newM = (float)numericUpDown_momentum.Value * (float)Math.Exp(-tempAdaptiveCorrection / (float)numericUpDown_DecayRate.Value);
+
+                    if (checkBox_adaptiveRate.Checked == true)
+                    {
+                        label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", newM) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", newLR);
+                    }
+                    else
+                    {
+                        label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
+                    }
+                    
+
                     break;
                 case 2:
                     label_loopsCounter.Text = "Loops: " + loopsCounter;
                     break;
                 case 3:
-                    richTextBox_Summary.AppendText("Neural Network Initialized" + "\r\n");
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+                    richTextBox_Summary.AppendText("Neural Network Initialized");
+                    break;
+                case 4:
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.LightSkyBlue;
+                    richTextBox_Summary.AppendText("Weight and bias saved to " );
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(" . . . " + resultReportWeight + "\r\n");
+                    break;
+                case 5:
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(" . . . OK " + "\r\n");
                     break;
                 default:
                     break;
@@ -451,25 +556,28 @@ namespace NeuroNet_Project
             if (e.Cancelled == true)
             {
                 richTextBox_Summary.Focus();
-
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("\r\n" + "Cancelled" + "\r\n");
+                richTextBox_Summary.AppendText("Cancelled by user !!!" + "\r\n" );
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
             }
             else if (e.Error != null)
             {
                 richTextBox_Summary.Focus();
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("\r\n" + "Error" + "\r\n");
+                richTextBox_Summary.AppendText("Error !!!");
+                ErrorText();
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
             }
             else
             {
                 richTextBox_Summary.Focus();
+                TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Lime;
-                richTextBox_Summary.AppendText("\r\n" + "Done" + "\r\n");
+                richTextBox_Summary.AppendText(@"BackPropagation completed. " + "\r\n");
                 checkPlaying = false;
                 checkBox_UseExistW.Checked = true;
                 setPlayStopButton(checkPlaying);
@@ -487,9 +595,9 @@ namespace NeuroNet_Project
             if (checkBox_UseExistW.Checked == false) C = 0;
 
 
-            
-            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath); //intiilize network
             worker.ReportProgress(3);
+            Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
+            worker.ReportProgress(5);
 
             for (int i = 1; i < P_loops + 1; i++)
             {
@@ -513,11 +621,11 @@ namespace NeuroNet_Project
                     input = fileProcess.getData(label_InputPath.Text, tempTarget);
                     expected = fileProcess.getData(label_OutputPath.Text, tempTarget);
                     net.FeedForward(input, P_activ);
-                    net.BackProp(expected, P_activ);
+                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);
                     loopsCounter = i + previousLoopsCounter;
                     worker.ReportProgress(2);
                 }
-                if( i % P_save == 0 && i!=0 )
+                if( i % 1000 == 0 && i!=0 )
                 {
                     resultAll = "";
                     resultSingle = "";
@@ -526,6 +634,8 @@ namespace NeuroNet_Project
 
                     for (int j = 0; j < D_loops; j++)
                     {
+                        int N;
+                        
                         float temp = 0;
                         // remove here 
                         input = fileProcess.getData(label_InputPath.Text, j);
@@ -534,25 +644,60 @@ namespace NeuroNet_Project
                         temp = fileProcess.error(result, expected);
                         cost = (float)Math.Round(temp,5);
                         different = fileProcess.diff(result, expected);
+                        tempAdaptiveCorrection = loopsCounter;
+                        tempMaxMin[0] = tempMaxMin[1] = 0;
+                        //for (N =0; N < different.Length ; N++)
+                        //{
+                        //    tempMaxMin[0] = (float)Math.Min(different[N], tempMaxMin[0]);
+                        //    tempMaxMin[1] = (float)Math.Max(different[N], tempMaxMin[1]);
+                        //    tempAdaptiveCorrection = tempMaxMin[1] - tempMaxMin[0];
+                        //}
+                        // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
+                        // if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
+
+                        int DP = (int)numericUpDown_DP.Value;
                         for (int k = 0; k < result.Length; k++)
                         {
-                            resultSingle = resultSingle + Math.Round(result[k], 5) 
-                                           + "(" + Math.Round(different[k],5) + ")" + "\t";
+                            
+
+                            resultSingle = resultSingle + String.Format("{0:f" + DP + "}", Math.Round(result[k], DP))
+                                         + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
                         }
                         resultSingle = resultSingle + "\r\n";
-                        resultLoops = "Loops: " + loopsCounter + "\t" + "N: " + N;
-                        resultRMS = "RMS Error: " + cost;
+                        resultLoops = "Loops: " + loopsCounter;
+                        resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", cost);
                     }
-                    resultAll = resultParameter + "\r\n" + "N: " + N + " , " + resultLoops + " , " + resultRMS + "\r\n" + resultSingle + "\r\n";
+                    resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";
-                    net.WtoF(N, C + i, label_WeightPath.Text);
+                    //net.WtoF(N, C + i, label_WeightPath.Text);
+                    //net.BtoF(N, C + i, label_biasPath.Text);
                     worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
                 }
-                    
+                if (i % P_save == 0 && i != 0)
+                {
+                    resultReportWeight = @"\N" + N + "C" + loopsCounter + "L_.txt";
+                    net.WtoF(N, C + i, label_WeightPath.Text);
+                    net.BtoF(N, C + i, label_biasPath.Text);
+                    worker.ReportProgress(4);
+                }
             }
            
             worker.Dispose();
 
+        }
+
+        public void TimeNow()
+        {
+            CurrentTime = " [" + DateTime.Now.ToString("HH") + " " + DateTime.Now.ToString("mm") + " " + DateTime.Now.ToString("ss") + "]  ";
+            richTextBox_Summary.SelectionColor = Color.PowderBlue;
+            richTextBox_Summary.AppendText(CurrentTime);
+            return;
+        }
+        public void ErrorText()
+        {
+            richTextBox_Summary.SelectionColor = Color.Yellow;
+            richTextBox_Summary.AppendText("  Σ( ﾟДﾟ ?)" + "\r\n");
+            return;
         }
     }
             
