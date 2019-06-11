@@ -39,12 +39,14 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Info = new System.Windows.Forms.PictureBox();
             this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
             this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.label_biasPath = new System.Windows.Forms.Label();
             this.button_BiasPath = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
@@ -98,13 +100,13 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
+            this.button_Normalize = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
@@ -120,7 +122,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -239,6 +240,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button_Normalize);
             this.tabPage1.Controls.Add(this.numericUpDown_DecayRate);
             this.tabPage1.Controls.Add(this.pictureBox_Info);
             this.tabPage1.Controls.Add(this.checkBox_adaptiveRate);
@@ -280,6 +282,23 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown_DecayRate
+            // 
+            this.numericUpDown_DecayRate.Location = new System.Drawing.Point(115, 392);
+            this.numericUpDown_DecayRate.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.numericUpDown_DecayRate.Name = "numericUpDown_DecayRate";
+            this.numericUpDown_DecayRate.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDown_DecayRate.TabIndex = 45;
+            this.numericUpDown_DecayRate.Value = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             // 
             // pictureBox_Info
             // 
@@ -353,6 +372,15 @@
             this.button_BiasPath.Text = "Bias Path";
             this.button_BiasPath.UseVisualStyleBackColor = true;
             this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 394);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(64, 13);
+            this.label12.TabIndex = 38;
+            this.label12.Text = "Decay Rate";
             // 
             // label8
             // 
@@ -980,31 +1008,15 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // numericUpDown_DecayRate
+            // button_Normalize
             // 
-            this.numericUpDown_DecayRate.Location = new System.Drawing.Point(115, 392);
-            this.numericUpDown_DecayRate.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.numericUpDown_DecayRate.Name = "numericUpDown_DecayRate";
-            this.numericUpDown_DecayRate.Size = new System.Drawing.Size(140, 20);
-            this.numericUpDown_DecayRate.TabIndex = 45;
-            this.numericUpDown_DecayRate.Value = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 394);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(64, 13);
-            this.label12.TabIndex = 38;
-            this.label12.Text = "Decay Rate";
+            this.button_Normalize.Location = new System.Drawing.Point(626, 538);
+            this.button_Normalize.Name = "button_Normalize";
+            this.button_Normalize.Size = new System.Drawing.Size(96, 30);
+            this.button_Normalize.TabIndex = 46;
+            this.button_Normalize.Text = "Normalize Data";
+            this.button_Normalize.UseVisualStyleBackColor = true;
+            this.button_Normalize.Click += new System.EventHandler(this.button_Normalize_Click);
             // 
             // Form_Main
             // 
@@ -1014,6 +1026,7 @@
             this.ClientSize = new System.Drawing.Size(938, 606);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel_Loading);
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -1021,6 +1034,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "NeuroNet Project";
             this.Load += new System.EventHandler(this.Form_Main_Load);
+            this.MouseEnter += new System.EventHandler(this.Form_Main_MouseEnter);
             this.panel_Loading.ResumeLayout(false);
             this.panel_Loading.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).EndInit();
@@ -1028,6 +1042,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
@@ -1045,7 +1060,6 @@
             this.groupBox2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1123,6 +1137,7 @@
         private System.Windows.Forms.Label label_LRM;
         private System.Windows.Forms.NumericUpDown numericUpDown_DecayRate;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button_Normalize;
     }
 }
 

@@ -17,8 +17,10 @@ using System.Reflection;
 
 namespace NeuroNet_Project
 {
+   
     public partial class Form_Main : Form
     {
+        
         string[] inputFiles;
         string[] outputFiles;
         string[] weightFolder;
@@ -42,7 +44,9 @@ namespace NeuroNet_Project
         int[] weightInfo;
         float tempAdaptiveCorrection = 0;
         float[] tempMaxMin = new float[2];
-        
+        double UPPER = 0;
+        double LOWER = 0;
+
         string resultSingle;
         string resultAll;
         string resultLoops;
@@ -56,7 +60,6 @@ namespace NeuroNet_Project
         {
             InitializeComponent();
             // need this 4 line to initialize Worker 1///////////////
-
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
             //backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);// < AVOID < this caused worker to do duplicate work
@@ -476,6 +479,79 @@ namespace NeuroNet_Project
             else numericUpDown_DecayRate.Enabled = true;
         }
 
+        private void Form_Main_MouseEnter(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button_Normalize_Click(object sender, EventArgs e)
+        {
+            switch(comboBox_ActivateFunction.SelectedIndex)
+            {
+                case 0:
+                    UPPER = 1;
+                    LOWER = -1;
+                    break;
+
+                case 1:
+                    UPPER = 1;
+                    LOWER = 0;
+                    break;
+                case 2:
+                    UPPER = 1;
+                    LOWER = 0;
+                    break;
+                case 3:
+                    UPPER = 1.5707963;
+                    LOWER = -1.5707963;
+                    break;
+                case 4:
+                    UPPER = 1;
+                    LOWER = -1;
+                    break;
+                case 5:
+                    UPPER = 99999;
+                    LOWER = 0;
+                    break;
+                case 6:
+                    UPPER = 999;
+                    LOWER = -1;
+                    break;
+                case 7:
+                    UPPER = 1;
+                    LOWER = -1;
+                    break;
+                case 8:
+                    UPPER = 1;
+                    LOWER = 0;
+                    break;
+                case 9:
+                    UPPER = 999;
+                    LOWER = -1;
+                    break;
+
+                default:
+                    UPPER = 999;
+                    break;
+                }
+            if(UPPER == 999)
+            {
+                MessageBox.Show("Not available for the selected activation function.");
+            }
+            else Normalized.norData(label_InputPath.Text, label_OutputPath.Text, LOWER, UPPER);
+
+            //1.Tanh
+            //2.Logistic
+            //3.Binary Step
+            //4.ArcTan
+            //5.SoftSign
+            //6.SoftPlus
+            //7.Bent identity
+            //8.Sin
+            //9.Gaussian
+            //10.Identity
+        }
+
         public void setPlayStopButton(bool isPlaying)
         {
             _assembly = Assembly.GetExecutingAssembly();
@@ -524,7 +600,9 @@ namespace NeuroNet_Project
                     {
                         label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
                     }
-                    
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(resultRMS + "\r\n");
 
                     break;
                 case 2:
