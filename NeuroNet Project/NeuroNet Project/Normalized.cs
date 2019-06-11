@@ -66,13 +66,15 @@ namespace NeuroNet_Project
 
                 Directory.CreateDirectory(inPath + "\\MinMax");
                 File.Move(FileName[X], inPath + "\\Original\\" + saveTo);
-
+                int j = 0;
                 StreamWriter saveResult = new StreamWriter(FileName[X]);
-                for (int j = 0; j < resultArray.Length; j++)
+                for (j=0; j < resultArray.Length -1 ; j++)
                 {
                     resultArray[j] = (upperLimit - lowerLimit) * (resultArray[j] - minValue) / (maxValue - minValue) + lowerLimit;  // x' = [(b-a)(x - min)/(max - min)] + a    for range [a,b]          
                     saveResult.WriteLine(resultArray[j]);
                 }
+                resultArray[j] = (upperLimit - lowerLimit) * (resultArray[j] - minValue) / (maxValue - minValue) + lowerLimit;
+                saveResult.Write(resultArray[j]);
                 saveResult.Close();
             }
             return 1;
