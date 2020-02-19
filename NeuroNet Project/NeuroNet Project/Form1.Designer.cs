@@ -101,6 +101,9 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.buttonNorPath = new System.Windows.Forms.Button();
+            this.labelNorPath = new System.Windows.Forms.Label();
+            this.checkBoxDeNor = new System.Windows.Forms.CheckBox();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -786,6 +789,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.checkBoxDeNor);
+            this.tabPage3.Controls.Add(this.labelNorPath);
+            this.tabPage3.Controls.Add(this.buttonNorPath);
             this.tabPage3.Controls.Add(this.numericUpDown_DPV);
             this.tabPage3.Controls.Add(this.label_Vbp);
             this.tabPage3.Controls.Add(this.button_VBP);
@@ -810,7 +816,7 @@
             // 
             // numericUpDown_DPV
             // 
-            this.numericUpDown_DPV.Location = new System.Drawing.Point(672, 48);
+            this.numericUpDown_DPV.Location = new System.Drawing.Point(661, 48);
             this.numericUpDown_DPV.Name = "numericUpDown_DPV";
             this.numericUpDown_DPV.Size = new System.Drawing.Size(140, 20);
             this.numericUpDown_DPV.TabIndex = 15;
@@ -823,7 +829,7 @@
             // label_Vbp
             // 
             this.label_Vbp.AutoSize = true;
-            this.label_Vbp.Location = new System.Drawing.Point(99, 48);
+            this.label_Vbp.Location = new System.Drawing.Point(139, 42);
             this.label_Vbp.Name = "label_Vbp";
             this.label_Vbp.Size = new System.Drawing.Size(13, 13);
             this.label_Vbp.TabIndex = 14;
@@ -831,9 +837,9 @@
             // 
             // button_VBP
             // 
-            this.button_VBP.Location = new System.Drawing.Point(12, 43);
+            this.button_VBP.Location = new System.Drawing.Point(15, 37);
             this.button_VBP.Name = "button_VBP";
-            this.button_VBP.Size = new System.Drawing.Size(75, 23);
+            this.button_VBP.Size = new System.Drawing.Size(118, 23);
             this.button_VBP.TabIndex = 13;
             this.button_VBP.Text = "Bias Path";
             this.button_VBP.UseVisualStyleBackColor = true;
@@ -862,7 +868,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(557, 53);
+            this.label11.Location = new System.Drawing.Point(546, 53);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(75, 13);
             this.label11.TabIndex = 11;
@@ -871,7 +877,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(557, 24);
+            this.label10.Location = new System.Drawing.Point(546, 24);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(98, 13);
             this.label10.TabIndex = 11;
@@ -892,7 +898,7 @@
             "8. Sin",
             "9. Gaussian",
             "10. Identity"});
-            this.comboBox_Vact.Location = new System.Drawing.Point(672, 21);
+            this.comboBox_Vact.Location = new System.Drawing.Point(661, 21);
             this.comboBox_Vact.Name = "comboBox_Vact";
             this.comboBox_Vact.Size = new System.Drawing.Size(140, 21);
             this.comboBox_Vact.TabIndex = 10;
@@ -900,7 +906,7 @@
             // labelWinfo
             // 
             this.labelWinfo.AutoSize = true;
-            this.labelWinfo.Location = new System.Drawing.Point(99, 70);
+            this.labelWinfo.Location = new System.Drawing.Point(139, 96);
             this.labelWinfo.Name = "labelWinfo";
             this.labelWinfo.Size = new System.Drawing.Size(0, 13);
             this.labelWinfo.TabIndex = 4;
@@ -908,16 +914,17 @@
             // label_Vw
             // 
             this.label_Vw.AutoSize = true;
-            this.label_Vw.Location = new System.Drawing.Point(99, 77);
+            this.label_Vw.Location = new System.Drawing.Point(139, 72);
             this.label_Vw.Name = "label_Vw";
             this.label_Vw.Size = new System.Drawing.Size(13, 13);
             this.label_Vw.TabIndex = 4;
             this.label_Vw.Text = "--";
+            this.label_Vw.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label_Vin
             // 
             this.label_Vin.AutoSize = true;
-            this.label_Vin.Location = new System.Drawing.Point(99, 19);
+            this.label_Vin.Location = new System.Drawing.Point(139, 12);
             this.label_Vin.Name = "label_Vin";
             this.label_Vin.Size = new System.Drawing.Size(13, 13);
             this.label_Vin.TabIndex = 3;
@@ -955,9 +962,9 @@
             // 
             // button_Vw
             // 
-            this.button_Vw.Location = new System.Drawing.Point(12, 72);
+            this.button_Vw.Location = new System.Drawing.Point(15, 67);
             this.button_Vw.Name = "button_Vw";
-            this.button_Vw.Size = new System.Drawing.Size(75, 23);
+            this.button_Vw.Size = new System.Drawing.Size(118, 23);
             this.button_Vw.TabIndex = 1;
             this.button_Vw.Text = "Weight Path";
             this.button_Vw.UseVisualStyleBackColor = true;
@@ -965,9 +972,9 @@
             // 
             // button_Vin
             // 
-            this.button_Vin.Location = new System.Drawing.Point(12, 14);
+            this.button_Vin.Location = new System.Drawing.Point(15, 7);
             this.button_Vin.Name = "button_Vin";
-            this.button_Vin.Size = new System.Drawing.Size(75, 23);
+            this.button_Vin.Size = new System.Drawing.Size(118, 23);
             this.button_Vin.TabIndex = 0;
             this.button_Vin.Text = "Input Path";
             this.button_Vin.UseVisualStyleBackColor = true;
@@ -1017,6 +1024,36 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // buttonNorPath
+            // 
+            this.buttonNorPath.Location = new System.Drawing.Point(549, 78);
+            this.buttonNorPath.Name = "buttonNorPath";
+            this.buttonNorPath.Size = new System.Drawing.Size(117, 22);
+            this.buttonNorPath.TabIndex = 16;
+            this.buttonNorPath.Text = "Normalized Path";
+            this.buttonNorPath.UseVisualStyleBackColor = true;
+            this.buttonNorPath.Click += new System.EventHandler(this.buttonNorPath_Click);
+            // 
+            // labelNorPath
+            // 
+            this.labelNorPath.AutoSize = true;
+            this.labelNorPath.Location = new System.Drawing.Point(688, 103);
+            this.labelNorPath.Name = "labelNorPath";
+            this.labelNorPath.Size = new System.Drawing.Size(13, 13);
+            this.labelNorPath.TabIndex = 17;
+            this.labelNorPath.Text = "--";
+            // 
+            // checkBoxDeNor
+            // 
+            this.checkBoxDeNor.AutoSize = true;
+            this.checkBoxDeNor.Location = new System.Drawing.Point(672, 82);
+            this.checkBoxDeNor.Name = "checkBoxDeNor";
+            this.checkBoxDeNor.Size = new System.Drawing.Size(151, 17);
+            this.checkBoxDeNor.TabIndex = 18;
+            this.checkBoxDeNor.Text = "De-normalization: Disabled";
+            this.checkBoxDeNor.UseVisualStyleBackColor = true;
+            this.checkBoxDeNor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxDeNor_MouseClick);
             // 
             // Form_Main
             // 
@@ -1138,6 +1175,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_DecayRate;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button button_Normalize;
+        private System.Windows.Forms.Label labelNorPath;
+        private System.Windows.Forms.Button buttonNorPath;
+        private System.Windows.Forms.CheckBox checkBoxDeNor;
     }
 }
 

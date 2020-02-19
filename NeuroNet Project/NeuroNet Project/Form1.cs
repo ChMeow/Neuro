@@ -46,6 +46,7 @@ namespace NeuroNet_Project
         float[] tempMaxMin = new float[2];
         double UPPER = 0;
         double LOWER = 0;
+        double[,] norMinMax = new double[20,4];
 
         string resultSingle;
         string resultAll;
@@ -248,8 +249,15 @@ namespace NeuroNet_Project
             {
                 label_Vin.Text = WeightSelect.FileName;
             }
-            inputFiles = Directory.GetFiles(label_Vin.Text);
-            D_loops = fileProcess.checkData(label_Vin.Text);
+            try
+            {
+                inputFiles = Directory.GetFiles(label_Vin.Text);
+                D_loops = fileProcess.checkData(label_Vin.Text);
+            }
+            catch (Exception ee)
+            {
+                int xxx = 0;
+            }
         }
 
         private void button_Vw_Click(object sender, EventArgs e)
@@ -263,7 +271,7 @@ namespace NeuroNet_Project
             }
             weightInfo = fileProcess.checkWeightInfo(label_Vw.Text);
             string tempW = "";
-            tempW = "Weight Path:" + label_Vw.Text + "\r\n" + "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
+            tempW = "Layer =" + weightInfo.Length + "\r\n" + "Nodes = { ";
             for (int i = 0; i < weightInfo.Length - 1; i++) tempW = tempW + weightInfo[i] + " , ";
             tempW = tempW + weightInfo[weightInfo.Length - 1] + " }";
             labelWinfo.Text = tempW;
@@ -550,6 +558,36 @@ namespace NeuroNet_Project
             //8.Sin
             //9.Gaussian
             //10.Identity
+        }
+
+        private void buttonNorPath_Click(object sender, EventArgs e)
+        {
+            var NorSelect = new FolderSelectDialog();
+            NorSelect.Title = "Select the MinMax Path";
+            NorSelect.InitialDirectory = textBox_MainFolder.Text;
+            if (NorSelect.ShowDialog(IntPtr.Zero))
+            {
+                labelNorPath.Text = NorSelect.FileName;
+            }
+            norMinMax = fileProcess.norMinMaxInfo(labelNorPath.Text);
+            if(norMinMax[0,0] != 0 && norMinMax[0,1] != 0)
+            {
+                checkBoxDeNor.Checked = true;
+                checkBoxDeNor.Text = "De-normalization: Enabled";
+            }
+            else
+            {
+                checkBoxDeNor.Checked = false;
+                checkBoxDeNor.Text = "De-normalization: Disabled";
+                labelNorPath.Text = "--";
+            }
+            
+        }
+
+        private void checkBoxDeNor_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (checkBoxDeNor.Checked == true) checkBoxDeNor.Text = "De-normalization: Enabled";
+            else checkBoxDeNor.Text = "De-normalization: Disabled";
         }
 
         public void setPlayStopButton(bool isPlaying)

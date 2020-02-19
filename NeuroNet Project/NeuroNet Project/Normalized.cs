@@ -79,5 +79,13 @@ namespace NeuroNet_Project
             }
             return 1;
         }
+
+        //This part recalculates the normalized data into non-normalized data (original).
+        public static double reverseNor(double normalizedData, double lowerLimit, double upperLimit, double minValue, double maxValue)
+        {
+            double reversedNor = 0;
+
+            return reversedNor;
+        }
     }
 }

@@ -198,5 +198,33 @@ namespace FileProcessing
 
             
         }
+
+        public static double[,] norMinMaxInfo(string path)
+        {
+            double[,] minMaxInfo = new double[20,4];
+            try
+            {
+                List<string> FileName = new List<string>();
+                FileName.AddRange(Directory.GetFiles(path));
+
+                for (int counts = 0; counts < FileName.Count; counts++)
+                {
+                    int count = 0;
+                    var sr = new StreamReader(FileName[counts]);
+                    while(sr.Peek() > -1)
+                    {
+                        minMaxInfo[counts, count] = double.Parse(sr.ReadLine());
+                        count++;
+                    }
+                    sr.Close();
+                }
+            }
+            catch (Exception exx)
+            {
+                minMaxInfo[0, 0] = 0;
+                minMaxInfo[0, 1] = 0;
+            }
+            return minMaxInfo;
+        }
     }
 }
