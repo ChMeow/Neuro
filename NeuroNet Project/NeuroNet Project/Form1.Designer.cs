@@ -39,6 +39,7 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button_Normalize = new System.Windows.Forms.Button();
             this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Info = new System.Windows.Forms.PictureBox();
             this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
@@ -100,7 +101,6 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button_Normalize = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -282,6 +282,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button_Normalize
+            // 
+            this.button_Normalize.Location = new System.Drawing.Point(635, 538);
+            this.button_Normalize.Name = "button_Normalize";
+            this.button_Normalize.Size = new System.Drawing.Size(96, 30);
+            this.button_Normalize.TabIndex = 46;
+            this.button_Normalize.Text = "Normalize Data";
+            this.button_Normalize.UseVisualStyleBackColor = true;
+            this.button_Normalize.Click += new System.EventHandler(this.button_Normalize_Click);
             // 
             // numericUpDown_DecayRate
             // 
@@ -712,7 +722,7 @@
             // 
             // button_SaveSetting
             // 
-            this.button_SaveSetting.Location = new System.Drawing.Point(728, 538);
+            this.button_SaveSetting.Location = new System.Drawing.Point(737, 538);
             this.button_SaveSetting.Name = "button_SaveSetting";
             this.button_SaveSetting.Size = new System.Drawing.Size(90, 30);
             this.button_SaveSetting.TabIndex = 1;
@@ -1007,16 +1017,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // button_Normalize
-            // 
-            this.button_Normalize.Location = new System.Drawing.Point(626, 538);
-            this.button_Normalize.Name = "button_Normalize";
-            this.button_Normalize.Size = new System.Drawing.Size(96, 30);
-            this.button_Normalize.TabIndex = 46;
-            this.button_Normalize.Text = "Normalize Data";
-            this.button_Normalize.UseVisualStyleBackColor = true;
-            this.button_Normalize.Click += new System.EventHandler(this.button_Normalize_Click);
             // 
             // Form_Main
             // 

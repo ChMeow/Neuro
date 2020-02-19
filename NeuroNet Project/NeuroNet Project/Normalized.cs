@@ -15,13 +15,13 @@ namespace NeuroNet_Project
         public static int norData(string inPath, string outPath, double lowerLimit, double upperLimit)
         {
             int norStatus = 0;
-            DialogResult dialogResult = MessageBox.Show("The original files will be moved to ..\\Original and min max will be saved in ..\\MinMax, proceed with input data? ", "Normalize Data", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("The original files will be moved to ..\\Original and min max will be saved in ..\\MinMax, proceed with INPUT data? ", "Normalize Data", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 calculateNor(inPath, lowerLimit, upperLimit);
             }
 
-            DialogResult dialogResult2 = MessageBox.Show("The original files will be moved to ..\\Original and min max will be saved in ..\\MinMax, proceed with output data? ", "Normalize Data", MessageBoxButtons.YesNo);
+            DialogResult dialogResult2 = MessageBox.Show("The original files will be moved to ..\\Original and min max will be saved in ..\\MinMax, proceed with OUTPUT data? ", "Normalize Data", MessageBoxButtons.YesNo);
             if (dialogResult2 == DialogResult.Yes)
             {
                 calculateNor(outPath, lowerLimit, upperLimit);
