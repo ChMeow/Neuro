@@ -57,6 +57,16 @@ namespace NeuroNet_Project
 
             try
             {
+                FilePath = currentPath + @"\Info_Normalization.rtf";
+                richTextBox_Nor.LoadFile(FilePath);
+            }
+            catch (FileNotFoundException ex)
+            {
+                richTextBox_Bug.Text = @"FILE NOT FOUND!  (╯°Д°）╯︵ ┻━┻ ";
+            }
+
+            try
+            {
                 FilePath = currentPath + @"\Info_How to use.rtf";
                 richTextBox_HowtoUse.LoadFile(FilePath);
             }

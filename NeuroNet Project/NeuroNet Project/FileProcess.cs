@@ -199,9 +199,9 @@ namespace FileProcessing
             
         }
 
-        public static double[,] norMinMaxInfo(string path)
+        public static float[,] norMinMaxInfo(string path)
         {
-            double[,] minMaxInfo = new double[20,4];
+            float[,] minMaxInfo = new float[20,4];
             try
             {
                 List<string> FileName = new List<string>();
@@ -213,7 +213,7 @@ namespace FileProcessing
                     var sr = new StreamReader(FileName[counts]);
                     while(sr.Peek() > -1)
                     {
-                        minMaxInfo[counts, count] = double.Parse(sr.ReadLine());
+                        minMaxInfo[counts, count] = float.Parse(sr.ReadLine());
                         count++;
                     }
                     sr.Close();

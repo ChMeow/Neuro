@@ -46,7 +46,7 @@ namespace NeuroNet_Project
         float[] tempMaxMin = new float[2];
         double UPPER = 0;
         double LOWER = 0;
-        double[,] norMinMax = new double[20,4];
+        float[,] norMinMax = new float[20,4];
 
         string resultSingle;
         string resultAll;
@@ -282,7 +282,7 @@ namespace NeuroNet_Project
 
         private void button_Vgo_Click(object sender, EventArgs e)
         {
-            checkNC = fileProcess.checkWeight(label_WeightPath.Text);
+            checkNC = fileProcess.checkWeight(label_Vw.Text);
             N = checkNC[0];
             C = checkNC[1];
             int DPV = (int)numericUpDown_DPV.Value;
@@ -298,7 +298,12 @@ namespace NeuroNet_Project
             {
                 input = fileProcess.getData(label_Vin.Text, j);
                 tempV = net.FeedForward(input, P_activ);
-                for (int g = 0; g < tempV.Length; g++) VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
+                //for (int g = 0; g < tempV.Length; g++) VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
+                for (int g = 0; g < tempV.Length; g++)
+                {
+                    if(checkBoxDeNor.Checked == true) tempV[g] = Normalized.reverseNor(tempV[g], norMinMax[g, 0], norMinMax[g, 1], norMinMax[g, 2], norMinMax[g, 3]);
+                    VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
+                }
                 VResult = VResult + "\r\n";
             }
             richTextBox_Vout.Text = VResult;

@@ -80,6 +80,9 @@
             this.button_saveLog = new System.Windows.Forms.Button();
             this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.checkBoxDeNor = new System.Windows.Forms.CheckBox();
+            this.labelNorPath = new System.Windows.Forms.Label();
+            this.buttonNorPath = new System.Windows.Forms.Button();
             this.numericUpDown_DPV = new System.Windows.Forms.NumericUpDown();
             this.label_Vbp = new System.Windows.Forms.Label();
             this.button_VBP = new System.Windows.Forms.Button();
@@ -101,9 +104,6 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.buttonNorPath = new System.Windows.Forms.Button();
-            this.labelNorPath = new System.Windows.Forms.Label();
-            this.checkBoxDeNor = new System.Windows.Forms.CheckBox();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -814,6 +814,36 @@
             this.tabPage3.Text = "Validation";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // checkBoxDeNor
+            // 
+            this.checkBoxDeNor.AutoSize = true;
+            this.checkBoxDeNor.Location = new System.Drawing.Point(672, 82);
+            this.checkBoxDeNor.Name = "checkBoxDeNor";
+            this.checkBoxDeNor.Size = new System.Drawing.Size(151, 17);
+            this.checkBoxDeNor.TabIndex = 18;
+            this.checkBoxDeNor.Text = "De-normalization: Disabled";
+            this.checkBoxDeNor.UseVisualStyleBackColor = true;
+            this.checkBoxDeNor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxDeNor_MouseClick);
+            // 
+            // labelNorPath
+            // 
+            this.labelNorPath.AutoSize = true;
+            this.labelNorPath.Location = new System.Drawing.Point(688, 103);
+            this.labelNorPath.Name = "labelNorPath";
+            this.labelNorPath.Size = new System.Drawing.Size(13, 13);
+            this.labelNorPath.TabIndex = 17;
+            this.labelNorPath.Text = "--";
+            // 
+            // buttonNorPath
+            // 
+            this.buttonNorPath.Location = new System.Drawing.Point(549, 78);
+            this.buttonNorPath.Name = "buttonNorPath";
+            this.buttonNorPath.Size = new System.Drawing.Size(117, 22);
+            this.buttonNorPath.TabIndex = 16;
+            this.buttonNorPath.Text = "Normalized Path";
+            this.buttonNorPath.UseVisualStyleBackColor = true;
+            this.buttonNorPath.Click += new System.EventHandler(this.buttonNorPath_Click);
+            // 
             // numericUpDown_DPV
             // 
             this.numericUpDown_DPV.Location = new System.Drawing.Point(661, 48);
@@ -1024,36 +1054,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // buttonNorPath
-            // 
-            this.buttonNorPath.Location = new System.Drawing.Point(549, 78);
-            this.buttonNorPath.Name = "buttonNorPath";
-            this.buttonNorPath.Size = new System.Drawing.Size(117, 22);
-            this.buttonNorPath.TabIndex = 16;
-            this.buttonNorPath.Text = "Normalized Path";
-            this.buttonNorPath.UseVisualStyleBackColor = true;
-            this.buttonNorPath.Click += new System.EventHandler(this.buttonNorPath_Click);
-            // 
-            // labelNorPath
-            // 
-            this.labelNorPath.AutoSize = true;
-            this.labelNorPath.Location = new System.Drawing.Point(688, 103);
-            this.labelNorPath.Name = "labelNorPath";
-            this.labelNorPath.Size = new System.Drawing.Size(13, 13);
-            this.labelNorPath.TabIndex = 17;
-            this.labelNorPath.Text = "--";
-            // 
-            // checkBoxDeNor
-            // 
-            this.checkBoxDeNor.AutoSize = true;
-            this.checkBoxDeNor.Location = new System.Drawing.Point(672, 82);
-            this.checkBoxDeNor.Name = "checkBoxDeNor";
-            this.checkBoxDeNor.Size = new System.Drawing.Size(151, 17);
-            this.checkBoxDeNor.TabIndex = 18;
-            this.checkBoxDeNor.Text = "De-normalization: Disabled";
-            this.checkBoxDeNor.UseVisualStyleBackColor = true;
-            this.checkBoxDeNor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxDeNor_MouseClick);
             // 
             // Form_Main
             // 
