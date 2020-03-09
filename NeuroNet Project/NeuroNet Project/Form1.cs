@@ -416,7 +416,12 @@ namespace NeuroNet_Project
             file.WriteLine(numericUpDown_momentum.Value);
             file.WriteLine(numericUpDown_DecayRate.Value);
             file.WriteLine(textBox_MainFolder.Text);
-            //file.WriteLine(numericUpDown_momentum.Value);
+            file.WriteLine(numericUpDown_momentum.Value);
+            file.WriteLine(numericUpDownNorIMin.Value);
+            file.WriteLine(numericUpDownNorIMax.Value);
+            file.WriteLine(numericUpDownNorOMin.Value);
+            file.WriteLine(numericUpDownNorOMax.Value);
+            if (checkBoxCustomNor.Checked == true) file.WriteLine("1"); else file.WriteLine("0");
 
             file.Close();
             richTextBox_Summary.Focus();
@@ -442,7 +447,7 @@ namespace NeuroNet_Project
             pictureBox_Switch2.Image = new Bitmap(_imageStream);
             _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.play.png");
             pictureBox_StopCont.Image = new Bitmap(_imageStream);
-
+            Decimal checkstate = 0;
 
             // Read the file and display it line by line.
             setPath = setPath + "\\config.ini";
@@ -469,7 +474,13 @@ namespace NeuroNet_Project
                     numericUpDown_DecayRate.Value = Convert.ToDecimal(file.ReadLine());
                     numericUpDown_DecayRate.Enabled = false;
                     textBox_MainFolder.Text = file.ReadLine();
-                    // numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDown_momentum.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDownNorIMin.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDownNorIMax.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDownNorOMin.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDownNorOMax.Value = Convert.ToDecimal(file.ReadLine());
+                    checkstate = Convert.ToDecimal(file.ReadLine());
+                    if (checkstate == 1) checkBoxCustomNor.Checked = true; else checkBoxCustomNor.Checked = false;
                 }
                 catch (Exception exx)
                 {
@@ -499,7 +510,7 @@ namespace NeuroNet_Project
 
         private void button_Normalize_Click(object sender, EventArgs e)
         {
-            switch(comboBox_ActivateFunction.SelectedIndex)
+            switch (comboBox_ActivateFunction.SelectedIndex)
             {
                 case 0:
                     UPPER = 1;
@@ -546,12 +557,19 @@ namespace NeuroNet_Project
                 default:
                     UPPER = 999;
                     break;
-                }
-            if(UPPER == 999)
+            }
+            if (UPPER == 999)
             {
                 MessageBox.Show("Not available for the selected activation function.");
             }
-            else Normalized.norData(label_InputPath.Text, label_OutputPath.Text, LOWER, UPPER);
+            else
+            {
+                double InMax = Convert.ToDouble(numericUpDownNorIMax.Value);
+                double InMin = Convert.ToDouble(numericUpDownNorIMin.Value);
+                double OutMax = Convert.ToDouble(numericUpDownNorOMax.Value);
+                double OutMin = Convert.ToDouble(numericUpDownNorOMin.Value);
+                Normalized.norData(label_InputPath.Text, label_OutputPath.Text, LOWER, UPPER, InMin, InMax, OutMin, OutMax, checkBoxCustomNor.Checked);
+            }
 
             //1.Tanh
             //2.Logistic

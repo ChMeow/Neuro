@@ -12,24 +12,25 @@ namespace NeuroNet_Project
 {
     public class Normalized
     {
-        public static int norData(string inPath, string outPath, double lowerLimit, double upperLimit)
+        public static int norData(string inPath, string outPath, double lowerLimit, double upperLimit, double InMin, double InMax, double OutMin, double OutMax, bool cusNor)
         {
             int norStatus = 0;
             DialogResult dialogResult = MessageBox.Show("The original files will be moved to ..\\Original and min max will be saved in ..\\MinMax, proceed with INPUT data? ", "Normalize Data", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                calculateNor(inPath, lowerLimit, upperLimit);
+                calculateNor(inPath, lowerLimit, upperLimit, InMin, InMax, OutMin, OutMax, cusNor, norStatus);
             }
 
+            norStatus = 1;
             DialogResult dialogResult2 = MessageBox.Show("The original files will be moved to ..\\Original and min max will be saved in ..\\MinMax, proceed with OUTPUT data? ", "Normalize Data", MessageBoxButtons.YesNo);
             if (dialogResult2 == DialogResult.Yes)
             {
-                calculateNor(outPath, lowerLimit, upperLimit);
+                calculateNor(outPath, lowerLimit, upperLimit, InMin, InMax, OutMin, OutMax, cusNor, norStatus);
             }
             return norStatus;
         }
 
-        public static int calculateNor(string inPath, double lowerLimit, double upperLimit)
+        public static int calculateNor(string inPath, double lowerLimit, double upperLimit, double InMin, double InMax, double OutMin, double OutMax, bool cusNor, int norStatus)
         {
             Directory.CreateDirectory(inPath + "\\MinMax");
             Directory.CreateDirectory(inPath + "\\Original");
@@ -58,6 +59,21 @@ namespace NeuroNet_Project
 
                 maxValue = resultArray.Max();
                 minValue = resultArray.Min();
+
+                if (cusNor)
+                {
+                    if(norStatus == 0)
+                    {
+                        maxValue = InMax;
+                        minValue = InMin;
+                    }
+                    else
+                    {
+                        maxValue = OutMax;
+                        minValue = OutMin;
+                    }
+                }
+
                 saveMinMax.WriteLine(lowerLimit);
                 saveMinMax.WriteLine(upperLimit);
                 saveMinMax.WriteLine(minValue);
