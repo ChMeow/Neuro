@@ -33,7 +33,7 @@ namespace NeuroNet_Project
         float[] expected;
         float[] result = new float[1];
         int N = 0, C = 0;
-        int[] checkNC = new int[3];
+        int[] checkNC = new int[6];
         Assembly _assembly;
         Stream _imageStream;
         int loopsCounter;
@@ -282,31 +282,157 @@ namespace NeuroNet_Project
 
         private void button_Vgo_Click(object sender, EventArgs e)
         {
+            bool isTheFileValid = true;
+            bool noError = true;
             checkNC = fileProcess.checkWeight(label_Vw.Text);
-            N = checkNC[0];
-            C = checkNC[1];
+            string VResult = "";
+            float[] feedResult;
+            string checkWeightPath = "";
+            int currentInput = 0;
+            int[,] foundWeight = new int[99,99];
+            int weightLength = 0;
+            int maxWeightLength = 0;
+            int resultLength = 0;
+            N = checkNC[0]; //last continue
+            C = checkNC[1]; //last iteration
+            int maxN = checkNC[3]; //max continue
+            int maxC = checkNC[4]; //max iteration 
+            // D_loops is the max available lines in each input file.
+
+            
             int DPV = (int)numericUpDown_DPV.Value;
+            P_activ = comboBox_Vact.SelectedIndex + 1;
+
+            // Cleaning Textbox
+            if (richTextBox_Vout.Text == " ( ╯°Д°)╯ ︵ □ ") { richTextBox_Vout.Text = ""; }
+            if (richTextBox_Vout.Text == "ALL WEIGHT FILES MUST CONTAIN SAME SET OF NODES !") { richTextBox_Vout.Text = ""; }
+
+
+            //Gather all infomation
+            for (int continueN = 0; continueN <= maxN; continueN++)
+            {
+                weightLength = 0;
+                for (int checkW = 0; checkW <= maxC; checkW++)
+                {
+                    checkWeightPath = label_Vw.Text + @"\N" + continueN + "C" + checkW + "L0.txt";
+                    if (File.Exists(checkWeightPath))
+                    {
+                        foundWeight[continueN,weightLength] = checkW; 
+                        if (maxWeightLength < weightLength) { maxWeightLength = weightLength; }
+                        weightLength++;
+                    }
+                }
+            }
 
             existingWeightPath = label_Vw.Text + @"\N" + N + "C" + C + "L";
             existingBiasPath = label_Vbp.Text + @"\N" + N + "C" + C + "L";
-
-            string VResult = "";
-            float[] tempV;
-            Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
-            P_activ = comboBox_Vact.SelectedIndex + 1;
-            for (int j = 0; j < D_loops; j++)
+            try
             {
-                input = fileProcess.getData(label_Vin.Text, j);
-                tempV = net.FeedForward(input, P_activ);
-                //for (int g = 0; g < tempV.Length; g++) VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
-                for (int g = 0; g < tempV.Length; g++)
+                Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
+                input = fileProcess.getData(label_Vin.Text, currentInput);
+                feedResult = net.FeedForward(input, P_activ);
+                resultLength = feedResult.Length;
+            }
+            catch (Exception exx)
+            {
+                MessageBox.Show("Weight File: Nodes MISMATCH!", "|д･) WHAT ?!!!");
+                richTextBox_Vout.Text = " ( ╯°Д°)╯ ︵ □ ";
+                noError = false;
+            }
+
+            for (int continueN = 0; continueN <= maxN & noError; continueN++)
+            {
+                //Start from N = 0  (ΦωΦ)/
+                VResult = "Loops:" + "\t";
+
+                //Generate first line
+                for (int k = 0; k <= maxWeightLength; k++)
                 {
-                    if(checkBoxDeNor.Checked == true) tempV[g] = Normalized.reverseNor(tempV[g], norMinMax[g, 0], norMinMax[g, 1], norMinMax[g, 2], norMinMax[g, 3]);
-                    VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
+                    try
+                    {
+                        checkWeightPath = label_Vw.Text + @"\N" + continueN + "C" + foundWeight[continueN, k] + "L0.txt";
+                        if (File.Exists(checkWeightPath)) { isTheFileValid = true; }
+                        else { isTheFileValid = false; }
+                    }
+                    catch (Exception exx)
+                    {
+                        isTheFileValid = false;
+                    }
+                    for (int j = 0; j < resultLength & isTheFileValid; j++)
+                    {
+                        VResult = VResult + foundWeight[continueN, k] + "\t";
+                    }
                 }
                 VResult = VResult + "\r\n";
+                richTextBox_Vout.AppendText(VResult);
+
+                //Generate results
+                for (int j = 0; j <= D_loops & noError ; j++)
+                {
+                    VResult = "N = " + continueN + "\t";
+                    for (int k = 0; k <= maxWeightLength & noError; k++)
+                    {
+                        try
+                        {
+                            checkWeightPath = label_Vw.Text + @"\N" + continueN + "C" + foundWeight[continueN, k] + "L0.txt";
+                            existingWeightPath = label_Vw.Text + @"\N" + continueN + "C" + foundWeight[continueN, k] + "L";
+                            existingBiasPath = label_Vbp.Text + @"\N" + continueN + "C" + foundWeight[continueN, k] + "L";
+                            if (File.Exists(checkWeightPath)) { isTheFileValid = true; }
+                            else { isTheFileValid = false; }
+                        }
+                        catch (Exception exx)
+                        {
+                            isTheFileValid = false;
+                        }
+
+                        if (isTheFileValid)
+                        {
+                            try
+                            {
+                                Neuro net2 = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
+                                input = fileProcess.getData(label_Vin.Text, currentInput);
+                                feedResult = net2.FeedForward(input, P_activ);
+                                for (int g = 0; g < feedResult.Length; g++)
+                                {
+                                    if (checkBoxDeNor.Checked == true) feedResult[g] = Normalized.reverseNor(feedResult[g], norMinMax[g, 0], norMinMax[g, 1], norMinMax[g, 2], norMinMax[g, 3]);
+                                    VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(feedResult[g], DPV)) + "\t";
+                                }
+                            }
+                            catch (Exception exx)
+                            {
+                                MessageBox.Show("Weight File: Nodes MISMATCH!", "|д･) WHAT ?!!!");
+                                richTextBox_Vout.Text = " ( ╯°Д°)╯ ︵ □ ";
+                                noError = false;
+                            }
+                        }
+                    }
+                    VResult = VResult + "\r\n";
+                    richTextBox_Vout.AppendText(VResult);
+                }
+
+                VResult = "\r\n" + "================================================================================================================" + "\r\n" + "\r\n";
+                richTextBox_Vout.AppendText(VResult);
             }
-            richTextBox_Vout.Text = VResult;
+
+            // richTextBox_Vout.AppendText(VResult);               
+            
+            //float[] tempV;
+            //Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
+            //P_activ = comboBox_Vact.SelectedIndex + 1;
+            //for (int j = 0; j < D_loops; j++)
+            //{
+            //    input = fileProcess.getData(label_Vin.Text, j);
+            //    tempV = net.FeedForward(input, P_activ);
+            //    //for (int g = 0; g < tempV.Length; g++) VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
+            //    for (int g = 0; g < tempV.Length; g++)
+            //    {
+            //        if(checkBoxDeNor.Checked == true) tempV[g] = Normalized.reverseNor(tempV[g], norMinMax[g, 0], norMinMax[g, 1], norMinMax[g, 2], norMinMax[g, 3]);
+            //        VResult = VResult + String.Format("{0:f" + DPV + "}", Math.Round(tempV[g], DPV)) + "\t";
+            //    }
+            //    VResult = VResult + "\r\n";
+            //}
+
+
         }
 
         private void button_Vsave_Click(object sender, EventArgs e)

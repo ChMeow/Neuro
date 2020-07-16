@@ -70,7 +70,14 @@ namespace FileProcessing
 
         public static int[] checkWeight(string path)
         {
-            int[] check = new int[3];
+            int[] check = new int[6];
+            check[0] = 0;
+            check[1] = 0;
+            check[2] = 0;
+            check[3] = 0;
+            check[4] = 0;
+            check[5] = 0;
+            // check only the last file
             try
             {
                 List<string> FileName = new List<string>();
@@ -89,10 +96,50 @@ namespace FileProcessing
                 check[0] = -1;
                 check[1] = -1;
                 check[2] = -1;
+                check[3] = -1;
+                check[4] = -1;
+                check[5] = -1;
+            }
+
+            // check maximum available files
+            int currentN = 0;
+            int currentC = 0;
+            int currentL = 0;
+
+            try
+            {
+                List<string> FileName = new List<string>();
+
+                string tempW;
+                FileName.AddRange(Directory.GetFiles(path));
+                FileName.Sort(new NaturalStringComparer(false));
+                for (int f = 0; f < FileName.Count; f++)
+                {
+                    tempW = Path.GetFileNameWithoutExtension(FileName[f]);
+                    var NCL = tempW.Split(new char[] { 'N', 'C', 'L' });
+                    currentN = int.Parse(NCL[1]);
+                    currentC = int.Parse(NCL[2]);
+                    currentL = int.Parse(NCL[3]);
+                    if (check[3] < currentN) { check[3] = currentN; }
+                    if (check[4] < currentC) { check[4] = currentC; }
+                    if (check[5] < currentL) { check[5] = currentL; }
+                }
+                
+                
+            }
+            catch (Exception exx)
+            {
+                check[0] = -1;
+                check[1] = -1;
+                check[2] = -1;
+                check[3] = -1;
+                check[4] = -1;
+                check[5] = -1;
             }
             return check;
         }
 
+        // this check the number of nodes in each layer including input and output
         public static int[] checkWeightInfo(string path)
         {
             int L;
@@ -109,7 +156,7 @@ namespace FileProcessing
                 FileName.Sort(new NaturalStringComparer(false));
                 tempW = Path.GetFileNameWithoutExtension(FileName[FileName.Count - 1]);
                 var NCL = tempW.Split(new char[] { 'N', 'C', 'L' });
-                L = int.Parse(NCL[3]) + 2;
+                L = int.Parse(NCL[3]) + 2;   // +2 (input and output) because L is the number of hidden layers.
 
                 int k = 0;
                 string[] split;

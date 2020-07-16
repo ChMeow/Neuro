@@ -39,6 +39,18 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.numericUpDownNorOMax = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownNorOMin = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.numericUpDownNorIMax = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownNorIMin = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxCustomNor = new System.Windows.Forms.CheckBox();
             this.button_Normalize = new System.Windows.Forms.Button();
             this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Info = new System.Windows.Forms.PictureBox();
@@ -104,23 +116,16 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxCustomNor = new System.Windows.Forms.CheckBox();
-            this.numericUpDownNorIMin = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownNorIMax = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.numericUpDownNorOMin = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownNorOMax = new System.Windows.Forms.NumericUpDown();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
@@ -137,11 +142,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMax)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -304,6 +304,166 @@
             this.tabPage1.Text = "Main Page";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.numericUpDownNorOMax);
+            this.panel1.Controls.Add(this.numericUpDownNorOMin);
+            this.panel1.Controls.Add(this.label15);
+            this.panel1.Controls.Add(this.label14);
+            this.panel1.Controls.Add(this.label17);
+            this.panel1.Controls.Add(this.label18);
+            this.panel1.Controls.Add(this.label16);
+            this.panel1.Controls.Add(this.label13);
+            this.panel1.Controls.Add(this.numericUpDownNorIMax);
+            this.panel1.Controls.Add(this.numericUpDownNorIMin);
+            this.panel1.Controls.Add(this.checkBoxCustomNor);
+            this.panel1.Location = new System.Drawing.Point(92, 522);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(537, 53);
+            this.panel1.TabIndex = 47;
+            // 
+            // numericUpDownNorOMax
+            // 
+            this.numericUpDownNorOMax.Location = new System.Drawing.Point(459, 27);
+            this.numericUpDownNorOMax.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.numericUpDownNorOMax.Minimum = new decimal(new int[] {
+            999998,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownNorOMax.Name = "numericUpDownNorOMax";
+            this.numericUpDownNorOMax.Size = new System.Drawing.Size(62, 20);
+            this.numericUpDownNorOMax.TabIndex = 51;
+            // 
+            // numericUpDownNorOMin
+            // 
+            this.numericUpDownNorOMin.Location = new System.Drawing.Point(352, 27);
+            this.numericUpDownNorOMin.Maximum = new decimal(new int[] {
+            999998,
+            0,
+            0,
+            0});
+            this.numericUpDownNorOMin.Minimum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownNorOMin.Name = "numericUpDownNorOMin";
+            this.numericUpDownNorOMin.Size = new System.Drawing.Size(62, 20);
+            this.numericUpDownNorOMin.TabIndex = 50;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.LightYellow;
+            this.label15.Location = new System.Drawing.Point(6, 34);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(30, 13);
+            this.label15.TabIndex = 49;
+            this.label15.Text = "IN /";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label14.Location = new System.Drawing.Point(42, 34);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(30, 13);
+            this.label14.TabIndex = 49;
+            this.label14.Text = "Min :";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label17.Location = new System.Drawing.Point(420, 34);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(33, 13);
+            this.label17.TabIndex = 49;
+            this.label17.Text = "Max :";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label18.Location = new System.Drawing.Point(316, 34);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(30, 13);
+            this.label18.TabIndex = 49;
+            this.label18.Text = "Min :";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.LightYellow;
+            this.label16.Location = new System.Drawing.Point(267, 34);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 13);
+            this.label16.TabIndex = 49;
+            this.label16.Text = "OUT /";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label13.Location = new System.Drawing.Point(149, 34);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(33, 13);
+            this.label13.TabIndex = 49;
+            this.label13.Text = "Max :";
+            // 
+            // numericUpDownNorIMax
+            // 
+            this.numericUpDownNorIMax.Location = new System.Drawing.Point(188, 27);
+            this.numericUpDownNorIMax.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.numericUpDownNorIMax.Minimum = new decimal(new int[] {
+            999998,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownNorIMax.Name = "numericUpDownNorIMax";
+            this.numericUpDownNorIMax.Size = new System.Drawing.Size(62, 20);
+            this.numericUpDownNorIMax.TabIndex = 48;
+            // 
+            // numericUpDownNorIMin
+            // 
+            this.numericUpDownNorIMin.Location = new System.Drawing.Point(78, 27);
+            this.numericUpDownNorIMin.Maximum = new decimal(new int[] {
+            999998,
+            0,
+            0,
+            0});
+            this.numericUpDownNorIMin.Minimum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownNorIMin.Name = "numericUpDownNorIMin";
+            this.numericUpDownNorIMin.Size = new System.Drawing.Size(62, 20);
+            this.numericUpDownNorIMin.TabIndex = 1;
+            // 
+            // checkBoxCustomNor
+            // 
+            this.checkBoxCustomNor.AutoSize = true;
+            this.checkBoxCustomNor.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.checkBoxCustomNor.Location = new System.Drawing.Point(9, 8);
+            this.checkBoxCustomNor.Name = "checkBoxCustomNor";
+            this.checkBoxCustomNor.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxCustomNor.TabIndex = 0;
+            this.checkBoxCustomNor.Text = "Normalize Range";
+            this.checkBoxCustomNor.UseVisualStyleBackColor = true;
+            // 
             // button_Normalize
             // 
             this.button_Normalize.Location = new System.Drawing.Point(635, 538);
@@ -334,7 +494,7 @@
             // pictureBox_Info
             // 
             this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
-            this.pictureBox_Info.Location = new System.Drawing.Point(10, 515);
+            this.pictureBox_Info.Location = new System.Drawing.Point(10, 520);
             this.pictureBox_Info.Name = "pictureBox_Info";
             this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
             this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -502,7 +662,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.richTextBox_Summary);
-            this.groupBox1.Location = new System.Drawing.Point(310, 105);
+            this.groupBox1.Location = new System.Drawing.Point(321, 124);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(613, 404);
             this.groupBox1.TabIndex = 33;
@@ -911,7 +1071,8 @@
             this.richTextBox_Vout.Name = "richTextBox_Vout";
             this.richTextBox_Vout.Size = new System.Drawing.Size(900, 412);
             this.richTextBox_Vout.TabIndex = 5;
-            this.richTextBox_Vout.Text = "";
+            this.richTextBox_Vout.Text = "ALL WEIGHT FILES MUST CONTAIN SAME SET OF NODES !";
+            this.richTextBox_Vout.WordWrap = false;
             // 
             // label11
             // 
@@ -1073,166 +1234,6 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Black;
-            this.panel1.Controls.Add(this.numericUpDownNorOMax);
-            this.panel1.Controls.Add(this.numericUpDownNorOMin);
-            this.panel1.Controls.Add(this.label15);
-            this.panel1.Controls.Add(this.label14);
-            this.panel1.Controls.Add(this.label17);
-            this.panel1.Controls.Add(this.label18);
-            this.panel1.Controls.Add(this.label16);
-            this.panel1.Controls.Add(this.label13);
-            this.panel1.Controls.Add(this.numericUpDownNorIMax);
-            this.panel1.Controls.Add(this.numericUpDownNorIMin);
-            this.panel1.Controls.Add(this.checkBoxCustomNor);
-            this.panel1.Location = new System.Drawing.Point(92, 515);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(537, 53);
-            this.panel1.TabIndex = 47;
-            // 
-            // checkBoxCustomNor
-            // 
-            this.checkBoxCustomNor.AutoSize = true;
-            this.checkBoxCustomNor.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.checkBoxCustomNor.Location = new System.Drawing.Point(9, 8);
-            this.checkBoxCustomNor.Name = "checkBoxCustomNor";
-            this.checkBoxCustomNor.Size = new System.Drawing.Size(107, 17);
-            this.checkBoxCustomNor.TabIndex = 0;
-            this.checkBoxCustomNor.Text = "Normalize Range";
-            this.checkBoxCustomNor.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDownNorIMin
-            // 
-            this.numericUpDownNorIMin.Location = new System.Drawing.Point(78, 27);
-            this.numericUpDownNorIMin.Maximum = new decimal(new int[] {
-            999998,
-            0,
-            0,
-            0});
-            this.numericUpDownNorIMin.Minimum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownNorIMin.Name = "numericUpDownNorIMin";
-            this.numericUpDownNorIMin.Size = new System.Drawing.Size(62, 20);
-            this.numericUpDownNorIMin.TabIndex = 1;
-            // 
-            // numericUpDownNorIMax
-            // 
-            this.numericUpDownNorIMax.Location = new System.Drawing.Point(188, 27);
-            this.numericUpDownNorIMax.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownNorIMax.Minimum = new decimal(new int[] {
-            999998,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownNorIMax.Name = "numericUpDownNorIMax";
-            this.numericUpDownNorIMax.Size = new System.Drawing.Size(62, 20);
-            this.numericUpDownNorIMax.TabIndex = 48;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label13.Location = new System.Drawing.Point(149, 34);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(33, 13);
-            this.label13.TabIndex = 49;
-            this.label13.Text = "Max :";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label14.Location = new System.Drawing.Point(42, 34);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(30, 13);
-            this.label14.TabIndex = 49;
-            this.label14.Text = "Min :";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.Color.LightYellow;
-            this.label15.Location = new System.Drawing.Point(6, 34);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(30, 13);
-            this.label15.TabIndex = 49;
-            this.label15.Text = "IN /";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.Color.LightYellow;
-            this.label16.Location = new System.Drawing.Point(267, 34);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(43, 13);
-            this.label16.TabIndex = 49;
-            this.label16.Text = "OUT /";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label17.Location = new System.Drawing.Point(420, 34);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(33, 13);
-            this.label17.TabIndex = 49;
-            this.label17.Text = "Max :";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label18.Location = new System.Drawing.Point(316, 34);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(30, 13);
-            this.label18.TabIndex = 49;
-            this.label18.Text = "Min :";
-            // 
-            // numericUpDownNorOMin
-            // 
-            this.numericUpDownNorOMin.Location = new System.Drawing.Point(352, 27);
-            this.numericUpDownNorOMin.Maximum = new decimal(new int[] {
-            999998,
-            0,
-            0,
-            0});
-            this.numericUpDownNorOMin.Minimum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownNorOMin.Name = "numericUpDownNorOMin";
-            this.numericUpDownNorOMin.Size = new System.Drawing.Size(62, 20);
-            this.numericUpDownNorOMin.TabIndex = 50;
-            // 
-            // numericUpDownNorOMax
-            // 
-            this.numericUpDownNorOMax.Location = new System.Drawing.Point(459, 27);
-            this.numericUpDownNorOMax.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownNorOMax.Minimum = new decimal(new int[] {
-            999998,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownNorOMax.Name = "numericUpDownNorOMax";
-            this.numericUpDownNorOMax.Size = new System.Drawing.Size(62, 20);
-            this.numericUpDownNorOMax.TabIndex = 51;
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1257,6 +1258,12 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
@@ -1275,12 +1282,6 @@
             this.groupBox2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMax)).EndInit();
             this.ResumeLayout(false);
 
         }
