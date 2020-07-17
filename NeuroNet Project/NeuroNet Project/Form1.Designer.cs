@@ -68,6 +68,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox_UseExistW = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonCopy_Main = new System.Windows.Forms.Button();
             this.richTextBox_Summary = new System.Windows.Forms.RichTextBox();
             this.numericUpDown_loops = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_learn = new System.Windows.Forms.NumericUpDown();
@@ -99,6 +100,7 @@
             this.label_Vbp = new System.Windows.Forms.Label();
             this.button_VBP = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonCopy_Valid = new System.Windows.Forms.Button();
             this.richTextBox_Vout = new System.Windows.Forms.RichTextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -116,8 +118,6 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.buttonCopy_Main = new System.Windows.Forms.Button();
-            this.buttonCopy_Valid = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -541,7 +541,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 238);
+            this.label9.Location = new System.Drawing.Point(45, 238);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(59, 13);
             this.label9.TabIndex = 41;
@@ -550,7 +550,7 @@
             // label_biasPath
             // 
             this.label_biasPath.AutoSize = true;
-            this.label_biasPath.Location = new System.Drawing.Point(112, 105);
+            this.label_biasPath.Location = new System.Drawing.Point(98, 105);
             this.label_biasPath.Name = "label_biasPath";
             this.label_biasPath.Size = new System.Drawing.Size(43, 13);
             this.label_biasPath.TabIndex = 40;
@@ -560,16 +560,17 @@
             // 
             this.button_BiasPath.Location = new System.Drawing.Point(6, 99);
             this.button_BiasPath.Name = "button_BiasPath";
-            this.button_BiasPath.Size = new System.Drawing.Size(100, 25);
+            this.button_BiasPath.Size = new System.Drawing.Size(86, 25);
             this.button_BiasPath.TabIndex = 39;
             this.button_BiasPath.Text = "Bias Path";
+            this.button_BiasPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button_BiasPath.UseVisualStyleBackColor = true;
             this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 394);
+            this.label12.Location = new System.Drawing.Point(40, 394);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(64, 13);
             this.label12.TabIndex = 38;
@@ -578,7 +579,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 368);
+            this.label8.Location = new System.Drawing.Point(18, 368);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(86, 13);
             this.label8.TabIndex = 38;
@@ -645,7 +646,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 342);
+            this.label6.Location = new System.Drawing.Point(9, 342);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 13);
             this.label6.TabIndex = 35;
@@ -671,6 +672,21 @@
             this.groupBox1.TabIndex = 33;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Summary";
+            // 
+            // buttonCopy_Main
+            // 
+            this.buttonCopy_Main.BackColor = System.Drawing.Color.Black;
+            this.buttonCopy_Main.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.buttonCopy_Main.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonCopy_Main.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCopy_Main.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.buttonCopy_Main.Location = new System.Drawing.Point(512, 367);
+            this.buttonCopy_Main.Name = "buttonCopy_Main";
+            this.buttonCopy_Main.Size = new System.Drawing.Size(91, 27);
+            this.buttonCopy_Main.TabIndex = 1;
+            this.buttonCopy_Main.Text = "Copy";
+            this.buttonCopy_Main.UseVisualStyleBackColor = false;
+            this.buttonCopy_Main.Click += new System.EventHandler(this.buttonCopy_Main_Click);
             // 
             // richTextBox_Summary
             // 
@@ -782,7 +798,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 264);
+            this.label5.Location = new System.Drawing.Point(16, 264);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 13);
             this.label5.TabIndex = 13;
@@ -791,7 +807,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 212);
+            this.label4.Location = new System.Drawing.Point(30, 212);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 13);
             this.label4.TabIndex = 12;
@@ -800,7 +816,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 316);
+            this.label3.Location = new System.Drawing.Point(66, 316);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 11;
@@ -809,7 +825,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 290);
+            this.label2.Location = new System.Drawing.Point(71, 290);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 13);
             this.label2.TabIndex = 10;
@@ -847,7 +863,7 @@
             // label_WeightPath
             // 
             this.label_WeightPath.AutoSize = true;
-            this.label_WeightPath.Location = new System.Drawing.Point(112, 74);
+            this.label_WeightPath.Location = new System.Drawing.Point(98, 74);
             this.label_WeightPath.Name = "label_WeightPath";
             this.label_WeightPath.Size = new System.Drawing.Size(43, 13);
             this.label_WeightPath.TabIndex = 7;
@@ -857,7 +873,7 @@
             // label_OutputPath
             // 
             this.label_OutputPath.AutoSize = true;
-            this.label_OutputPath.Location = new System.Drawing.Point(112, 43);
+            this.label_OutputPath.Location = new System.Drawing.Point(98, 43);
             this.label_OutputPath.Name = "label_OutputPath";
             this.label_OutputPath.Size = new System.Drawing.Size(43, 13);
             this.label_OutputPath.TabIndex = 6;
@@ -867,7 +883,7 @@
             // label_InputPath
             // 
             this.label_InputPath.AutoSize = true;
-            this.label_InputPath.Location = new System.Drawing.Point(112, 12);
+            this.label_InputPath.Location = new System.Drawing.Point(98, 12);
             this.label_InputPath.Name = "label_InputPath";
             this.label_InputPath.Size = new System.Drawing.Size(43, 13);
             this.label_InputPath.TabIndex = 5;
@@ -878,9 +894,10 @@
             // 
             this.button_Weight.Location = new System.Drawing.Point(6, 68);
             this.button_Weight.Name = "button_Weight";
-            this.button_Weight.Size = new System.Drawing.Size(100, 25);
+            this.button_Weight.Size = new System.Drawing.Size(86, 25);
             this.button_Weight.TabIndex = 4;
             this.button_Weight.Text = "Weight Path";
+            this.button_Weight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button_Weight.UseVisualStyleBackColor = true;
             this.button_Weight.Click += new System.EventHandler(this.button_Weight_Click);
             // 
@@ -888,9 +905,10 @@
             // 
             this.button_Output.Location = new System.Drawing.Point(6, 37);
             this.button_Output.Name = "button_Output";
-            this.button_Output.Size = new System.Drawing.Size(100, 25);
+            this.button_Output.Size = new System.Drawing.Size(86, 25);
             this.button_Output.TabIndex = 3;
             this.button_Output.Text = "Output Path";
+            this.button_Output.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button_Output.UseVisualStyleBackColor = true;
             this.button_Output.Click += new System.EventHandler(this.button_Output_Click);
             // 
@@ -898,9 +916,10 @@
             // 
             this.button_Input.Location = new System.Drawing.Point(6, 6);
             this.button_Input.Name = "button_Input";
-            this.button_Input.Size = new System.Drawing.Size(100, 25);
+            this.button_Input.Size = new System.Drawing.Size(86, 25);
             this.button_Input.TabIndex = 2;
             this.button_Input.Text = "Input Path";
+            this.button_Input.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button_Input.UseVisualStyleBackColor = true;
             this.button_Input.Click += new System.EventHandler(this.button_Input_Click);
             // 
@@ -1068,6 +1087,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output";
             // 
+            // buttonCopy_Valid
+            // 
+            this.buttonCopy_Valid.BackColor = System.Drawing.Color.Black;
+            this.buttonCopy_Valid.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.buttonCopy_Valid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonCopy_Valid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCopy_Valid.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.buttonCopy_Valid.Location = new System.Drawing.Point(825, 399);
+            this.buttonCopy_Valid.Name = "buttonCopy_Valid";
+            this.buttonCopy_Valid.Size = new System.Drawing.Size(80, 27);
+            this.buttonCopy_Valid.TabIndex = 6;
+            this.buttonCopy_Valid.Text = "Copy";
+            this.buttonCopy_Valid.UseVisualStyleBackColor = false;
+            this.buttonCopy_Valid.Click += new System.EventHandler(this.buttonCopy_Valid_Click);
+            // 
             // richTextBox_Vout
             // 
             this.richTextBox_Vout.BackColor = System.Drawing.Color.Black;
@@ -1204,7 +1238,7 @@
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(934, 580);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Other settings";
+            this.tabPage4.Text = "Others";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // buttonRestart
@@ -1240,36 +1274,6 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // buttonCopy_Main
-            // 
-            this.buttonCopy_Main.BackColor = System.Drawing.Color.Black;
-            this.buttonCopy_Main.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.buttonCopy_Main.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonCopy_Main.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCopy_Main.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.buttonCopy_Main.Location = new System.Drawing.Point(512, 367);
-            this.buttonCopy_Main.Name = "buttonCopy_Main";
-            this.buttonCopy_Main.Size = new System.Drawing.Size(91, 27);
-            this.buttonCopy_Main.TabIndex = 1;
-            this.buttonCopy_Main.Text = "Copy";
-            this.buttonCopy_Main.UseVisualStyleBackColor = false;
-            this.buttonCopy_Main.Click += new System.EventHandler(this.buttonCopy_Main_Click);
-            // 
-            // buttonCopy_Valid
-            // 
-            this.buttonCopy_Valid.BackColor = System.Drawing.Color.Black;
-            this.buttonCopy_Valid.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.buttonCopy_Valid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonCopy_Valid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCopy_Valid.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.buttonCopy_Valid.Location = new System.Drawing.Point(825, 399);
-            this.buttonCopy_Valid.Name = "buttonCopy_Valid";
-            this.buttonCopy_Valid.Size = new System.Drawing.Size(80, 27);
-            this.buttonCopy_Valid.TabIndex = 6;
-            this.buttonCopy_Valid.Text = "Copy";
-            this.buttonCopy_Valid.UseVisualStyleBackColor = false;
-            this.buttonCopy_Valid.Click += new System.EventHandler(this.buttonCopy_Valid_Click);
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1284,7 +1288,7 @@
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "NeuroNet Project";
+            this.Text = "NeuroNet Project - 200717";
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.MouseEnter += new System.EventHandler(this.Form_Main_MouseEnter);
             this.panel_Loading.ResumeLayout(false);
