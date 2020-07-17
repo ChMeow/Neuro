@@ -17,10 +17,8 @@ using System.Reflection;
 
 namespace NeuroNet_Project
 {
-   
     public partial class Form_Main : Form
     {
-        
         string[] inputFiles;
         string[] outputFiles;
         string[] weightFolder;
@@ -288,7 +286,6 @@ namespace NeuroNet_Project
             string VResult = "";
             float[] feedResult;
             string checkWeightPath = "";
-            int currentInput = 0;
             int[,] foundWeight = new int[99,99];
             int weightLength = 0;
             int maxWeightLength = 0;
@@ -329,7 +326,7 @@ namespace NeuroNet_Project
             try
             {
                 Neuro net = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
-                input = fileProcess.getData(label_Vin.Text, currentInput);
+                input = fileProcess.getData(label_Vin.Text, 0);
                 feedResult = net.FeedForward(input, P_activ);
                 resultLength = feedResult.Length;
             }
@@ -367,7 +364,7 @@ namespace NeuroNet_Project
                 richTextBox_Vout.AppendText(VResult);
 
                 //Generate results
-                for (int j = 0; j <= D_loops & noError ; j++)
+                for (int j = 0; j < D_loops & noError ; j++)
                 {
                     VResult = "N = " + continueN + "\t";
                     for (int k = 0; k <= maxWeightLength & noError; k++)
@@ -390,7 +387,7 @@ namespace NeuroNet_Project
                             try
                             {
                                 Neuro net2 = new Neuro(weightInfo, 0, true, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
-                                input = fileProcess.getData(label_Vin.Text, currentInput);
+                                input = fileProcess.getData(label_Vin.Text, j);
                                 feedResult = net2.FeedForward(input, P_activ);
                                 for (int g = 0; g < feedResult.Length; g++)
                                 {
@@ -431,8 +428,6 @@ namespace NeuroNet_Project
             //    }
             //    VResult = VResult + "\r\n";
             //}
-
-
         }
 
         private void button_Vsave_Click(object sender, EventArgs e)
@@ -737,6 +732,16 @@ namespace NeuroNet_Project
         {
             if (checkBoxDeNor.Checked == true) checkBoxDeNor.Text = "De-normalization: Enabled";
             else checkBoxDeNor.Text = "De-normalization: Disabled";
+        }
+
+        private void buttonCopy_Valid_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(richTextBox_Vout.Text);
+        }
+
+        private void buttonCopy_Main_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(richTextBox_Summary.Text);
         }
 
         public void setPlayStopButton(bool isPlaying)

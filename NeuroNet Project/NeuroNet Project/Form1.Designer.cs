@@ -116,6 +116,8 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.buttonCopy_Main = new System.Windows.Forms.Button();
+            this.buttonCopy_Valid = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -661,6 +663,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonCopy_Main);
             this.groupBox1.Controls.Add(this.richTextBox_Summary);
             this.groupBox1.Location = new System.Drawing.Point(321, 124);
             this.groupBox1.Name = "groupBox1";
@@ -1055,6 +1058,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.buttonCopy_Valid);
             this.groupBox2.Controls.Add(this.richTextBox_Vout);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Location = new System.Drawing.Point(7, 142);
@@ -1066,7 +1070,9 @@
             // 
             // richTextBox_Vout
             // 
+            this.richTextBox_Vout.BackColor = System.Drawing.Color.Black;
             this.richTextBox_Vout.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox_Vout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(232)))));
             this.richTextBox_Vout.Location = new System.Drawing.Point(8, 17);
             this.richTextBox_Vout.Name = "richTextBox_Vout";
             this.richTextBox_Vout.Size = new System.Drawing.Size(900, 412);
@@ -1234,6 +1240,36 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // buttonCopy_Main
+            // 
+            this.buttonCopy_Main.BackColor = System.Drawing.Color.Black;
+            this.buttonCopy_Main.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.buttonCopy_Main.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonCopy_Main.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCopy_Main.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.buttonCopy_Main.Location = new System.Drawing.Point(512, 367);
+            this.buttonCopy_Main.Name = "buttonCopy_Main";
+            this.buttonCopy_Main.Size = new System.Drawing.Size(91, 27);
+            this.buttonCopy_Main.TabIndex = 1;
+            this.buttonCopy_Main.Text = "Copy";
+            this.buttonCopy_Main.UseVisualStyleBackColor = false;
+            this.buttonCopy_Main.Click += new System.EventHandler(this.buttonCopy_Main_Click);
+            // 
+            // buttonCopy_Valid
+            // 
+            this.buttonCopy_Valid.BackColor = System.Drawing.Color.Black;
+            this.buttonCopy_Valid.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.buttonCopy_Valid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonCopy_Valid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCopy_Valid.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.buttonCopy_Valid.Location = new System.Drawing.Point(825, 399);
+            this.buttonCopy_Valid.Name = "buttonCopy_Valid";
+            this.buttonCopy_Valid.Size = new System.Drawing.Size(80, 27);
+            this.buttonCopy_Valid.TabIndex = 6;
+            this.buttonCopy_Valid.Text = "Copy";
+            this.buttonCopy_Valid.UseVisualStyleBackColor = false;
+            this.buttonCopy_Valid.Click += new System.EventHandler(this.buttonCopy_Valid_Click);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1375,6 +1411,8 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button buttonCopy_Main;
+        private System.Windows.Forms.Button buttonCopy_Valid;
     }
 }
 
