@@ -35,6 +35,10 @@
     <ApplicationIcon>icon_TdH_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Eq2Img, Version=1.0.2077.36664, Culture=neutral">
+      <HintPath>..\packages\MimeTeX.dll.1.0.2\lib\Net45\Eq2Img.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +50,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WpfMath, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfMath.0.8.0\lib\net452\WpfMath.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
@@ -86,6 +94,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Stop.bmp" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -14,6 +14,11 @@ using FolderSelect;
 using NeuroV3;
 using FileProcessing;
 using System.Reflection;
+using WpfMath;
+using System.Drawing.Imaging;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace NeuroNet_Project
 {
@@ -54,6 +59,10 @@ namespace NeuroNet_Project
         string resultReportWeight;
         string CurrentTime;
 
+        int[] equationNodes = new int[99];
+        int[,] equationAvailableWeight = new int[99,99];
+        int equationMaxN = 0;
+        int equationMaxW = 0;
 
         public Form_Main()
         {
@@ -273,8 +282,6 @@ namespace NeuroNet_Project
             for (int i = 0; i < weightInfo.Length - 1; i++) tempW = tempW + weightInfo[i] + " , ";
             tempW = tempW + weightInfo[weightInfo.Length - 1] + " }";
             labelWinfo.Text = tempW;
-
-
             //find layer info to layer[] here
         }
 
@@ -744,6 +751,296 @@ namespace NeuroNet_Project
             Clipboard.SetText(richTextBox_Summary.Text);
         }
 
+        private void button_EqWeight_Click(object sender, EventArgs e)
+        {
+            bool isfolderSelected = false;
+            var WeightSelect = new FolderSelectDialog();
+            WeightSelect.Title = "Select Weight Path";
+            WeightSelect.InitialDirectory = textBox_MainFolder.Text;
+            if (WeightSelect.ShowDialog(IntPtr.Zero))
+            {
+                label_EqW.Text = WeightSelect.FileName;
+                Array.Clear(equationNodes, 0, equationNodes.Length);
+                Array.Clear(equationAvailableWeight, 0, equationAvailableWeight.Length);
+                listBox_availableWeight.Items.Clear();
+                isfolderSelected = true;
+            }
+
+            if (isfolderSelected)
+            {
+                weightInfo = fileProcess.checkWeightInfo(label_EqW.Text);
+                string tempW = "";
+                tempW = "Layers = " + weightInfo.Length + "\r\n" + "Nodes Configuration = { ";
+                int i;
+                for (i = 0; i < weightInfo.Length - 1; i++) equationNodes[i] = weightInfo[i];
+                equationNodes[i] = weightInfo[weightInfo.Length - 1];
+                i = 0;
+                while (equationNodes[i] != 0)
+                {
+                    tempW = tempW + equationNodes[i] + " , ";
+                    i++;
+                }
+                tempW = tempW + " }";
+                // richTextBox_TestDebug.Text = tempW + "\r\n";
+
+                checkNC = fileProcess.checkWeight(label_EqW.Text);
+                N = checkNC[0]; //last continue
+                C = checkNC[1]; //last iteration
+                equationMaxN = checkNC[3]; //max continue
+                equationMaxW = checkNC[4]; //max iteration 
+
+                for (int continueN = 0; continueN <= equationMaxN; continueN++)
+                {
+                    i = 0;
+                    for (int checkW = 0; checkW <= equationMaxW; checkW++)
+                    {
+                        string checkWeightPath = label_EqW.Text + @"\N" + continueN + "C" + checkW + "L0.txt";
+                        if (File.Exists(checkWeightPath))
+                        {
+                            equationAvailableWeight[continueN, i] = checkW;
+                            string newItem = "N=" + continueN + ", ITERATION=" + checkW;
+                            listBox_availableWeight.Items.Add(newItem);
+                            i++;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void button_EqBias_Click(object sender, EventArgs e)
+        {
+                var biasSelect = new FolderSelectDialog();
+                biasSelect.Title = "Select Bias Path";
+                biasSelect.InitialDirectory = textBox_MainFolder.Text;
+                if (biasSelect.ShowDialog(IntPtr.Zero))
+                {
+                    label_EqB.Text = biasSelect.FileName;
+                }
+        }
+
+        private void button_EqGen_Click(object sender, EventArgs e)
+        {
+            int selectedEqN = 0;
+            int selectedEqW = 0;
+            int iEq = 0;
+            bool switchEq = false;
+            int dp = int.Parse(numericUpDown_eqDP.Value.ToString());
+            try
+            {
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "==============================BASIC INFO===========================================" + "\r\n" + "\r\n");
+                richTextBox_TestDebug.AppendText("Weight Path: ");
+                richTextBox_TestDebug.AppendText(label_EqW.Text + "\r\n");
+                richTextBox_TestDebug.AppendText("Bias Path: ");
+                richTextBox_TestDebug.AppendText(label_EqB.Text + "\r\n" + "\r\n" + "Nodes Configuration: { ");
+
+                for (iEq = 0; equationNodes[iEq] != 0; iEq++) richTextBox_TestDebug.AppendText(equationNodes[iEq] + ", ");
+                richTextBox_TestDebug.Undo();
+                richTextBox_TestDebug.AppendText(equationNodes[iEq - 1] + " }" + "\r\n" + "\r\n" + @"Weight / Bias Files:" + "\r\n");
+
+                // richTextBox_TestDebug.AppendText(listBox_availableWeight.SelectedItem.ToString() + "\r\n");
+                string tempEqNW = listBox_availableWeight.SelectedItem.ToString();
+                var eqNW = tempEqNW.Split(new char[] { 'N', '=', 'I', 'T', 'E', 'R', 'A', 'I', 'O', ',', ' ' });
+                for (int k = 0; k < eqNW.Length; k++)
+                {
+                    if (eqNW[k] != "" & !switchEq) { selectedEqN = int.Parse(eqNW[k].ToString()); switchEq = true; }
+                    if (eqNW[k] != "" & switchEq) selectedEqW = int.Parse(eqNW[k].ToString());
+                }
+
+                // Reading the selected files
+                var eqWeightList = new List<string>();
+                var eqBiasList = new List<string>();
+                var eqWeightPNGList = new List<string>();
+                var eqBiasPNGList = new List<string>();
+                for (int i = 0; i < iEq - 1; i++)
+                {
+                    eqWeightList.Add(label_EqW.Text + "\\N" + selectedEqN + "C" + selectedEqW + "L" + i + ".txt");
+                    eqBiasList.Add(label_EqB.Text + "\\N" + selectedEqN + "C" + selectedEqW + "L" + i + ".txt");
+                    eqWeightPNGList.Add(label_EqW.Text + "\\IMAGE\\N" + selectedEqN + "C" + selectedEqW + "L" + i + ".png");
+                    eqBiasPNGList.Add(label_EqB.Text + "\\IMAGE\\N" + selectedEqN + "C" + selectedEqW + "L" + i + ".png");
+                }
+
+                for (int i = 0; i < eqWeightList.Count; i++)
+                {
+                    richTextBox_TestDebug.AppendText(eqWeightList[i] + "\r\n");
+                    richTextBox_TestDebug.AppendText(eqBiasList[i] + "\r\n");
+                }
+
+                // Basic Formula
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "\r\n");
+                string latexOri = @"X_{N} = f(A_{N-1})";
+                var parser1 = new TexFormulaParser();
+                var formula1 = parser1.Parse(latexOri);
+                var pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                if (!Directory.Exists(label_EqW.Text + "\\IMAGE")) { Directory.CreateDirectory(label_EqW.Text + "\\IMAGE"); }
+                File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic01.png", pngBytes1);
+                FileStream pngStream1 = new FileStream(label_EqW.Text + "\\IMAGE\\Basic01.png", FileMode.Open, FileAccess.Read);
+                Clipboard.SetImage(Image.FromStream(pngStream1));
+                pngStream1.Close();
+                richTextBox_TestDebug.Paste();
+                richTextBox_TestDebug.AppendText(",  " + "\t" + "\t");
+
+                latexOri = @"f(A_{N-1}) = activation function";
+                formula1 = parser1.Parse(latexOri);
+                pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic03.png", pngBytes1);
+                pngStream1 = new FileStream(label_EqW.Text + "\\IMAGE\\Basic03.png", FileMode.Open, FileAccess.Read);
+                Clipboard.SetImage(Image.FromStream(pngStream1));
+                pngStream1.Close();
+                richTextBox_TestDebug.Paste();
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n");
+
+                latexOri = @"X_{N} = f(W_{N-1}X_{N-1} + B_{N-1})";
+                formula1 = parser1.Parse(latexOri);
+                pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic02.png", pngBytes1);
+                pngStream1 = new FileStream(label_EqW.Text + "\\IMAGE\\Basic02.png", FileMode.Open, FileAccess.Read);
+                Clipboard.SetImage(Image.FromStream(pngStream1));
+                pngStream1.Close();
+                richTextBox_TestDebug.Paste();
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n");
+
+                latexOri = @"A_{N-1} = W_{N-1}X_{N-1} + B_{N-1}";
+                formula1 = parser1.Parse(latexOri);
+                pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic04.png", pngBytes1);
+                pngStream1 = new FileStream(label_EqW.Text + "\\IMAGE\\Basic04.png", FileMode.Open, FileAccess.Read);
+                Clipboard.SetImage(Image.FromStream(pngStream1));
+                pngStream1.Close();
+                richTextBox_TestDebug.Paste();
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n");
+
+                latexOri = @"\pmatrix{A_{1}\\A_{2}\\.\\.\\.\\A_{m}}= \pmatrix{W_{1,1}&W_{1,2}&...&W_{1,n}\\ W_{2,1}&W_{2,2}&...&W_{2,n} \\.&.&.&.\\.&.&.&.\\.&.&.&.\\W_{m,1}&W_{m,2}&...&W_{m,n}} \pmatrix{X_{1}\\X_{2}\\.\\.\\.\\X_{n}} + \pmatrix{B_{1}\\B_{2}\\.\\.\\.\\B_{m}}";
+                formula1 = parser1.Parse(latexOri);
+                pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic05.png", pngBytes1);
+                pngStream1 = new FileStream(label_EqW.Text + "\\IMAGE\\Basic05.png", FileMode.Open, FileAccess.Read);
+                Clipboard.SetImage(Image.FromStream(pngStream1));
+                pngStream1.Close();
+                richTextBox_TestDebug.Paste();
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "N = layer number, start from the leftmost layer as FIRST layer ** The FIRST layer is also the input X **");
+                richTextBox_TestDebug.AppendText("\r\n" + "n = number of input from the previous layer" + "\r\n" + "m = number of output in the current layer" + "\r\n");
+
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "==============================WEIGHT LIST==================================================" + "\r\n" + "\r\n");
+                // Generates Weight PNG
+                for (int k = 0; k < eqWeightList.Count; k++)
+                {
+                    string line = "";
+                    string latex = @"W_{" + k;
+                    latex = latex + @"}=\pmatrix{";
+                    StreamReader file = new StreamReader(eqWeightList[k]);
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        var availableNumber = line.Split(new char[] { '\r', '\n', '\t', ' ' });
+                        for (int i = 0; i < availableNumber.Length; i++)
+                        {
+                            if (availableNumber[i] != "")
+                            {
+                                double eqTemp = double.Parse(availableNumber[i]);
+                                latex = latex + Math.Round(eqTemp, dp) + "&";
+                            }
+                        }
+                        latex = latex.Remove(latex.Length - 1);
+                        latex = latex + @"\\";
+                    }
+                    latex = latex.Remove(latex.Length - 2);
+                    latex = latex + "}";
+                    var parser = new TexFormulaParser();
+                    var formula = parser.Parse(latex);
+                    var pngBytes = formula.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                    if (!Directory.Exists(label_EqW.Text + "\\IMAGE")) { Directory.CreateDirectory(label_EqW.Text + "\\IMAGE"); }
+
+                    File.WriteAllBytes(eqWeightPNGList[k], pngBytes);
+
+                    FileStream pngStream = new FileStream(eqWeightPNGList[k], FileMode.Open, FileAccess.Read);
+                    Clipboard.SetImage(Image.FromStream(pngStream));
+                    pngStream.Close();
+                    richTextBox_TestDebug.Paste();
+                    file.Close();
+                    richTextBox_TestDebug.AppendText("\t");
+                }
+
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "==============================BIAS LIST==================================================" + "\r\n" + "\r\n");
+                // Generates Bias PNG
+                for (int k = 0; k < eqBiasList.Count; k++)
+                {
+                    string line = "";
+                    string latex = @"B_{" + k;
+                    latex = latex + @"}=\pmatrix{";
+                    StreamReader file = new StreamReader(eqBiasList[k]);
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        var availableNumber = line.Split(new char[] { '\r', '\n', '\t', ' ' });
+                        for (int i = 0; i < availableNumber.Length; i++)
+                        {
+                            if (availableNumber[i] != "")
+                            {
+                                double eqTemp = double.Parse(availableNumber[i]);
+                                latex = latex + Math.Round(eqTemp, dp) + "&";
+                            }
+                        }
+                        latex = latex.Remove(latex.Length - 1);
+                        latex = latex + @"\\";
+                    }
+                    latex = latex.Remove(latex.Length - 2);
+                    latex = latex + "}";
+                    var parser = new TexFormulaParser();
+                    var formula = parser.Parse(latex);
+                    var pngBytes = formula.RenderToPng(20.0, 0.0, 0.0, "Arial");
+                    if (!Directory.Exists(label_EqB.Text + "\\IMAGE")) { Directory.CreateDirectory(label_EqB.Text + "\\IMAGE"); }
+
+                    File.WriteAllBytes(eqBiasPNGList[k], pngBytes);
+
+                    FileStream pngStream = new FileStream(eqBiasPNGList[k], FileMode.Open, FileAccess.Read);
+                    Clipboard.SetImage(Image.FromStream(pngStream));
+                    pngStream.Close();
+                    richTextBox_TestDebug.Paste();
+                    file.Close();
+                    richTextBox_TestDebug.AppendText("\t");
+                }
+                GC.Collect();
+            }
+            catch (Exception exx) { richTextBox_TestDebug.AppendText("(O_o)?" + "\r\n"); }
+        }
+
+        private void richTextBox_TestDebug_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            richTextBox_TestDebug.Clear();
+        }
+
+        private void button_Copy_Click(object sender, EventArgs e)
+        {
+            richTextBox_TestDebug.Copy();
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            {
+                string saveLog = "";
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.InitialDirectory = textBox_MainFolder.Text;
+                saveFileDialog1.Title = "Save";
+                //saveFileDialog1.CheckFileExists = true;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Rich Text files (*.rtf)|*.rtf";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    saveLog = saveFileDialog1.FileName;
+                    richTextBox_TestDebug.SaveFile(saveLog);
+                }
+
+            }
+        }
+
         public void setPlayStopButton(bool isPlaying)
         {
             _assembly = Assembly.GetExecutingAssembly();
@@ -969,6 +1266,7 @@ namespace NeuroNet_Project
             richTextBox_Summary.AppendText("  Σ( ﾟДﾟ ?)" + "\r\n");
             return;
         }
+        
     }
             
            

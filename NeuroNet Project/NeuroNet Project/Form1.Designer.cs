@@ -113,11 +113,23 @@
             this.button_Vgo = new System.Windows.Forms.Button();
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.richTextBox_TestDebug = new System.Windows.Forms.RichTextBox();
+            this.label_EqB = new System.Windows.Forms.Label();
+            this.label_EqW = new System.Windows.Forms.Label();
+            this.listBox_availableWeight = new System.Windows.Forms.ListBox();
+            this.button_EqGen = new System.Windows.Forms.Button();
+            this.button_EqBias = new System.Windows.Forms.Button();
+            this.button_EqWeight = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.buttonRestart = new System.Windows.Forms.Button();
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.numericUpDown_eqDP = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonClear = new System.Windows.Forms.Button();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
@@ -143,7 +155,9 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -252,6 +266,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(-1, 0);
             this.tabControl1.Multiline = true;
@@ -1229,6 +1244,95 @@
             this.button_Vin.UseVisualStyleBackColor = true;
             this.button_Vin.Click += new System.EventHandler(this.button_Vin_Click);
             // 
+            // tabPage5
+            // 
+            this.tabPage5.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage5.Controls.Add(this.buttonClear);
+            this.tabPage5.Controls.Add(this.buttonSave);
+            this.tabPage5.Controls.Add(this.richTextBox_TestDebug);
+            this.tabPage5.Controls.Add(this.label19);
+            this.tabPage5.Controls.Add(this.numericUpDown_eqDP);
+            this.tabPage5.Controls.Add(this.label_EqB);
+            this.tabPage5.Controls.Add(this.label_EqW);
+            this.tabPage5.Controls.Add(this.listBox_availableWeight);
+            this.tabPage5.Controls.Add(this.button_EqGen);
+            this.tabPage5.Controls.Add(this.button_EqBias);
+            this.tabPage5.Controls.Add(this.button_EqWeight);
+            this.tabPage5.Location = new System.Drawing.Point(4, 4);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(934, 580);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Generate Equation";
+            // 
+            // richTextBox_TestDebug
+            // 
+            this.richTextBox_TestDebug.BackColor = System.Drawing.Color.LightGray;
+            this.richTextBox_TestDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBox_TestDebug.Location = new System.Drawing.Point(3, 109);
+            this.richTextBox_TestDebug.Name = "richTextBox_TestDebug";
+            this.richTextBox_TestDebug.Size = new System.Drawing.Size(928, 471);
+            this.richTextBox_TestDebug.TabIndex = 6;
+            this.richTextBox_TestDebug.Text = "";
+            this.richTextBox_TestDebug.WordWrap = false;
+            this.richTextBox_TestDebug.TextChanged += new System.EventHandler(this.richTextBox_TestDebug_TextChanged);
+            // 
+            // label_EqB
+            // 
+            this.label_EqB.AutoSize = true;
+            this.label_EqB.Location = new System.Drawing.Point(346, 39);
+            this.label_EqB.Name = "label_EqB";
+            this.label_EqB.Size = new System.Drawing.Size(10, 13);
+            this.label_EqB.TabIndex = 5;
+            this.label_EqB.Text = "-";
+            // 
+            // label_EqW
+            // 
+            this.label_EqW.AutoSize = true;
+            this.label_EqW.Location = new System.Drawing.Point(346, 8);
+            this.label_EqW.Name = "label_EqW";
+            this.label_EqW.Size = new System.Drawing.Size(10, 13);
+            this.label_EqW.TabIndex = 4;
+            this.label_EqW.Text = "-";
+            // 
+            // listBox_availableWeight
+            // 
+            this.listBox_availableWeight.FormattingEnabled = true;
+            this.listBox_availableWeight.Location = new System.Drawing.Point(3, 3);
+            this.listBox_availableWeight.Name = "listBox_availableWeight";
+            this.listBox_availableWeight.Size = new System.Drawing.Size(221, 108);
+            this.listBox_availableWeight.TabIndex = 3;
+            // 
+            // button_EqGen
+            // 
+            this.button_EqGen.Location = new System.Drawing.Point(230, 57);
+            this.button_EqGen.Name = "button_EqGen";
+            this.button_EqGen.Size = new System.Drawing.Size(110, 30);
+            this.button_EqGen.TabIndex = 2;
+            this.button_EqGen.Text = "Generate Matrices";
+            this.button_EqGen.UseVisualStyleBackColor = true;
+            this.button_EqGen.Click += new System.EventHandler(this.button_EqGen_Click);
+            // 
+            // button_EqBias
+            // 
+            this.button_EqBias.Location = new System.Drawing.Point(230, 29);
+            this.button_EqBias.Name = "button_EqBias";
+            this.button_EqBias.Size = new System.Drawing.Size(110, 30);
+            this.button_EqBias.TabIndex = 1;
+            this.button_EqBias.Text = "Select Bias";
+            this.button_EqBias.UseVisualStyleBackColor = true;
+            this.button_EqBias.Click += new System.EventHandler(this.button_EqBias_Click);
+            // 
+            // button_EqWeight
+            // 
+            this.button_EqWeight.Location = new System.Drawing.Point(230, 0);
+            this.button_EqWeight.Name = "button_EqWeight";
+            this.button_EqWeight.Size = new System.Drawing.Size(110, 30);
+            this.button_EqWeight.TabIndex = 0;
+            this.button_EqWeight.Text = "Select Weight";
+            this.button_EqWeight.UseVisualStyleBackColor = true;
+            this.button_EqWeight.Click += new System.EventHandler(this.button_EqWeight_Click);
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.buttonRestart);
@@ -1273,6 +1377,47 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // numericUpDown_eqDP
+            // 
+            this.numericUpDown_eqDP.Location = new System.Drawing.Point(346, 89);
+            this.numericUpDown_eqDP.Name = "numericUpDown_eqDP";
+            this.numericUpDown_eqDP.Size = new System.Drawing.Size(33, 20);
+            this.numericUpDown_eqDP.TabIndex = 7;
+            this.numericUpDown_eqDP.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(265, 91);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(75, 13);
+            this.label19.TabIndex = 8;
+            this.label19.Text = "Decimal Place";
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(882, 0);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(52, 52);
+            this.buttonSave.TabIndex = 9;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // buttonClear
+            // 
+            this.buttonClear.Location = new System.Drawing.Point(882, 57);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(52, 51);
+            this.buttonClear.TabIndex = 9;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
             // Form_Main
             // 
@@ -1320,8 +1465,11 @@
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1417,6 +1565,18 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button buttonCopy_Main;
         private System.Windows.Forms.Button buttonCopy_Valid;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button button_EqBias;
+        private System.Windows.Forms.Button button_EqWeight;
+        private System.Windows.Forms.ListBox listBox_availableWeight;
+        private System.Windows.Forms.Button button_EqGen;
+        private System.Windows.Forms.Label label_EqB;
+        private System.Windows.Forms.Label label_EqW;
+        private System.Windows.Forms.RichTextBox richTextBox_TestDebug;
+        private System.Windows.Forms.NumericUpDown numericUpDown_eqDP;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button buttonClear;
+        private System.Windows.Forms.Button buttonSave;
     }
 }
 
