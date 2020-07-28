@@ -35,8 +35,6 @@
             this.richTextBox_currentError = new System.Windows.Forms.RichTextBox();
             this.richTextBox_CurrentLoop = new System.Windows.Forms.RichTextBox();
             this.label_loopsCounter = new System.Windows.Forms.Label();
-            this.pictureBox_Switch = new System.Windows.Forms.PictureBox();
-            this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -53,7 +51,6 @@
             this.checkBoxCustomNor = new System.Windows.Forms.CheckBox();
             this.button_Normalize = new System.Windows.Forms.Button();
             this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox_Info = new System.Windows.Forms.PictureBox();
             this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
             this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -62,7 +59,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
             this.numericUpDown_save = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -114,7 +110,11 @@
             this.button_Vw = new System.Windows.Forms.Button();
             this.button_Vin = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.buttonClear = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.richTextBox_TestDebug = new System.Windows.Forms.RichTextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.numericUpDown_eqDP = new System.Windows.Forms.NumericUpDown();
             this.label_EqB = new System.Windows.Forms.Label();
             this.label_EqW = new System.Windows.Forms.Label();
             this.listBox_availableWeight = new System.Windows.Forms.ListBox();
@@ -126,13 +126,12 @@
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.numericUpDown_eqDP = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonClear = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.pictureBox_Info = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Switch = new System.Windows.Forms.PictureBox();
+            this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.panel_Loading.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -141,10 +140,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_loops)).BeginInit();
@@ -156,8 +153,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -240,43 +241,26 @@
             this.label_loopsCounter.Text = "Loops: -- ";
             this.label_loopsCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pictureBox_Switch
-            // 
-            this.pictureBox_Switch.Location = new System.Drawing.Point(850, 24);
-            this.pictureBox_Switch.Name = "pictureBox_Switch";
-            this.pictureBox_Switch.Size = new System.Drawing.Size(87, 62);
-            this.pictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Switch.TabIndex = 2;
-            this.pictureBox_Switch.TabStop = false;
-            this.pictureBox_Switch.Click += new System.EventHandler(this.pictureBox_Switch_Click);
-            // 
-            // pictureBox_StopCont
-            // 
-            this.pictureBox_StopCont.Location = new System.Drawing.Point(866, 541);
-            this.pictureBox_StopCont.Name = "pictureBox_StopCont";
-            this.pictureBox_StopCont.Size = new System.Drawing.Size(60, 60);
-            this.pictureBox_StopCont.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_StopCont.TabIndex = 1;
-            this.pictureBox_StopCont.TabStop = false;
-            this.pictureBox_StopCont.Click += new System.EventHandler(this.pictureBox_StopCont_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(-1, 0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(942, 606);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.Black;
+            this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Controls.Add(this.button_Normalize);
             this.tabPage1.Controls.Add(this.numericUpDown_DecayRate);
@@ -286,7 +270,6 @@
             this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.label_biasPath);
             this.tabPage1.Controls.Add(this.button_BiasPath);
-            this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.label8);
             this.tabPage1.Controls.Add(this.numericUpDown_DP);
             this.tabPage1.Controls.Add(this.pictureBox_Switch2);
@@ -319,7 +302,6 @@
             this.tabPage1.Size = new System.Drawing.Size(934, 580);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -335,6 +317,7 @@
             this.panel1.Controls.Add(this.numericUpDownNorIMax);
             this.panel1.Controls.Add(this.numericUpDownNorIMin);
             this.panel1.Controls.Add(this.checkBoxCustomNor);
+            this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.panel1.Location = new System.Drawing.Point(92, 522);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(537, 53);
@@ -342,6 +325,9 @@
             // 
             // numericUpDownNorOMax
             // 
+            this.numericUpDownNorOMax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownNorOMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDownNorOMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDownNorOMax.Location = new System.Drawing.Point(459, 27);
             this.numericUpDownNorOMax.Maximum = new decimal(new int[] {
             999999,
@@ -359,6 +345,9 @@
             // 
             // numericUpDownNorOMin
             // 
+            this.numericUpDownNorOMin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownNorOMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDownNorOMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDownNorOMin.Location = new System.Drawing.Point(352, 27);
             this.numericUpDownNorOMin.Maximum = new decimal(new int[] {
             999998,
@@ -438,6 +427,9 @@
             // 
             // numericUpDownNorIMax
             // 
+            this.numericUpDownNorIMax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownNorIMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDownNorIMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDownNorIMax.Location = new System.Drawing.Point(188, 27);
             this.numericUpDownNorIMax.Maximum = new decimal(new int[] {
             999999,
@@ -455,6 +447,9 @@
             // 
             // numericUpDownNorIMin
             // 
+            this.numericUpDownNorIMin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownNorIMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDownNorIMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDownNorIMin.Location = new System.Drawing.Point(78, 27);
             this.numericUpDownNorIMin.Maximum = new decimal(new int[] {
             999998,
@@ -473,26 +468,37 @@
             // checkBoxCustomNor
             // 
             this.checkBoxCustomNor.AutoSize = true;
+            this.checkBoxCustomNor.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.checkBoxCustomNor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBoxCustomNor.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBoxCustomNor.Location = new System.Drawing.Point(9, 8);
             this.checkBoxCustomNor.Name = "checkBoxCustomNor";
-            this.checkBoxCustomNor.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxCustomNor.Size = new System.Drawing.Size(104, 17);
             this.checkBoxCustomNor.TabIndex = 0;
             this.checkBoxCustomNor.Text = "Normalize Range";
             this.checkBoxCustomNor.UseVisualStyleBackColor = true;
             // 
             // button_Normalize
             // 
+            this.button_Normalize.BackColor = System.Drawing.Color.Black;
+            this.button_Normalize.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_Normalize.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Normalize.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Normalize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Normalize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Normalize.Location = new System.Drawing.Point(635, 538);
             this.button_Normalize.Name = "button_Normalize";
             this.button_Normalize.Size = new System.Drawing.Size(96, 30);
             this.button_Normalize.TabIndex = 46;
             this.button_Normalize.Text = "Normalize Data";
-            this.button_Normalize.UseVisualStyleBackColor = true;
+            this.button_Normalize.UseVisualStyleBackColor = false;
             this.button_Normalize.Click += new System.EventHandler(this.button_Normalize_Click);
             // 
             // numericUpDown_DecayRate
             // 
+            this.numericUpDown_DecayRate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_DecayRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDown_DecayRate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_DecayRate.Location = new System.Drawing.Point(115, 392);
             this.numericUpDown_DecayRate.Maximum = new decimal(new int[] {
             10000000,
@@ -508,31 +514,26 @@
             0,
             0});
             // 
-            // pictureBox_Info
-            // 
-            this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
-            this.pictureBox_Info.Location = new System.Drawing.Point(10, 520);
-            this.pictureBox_Info.Name = "pictureBox_Info";
-            this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
-            this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Info.TabIndex = 44;
-            this.pictureBox_Info.TabStop = false;
-            this.pictureBox_Info.Click += new System.EventHandler(this.pictureBox_Info_Click);
-            // 
             // checkBox_adaptiveRate
             // 
             this.checkBox_adaptiveRate.AutoSize = true;
+            this.checkBox_adaptiveRate.BackColor = System.Drawing.Color.Black;
+            this.checkBox_adaptiveRate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_adaptiveRate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.checkBox_adaptiveRate.Location = new System.Drawing.Point(6, 153);
             this.checkBox_adaptiveRate.Name = "checkBox_adaptiveRate";
-            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(191, 17);
+            this.checkBox_adaptiveRate.Size = new System.Drawing.Size(188, 17);
             this.checkBox_adaptiveRate.TabIndex = 43;
             this.checkBox_adaptiveRate.Text = "Decaying Learning and Momentum";
-            this.checkBox_adaptiveRate.UseVisualStyleBackColor = true;
+            this.checkBox_adaptiveRate.UseVisualStyleBackColor = false;
             this.checkBox_adaptiveRate.CheckedChanged += new System.EventHandler(this.checkBox_adaptiveRate_CheckedChanged);
             // 
             // numericUpDown_momentum
             // 
+            this.numericUpDown_momentum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_momentum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numericUpDown_momentum.DecimalPlaces = 5;
+            this.numericUpDown_momentum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_momentum.Increment = new decimal(new int[] {
             1,
             0,
@@ -556,6 +557,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label9.Location = new System.Drawing.Point(45, 238);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(59, 13);
@@ -565,6 +567,7 @@
             // label_biasPath
             // 
             this.label_biasPath.AutoSize = true;
+            this.label_biasPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_biasPath.Location = new System.Drawing.Point(98, 105);
             this.label_biasPath.Name = "label_biasPath";
             this.label_biasPath.Size = new System.Drawing.Size(43, 13);
@@ -573,18 +576,25 @@
             // 
             // button_BiasPath
             // 
+            this.button_BiasPath.BackColor = System.Drawing.Color.Black;
+            this.button_BiasPath.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_BiasPath.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_BiasPath.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_BiasPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_BiasPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_BiasPath.Location = new System.Drawing.Point(6, 99);
             this.button_BiasPath.Name = "button_BiasPath";
             this.button_BiasPath.Size = new System.Drawing.Size(86, 25);
             this.button_BiasPath.TabIndex = 39;
             this.button_BiasPath.Text = "Bias Path";
             this.button_BiasPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button_BiasPath.UseVisualStyleBackColor = true;
+            this.button_BiasPath.UseVisualStyleBackColor = false;
             this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label12.Location = new System.Drawing.Point(40, 394);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(64, 13);
@@ -594,6 +604,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label8.Location = new System.Drawing.Point(18, 368);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(86, 13);
@@ -602,6 +613,9 @@
             // 
             // numericUpDown_DP
             // 
+            this.numericUpDown_DP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_DP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDown_DP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_DP.Location = new System.Drawing.Point(115, 366);
             this.numericUpDown_DP.Name = "numericUpDown_DP";
             this.numericUpDown_DP.Size = new System.Drawing.Size(140, 20);
@@ -612,18 +626,11 @@
             0,
             0});
             // 
-            // pictureBox_Switch2
-            // 
-            this.pictureBox_Switch2.Location = new System.Drawing.Point(847, 21);
-            this.pictureBox_Switch2.Name = "pictureBox_Switch2";
-            this.pictureBox_Switch2.Size = new System.Drawing.Size(87, 62);
-            this.pictureBox_Switch2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Switch2.TabIndex = 3;
-            this.pictureBox_Switch2.TabStop = false;
-            this.pictureBox_Switch2.Click += new System.EventHandler(this.pictureBox_Switch2_Click);
-            // 
             // numericUpDown_save
             // 
+            this.numericUpDown_save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_save.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDown_save.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_save.Increment = new decimal(new int[] {
             1000,
             0,
@@ -652,6 +659,8 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Black;
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label7.Location = new System.Drawing.Point(261, 342);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 13);
@@ -661,6 +670,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label6.Location = new System.Drawing.Point(9, 342);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 13);
@@ -670,9 +680,11 @@
             // checkBox_UseExistW
             // 
             this.checkBox_UseExistW.AutoSize = true;
+            this.checkBox_UseExistW.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_UseExistW.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.checkBox_UseExistW.Location = new System.Drawing.Point(6, 130);
             this.checkBox_UseExistW.Name = "checkBox_UseExistW";
-            this.checkBox_UseExistW.Size = new System.Drawing.Size(211, 17);
+            this.checkBox_UseExistW.Size = new System.Drawing.Size(208, 17);
             this.checkBox_UseExistW.TabIndex = 34;
             this.checkBox_UseExistW.Text = "Continue from Existing Weight and Bias";
             this.checkBox_UseExistW.UseVisualStyleBackColor = true;
@@ -681,6 +693,7 @@
             // 
             this.groupBox1.Controls.Add(this.buttonCopy_Main);
             this.groupBox1.Controls.Add(this.richTextBox_Summary);
+            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.groupBox1.Location = new System.Drawing.Point(321, 124);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(613, 404);
@@ -718,6 +731,9 @@
             // 
             // numericUpDown_loops
             // 
+            this.numericUpDown_loops.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_loops.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDown_loops.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_loops.Increment = new decimal(new int[] {
             1000,
             0,
@@ -745,7 +761,10 @@
             // 
             // numericUpDown_learn
             // 
+            this.numericUpDown_learn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_learn.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numericUpDown_learn.DecimalPlaces = 5;
+            this.numericUpDown_learn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_learn.Increment = new decimal(new int[] {
             1,
             0,
@@ -768,6 +787,9 @@
             // 
             // numericUpDown_nodes
             // 
+            this.numericUpDown_nodes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_nodes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDown_nodes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_nodes.Location = new System.Drawing.Point(115, 314);
             this.numericUpDown_nodes.Maximum = new decimal(new int[] {
             1000,
@@ -790,6 +812,9 @@
             // 
             // numericUpDown_layer
             // 
+            this.numericUpDown_layer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_layer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numericUpDown_layer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.numericUpDown_layer.Location = new System.Drawing.Point(115, 288);
             this.numericUpDown_layer.Maximum = new decimal(new int[] {
             1000,
@@ -813,6 +838,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label5.Location = new System.Drawing.Point(16, 264);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 13);
@@ -822,6 +848,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label4.Location = new System.Drawing.Point(30, 212);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 13);
@@ -831,6 +858,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label3.Location = new System.Drawing.Point(66, 316);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
@@ -840,6 +868,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label2.Location = new System.Drawing.Point(71, 290);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 13);
@@ -848,7 +877,9 @@
             // 
             // comboBox_ActivateFunction
             // 
-            this.comboBox_ActivateFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_ActivateFunction.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.comboBox_ActivateFunction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox_ActivateFunction.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
             this.comboBox_ActivateFunction.FormattingEnabled = true;
             this.comboBox_ActivateFunction.Items.AddRange(new object[] {
             "1. Tanh",
@@ -869,6 +900,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label1.Location = new System.Drawing.Point(6, 186);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
@@ -878,6 +910,7 @@
             // label_WeightPath
             // 
             this.label_WeightPath.AutoSize = true;
+            this.label_WeightPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_WeightPath.Location = new System.Drawing.Point(98, 74);
             this.label_WeightPath.Name = "label_WeightPath";
             this.label_WeightPath.Size = new System.Drawing.Size(43, 13);
@@ -888,6 +921,7 @@
             // label_OutputPath
             // 
             this.label_OutputPath.AutoSize = true;
+            this.label_OutputPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_OutputPath.Location = new System.Drawing.Point(98, 43);
             this.label_OutputPath.Name = "label_OutputPath";
             this.label_OutputPath.Size = new System.Drawing.Size(43, 13);
@@ -898,6 +932,7 @@
             // label_InputPath
             // 
             this.label_InputPath.AutoSize = true;
+            this.label_InputPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_InputPath.Location = new System.Drawing.Point(98, 12);
             this.label_InputPath.Name = "label_InputPath";
             this.label_InputPath.Size = new System.Drawing.Size(43, 13);
@@ -907,59 +942,90 @@
             // 
             // button_Weight
             // 
+            this.button_Weight.BackColor = System.Drawing.Color.Black;
+            this.button_Weight.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_Weight.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Weight.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Weight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Weight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Weight.Location = new System.Drawing.Point(6, 68);
             this.button_Weight.Name = "button_Weight";
             this.button_Weight.Size = new System.Drawing.Size(86, 25);
             this.button_Weight.TabIndex = 4;
             this.button_Weight.Text = "Weight Path";
             this.button_Weight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button_Weight.UseVisualStyleBackColor = true;
+            this.button_Weight.UseVisualStyleBackColor = false;
             this.button_Weight.Click += new System.EventHandler(this.button_Weight_Click);
             // 
             // button_Output
             // 
+            this.button_Output.BackColor = System.Drawing.Color.Black;
+            this.button_Output.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_Output.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Output.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Output.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Output.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Output.Location = new System.Drawing.Point(6, 37);
             this.button_Output.Name = "button_Output";
             this.button_Output.Size = new System.Drawing.Size(86, 25);
             this.button_Output.TabIndex = 3;
             this.button_Output.Text = "Output Path";
             this.button_Output.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button_Output.UseVisualStyleBackColor = true;
+            this.button_Output.UseVisualStyleBackColor = false;
             this.button_Output.Click += new System.EventHandler(this.button_Output_Click);
             // 
             // button_Input
             // 
+            this.button_Input.BackColor = System.Drawing.Color.Black;
+            this.button_Input.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_Input.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Input.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Input.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Input.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Input.Location = new System.Drawing.Point(6, 6);
             this.button_Input.Name = "button_Input";
             this.button_Input.Size = new System.Drawing.Size(86, 25);
             this.button_Input.TabIndex = 2;
             this.button_Input.Text = "Input Path";
             this.button_Input.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button_Input.UseVisualStyleBackColor = true;
+            this.button_Input.UseVisualStyleBackColor = false;
             this.button_Input.Click += new System.EventHandler(this.button_Input_Click);
             // 
             // button_SaveSetting
             // 
+            this.button_SaveSetting.BackColor = System.Drawing.Color.Black;
+            this.button_SaveSetting.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_SaveSetting.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_SaveSetting.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_SaveSetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SaveSetting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_SaveSetting.Location = new System.Drawing.Point(737, 538);
             this.button_SaveSetting.Name = "button_SaveSetting";
             this.button_SaveSetting.Size = new System.Drawing.Size(90, 30);
             this.button_SaveSetting.TabIndex = 1;
             this.button_SaveSetting.Text = "Save Settings";
-            this.button_SaveSetting.UseVisualStyleBackColor = true;
+            this.button_SaveSetting.UseVisualStyleBackColor = false;
             this.button_SaveSetting.Click += new System.EventHandler(this.button_SaveSetting_Click);
             // 
             // button_Go
             // 
+            this.button_Go.BackColor = System.Drawing.Color.Black;
+            this.button_Go.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button_Go.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Go.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Go.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Go.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Go.Location = new System.Drawing.Point(833, 538);
             this.button_Go.Name = "button_Go";
             this.button_Go.Size = new System.Drawing.Size(90, 30);
             this.button_Go.TabIndex = 0;
             this.button_Go.Text = "GO";
-            this.button_Go.UseVisualStyleBackColor = true;
+            this.button_Go.UseVisualStyleBackColor = false;
             this.button_Go.Click += new System.EventHandler(this.button_Go_Click);
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.linkLabel1);
             this.tabPage2.Controls.Add(this.button_clearLog);
             this.tabPage2.Controls.Add(this.button_saveLog);
             this.tabPage2.Controls.Add(this.richTextBox_FinalResult);
@@ -983,7 +1049,7 @@
             // 
             // button_saveLog
             // 
-            this.button_saveLog.Location = new System.Drawing.Point(823, 544);
+            this.button_saveLog.Location = new System.Drawing.Point(112, 544);
             this.button_saveLog.Name = "button_saveLog";
             this.button_saveLog.Size = new System.Drawing.Size(100, 30);
             this.button_saveLog.TabIndex = 1;
@@ -1004,6 +1070,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.BackColor = System.Drawing.Color.Black;
             this.tabPage3.Controls.Add(this.checkBoxDeNor);
             this.tabPage3.Controls.Add(this.labelNorPath);
             this.tabPage3.Controls.Add(this.buttonNorPath);
@@ -1027,22 +1094,27 @@
             this.tabPage3.Size = new System.Drawing.Size(934, 580);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Validation";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // checkBoxDeNor
             // 
             this.checkBoxDeNor.AutoSize = true;
+            this.checkBoxDeNor.BackColor = System.Drawing.Color.Black;
+            this.checkBoxDeNor.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.checkBoxDeNor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBoxDeNor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.checkBoxDeNor.Location = new System.Drawing.Point(672, 82);
             this.checkBoxDeNor.Name = "checkBoxDeNor";
-            this.checkBoxDeNor.Size = new System.Drawing.Size(151, 17);
+            this.checkBoxDeNor.Size = new System.Drawing.Size(148, 17);
             this.checkBoxDeNor.TabIndex = 18;
             this.checkBoxDeNor.Text = "De-normalization: Disabled";
-            this.checkBoxDeNor.UseVisualStyleBackColor = true;
+            this.checkBoxDeNor.UseVisualStyleBackColor = false;
             this.checkBoxDeNor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxDeNor_MouseClick);
             // 
             // labelNorPath
             // 
             this.labelNorPath.AutoSize = true;
+            this.labelNorPath.BackColor = System.Drawing.Color.Black;
+            this.labelNorPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.labelNorPath.Location = new System.Drawing.Point(688, 103);
             this.labelNorPath.Name = "labelNorPath";
             this.labelNorPath.Size = new System.Drawing.Size(13, 13);
@@ -1051,16 +1123,23 @@
             // 
             // buttonNorPath
             // 
+            this.buttonNorPath.BackColor = System.Drawing.Color.Black;
+            this.buttonNorPath.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.buttonNorPath.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonNorPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonNorPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.buttonNorPath.Location = new System.Drawing.Point(549, 78);
             this.buttonNorPath.Name = "buttonNorPath";
             this.buttonNorPath.Size = new System.Drawing.Size(117, 22);
             this.buttonNorPath.TabIndex = 16;
             this.buttonNorPath.Text = "Normalized Path";
-            this.buttonNorPath.UseVisualStyleBackColor = true;
+            this.buttonNorPath.UseVisualStyleBackColor = false;
             this.buttonNorPath.Click += new System.EventHandler(this.buttonNorPath_Click);
             // 
             // numericUpDown_DPV
             // 
+            this.numericUpDown_DPV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_DPV.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.numericUpDown_DPV.Location = new System.Drawing.Point(661, 48);
             this.numericUpDown_DPV.Name = "numericUpDown_DPV";
             this.numericUpDown_DPV.Size = new System.Drawing.Size(140, 20);
@@ -1074,6 +1153,8 @@
             // label_Vbp
             // 
             this.label_Vbp.AutoSize = true;
+            this.label_Vbp.BackColor = System.Drawing.Color.Black;
+            this.label_Vbp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_Vbp.Location = new System.Drawing.Point(139, 42);
             this.label_Vbp.Name = "label_Vbp";
             this.label_Vbp.Size = new System.Drawing.Size(13, 13);
@@ -1082,12 +1163,17 @@
             // 
             // button_VBP
             // 
+            this.button_VBP.BackColor = System.Drawing.Color.Black;
+            this.button_VBP.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_VBP.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_VBP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_VBP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_VBP.Location = new System.Drawing.Point(15, 37);
             this.button_VBP.Name = "button_VBP";
             this.button_VBP.Size = new System.Drawing.Size(118, 23);
             this.button_VBP.TabIndex = 13;
             this.button_VBP.Text = "Bias Path";
-            this.button_VBP.UseVisualStyleBackColor = true;
+            this.button_VBP.UseVisualStyleBackColor = false;
             this.button_VBP.Click += new System.EventHandler(this.button_VBP_Click);
             // 
             // groupBox2
@@ -1095,6 +1181,7 @@
             this.groupBox2.Controls.Add(this.buttonCopy_Valid);
             this.groupBox2.Controls.Add(this.richTextBox_Vout);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.groupBox2.Location = new System.Drawing.Point(7, 142);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(916, 435);
@@ -1132,6 +1219,8 @@
             // label11
             // 
             this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Black;
+            this.label11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label11.Location = new System.Drawing.Point(546, 53);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(75, 13);
@@ -1141,6 +1230,8 @@
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Black;
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label10.Location = new System.Drawing.Point(546, 24);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(98, 13);
@@ -1149,7 +1240,9 @@
             // 
             // comboBox_Vact
             // 
-            this.comboBox_Vact.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Vact.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.comboBox_Vact.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox_Vact.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.comboBox_Vact.FormattingEnabled = true;
             this.comboBox_Vact.Items.AddRange(new object[] {
             "1. Tanh",
@@ -1170,6 +1263,8 @@
             // labelWinfo
             // 
             this.labelWinfo.AutoSize = true;
+            this.labelWinfo.BackColor = System.Drawing.Color.Black;
+            this.labelWinfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.labelWinfo.Location = new System.Drawing.Point(139, 96);
             this.labelWinfo.Name = "labelWinfo";
             this.labelWinfo.Size = new System.Drawing.Size(0, 13);
@@ -1178,6 +1273,8 @@
             // label_Vw
             // 
             this.label_Vw.AutoSize = true;
+            this.label_Vw.BackColor = System.Drawing.Color.Black;
+            this.label_Vw.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_Vw.Location = new System.Drawing.Point(139, 72);
             this.label_Vw.Name = "label_Vw";
             this.label_Vw.Size = new System.Drawing.Size(13, 13);
@@ -1188,6 +1285,8 @@
             // label_Vin
             // 
             this.label_Vin.AutoSize = true;
+            this.label_Vin.BackColor = System.Drawing.Color.Black;
+            this.label_Vin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_Vin.Location = new System.Drawing.Point(139, 12);
             this.label_Vin.Name = "label_Vin";
             this.label_Vin.Size = new System.Drawing.Size(13, 13);
@@ -1196,57 +1295,82 @@
             // 
             // button_CResult
             // 
+            this.button_CResult.BackColor = System.Drawing.Color.Black;
+            this.button_CResult.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_CResult.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_CResult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_CResult.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_CResult.Location = new System.Drawing.Point(834, 77);
             this.button_CResult.Name = "button_CResult";
             this.button_CResult.Size = new System.Drawing.Size(87, 23);
             this.button_CResult.TabIndex = 2;
             this.button_CResult.Text = "Clear results";
-            this.button_CResult.UseVisualStyleBackColor = true;
+            this.button_CResult.UseVisualStyleBackColor = false;
             this.button_CResult.Click += new System.EventHandler(this.button_Vclear_Click);
             // 
             // button_Vsave
             // 
+            this.button_Vsave.BackColor = System.Drawing.Color.Black;
+            this.button_Vsave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Vsave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Vsave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Vsave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Vsave.Location = new System.Drawing.Point(834, 48);
             this.button_Vsave.Name = "button_Vsave";
             this.button_Vsave.Size = new System.Drawing.Size(87, 23);
             this.button_Vsave.TabIndex = 2;
             this.button_Vsave.Text = "Save Results";
-            this.button_Vsave.UseVisualStyleBackColor = true;
+            this.button_Vsave.UseVisualStyleBackColor = false;
             this.button_Vsave.Click += new System.EventHandler(this.button_Vsave_Click);
             // 
             // button_Vgo
             // 
+            this.button_Vgo.BackColor = System.Drawing.Color.Black;
+            this.button_Vgo.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Vgo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Vgo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Vgo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Vgo.Location = new System.Drawing.Point(834, 19);
             this.button_Vgo.Name = "button_Vgo";
             this.button_Vgo.Size = new System.Drawing.Size(87, 23);
             this.button_Vgo.TabIndex = 2;
             this.button_Vgo.Text = "Feed Forward";
-            this.button_Vgo.UseVisualStyleBackColor = true;
+            this.button_Vgo.UseVisualStyleBackColor = false;
             this.button_Vgo.Click += new System.EventHandler(this.button_Vgo_Click);
             // 
             // button_Vw
             // 
+            this.button_Vw.BackColor = System.Drawing.Color.Black;
+            this.button_Vw.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Vw.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Vw.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Vw.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Vw.Location = new System.Drawing.Point(15, 67);
             this.button_Vw.Name = "button_Vw";
             this.button_Vw.Size = new System.Drawing.Size(118, 23);
             this.button_Vw.TabIndex = 1;
             this.button_Vw.Text = "Weight Path";
-            this.button_Vw.UseVisualStyleBackColor = true;
+            this.button_Vw.UseVisualStyleBackColor = false;
             this.button_Vw.Click += new System.EventHandler(this.button_Vw_Click);
             // 
             // button_Vin
             // 
+            this.button_Vin.BackColor = System.Drawing.Color.Black;
+            this.button_Vin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_Vin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_Vin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Vin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button_Vin.Location = new System.Drawing.Point(15, 7);
             this.button_Vin.Name = "button_Vin";
             this.button_Vin.Size = new System.Drawing.Size(118, 23);
             this.button_Vin.TabIndex = 0;
             this.button_Vin.Text = "Input Path";
-            this.button_Vin.UseVisualStyleBackColor = true;
+            this.button_Vin.UseVisualStyleBackColor = false;
             this.button_Vin.Click += new System.EventHandler(this.button_Vin_Click);
             // 
             // tabPage5
             // 
-            this.tabPage5.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage5.BackColor = System.Drawing.Color.Black;
             this.tabPage5.Controls.Add(this.buttonClear);
             this.tabPage5.Controls.Add(this.buttonSave);
             this.tabPage5.Controls.Add(this.richTextBox_TestDebug);
@@ -1258,12 +1382,39 @@
             this.tabPage5.Controls.Add(this.button_EqGen);
             this.tabPage5.Controls.Add(this.button_EqBias);
             this.tabPage5.Controls.Add(this.button_EqWeight);
+            this.tabPage5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.tabPage5.Location = new System.Drawing.Point(4, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage5.Size = new System.Drawing.Size(934, 580);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Generate Equation";
+            // 
+            // buttonClear
+            // 
+            this.buttonClear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.buttonClear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClear.Location = new System.Drawing.Point(882, 57);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(52, 51);
+            this.buttonClear.TabIndex = 9;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.buttonSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Location = new System.Drawing.Point(882, 0);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(52, 52);
+            this.buttonSave.TabIndex = 9;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // richTextBox_TestDebug
             // 
@@ -1276,6 +1427,29 @@
             this.richTextBox_TestDebug.Text = "";
             this.richTextBox_TestDebug.WordWrap = false;
             this.richTextBox_TestDebug.TextChanged += new System.EventHandler(this.richTextBox_TestDebug_TextChanged);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(265, 91);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(75, 13);
+            this.label19.TabIndex = 8;
+            this.label19.Text = "Decimal Place";
+            // 
+            // numericUpDown_eqDP
+            // 
+            this.numericUpDown_eqDP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDown_eqDP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.numericUpDown_eqDP.Location = new System.Drawing.Point(346, 89);
+            this.numericUpDown_eqDP.Name = "numericUpDown_eqDP";
+            this.numericUpDown_eqDP.Size = new System.Drawing.Size(33, 20);
+            this.numericUpDown_eqDP.TabIndex = 7;
+            this.numericUpDown_eqDP.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             // 
             // label_EqB
             // 
@@ -1297,14 +1471,20 @@
             // 
             // listBox_availableWeight
             // 
+            this.listBox_availableWeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.listBox_availableWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listBox_availableWeight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.listBox_availableWeight.FormattingEnabled = true;
             this.listBox_availableWeight.Location = new System.Drawing.Point(3, 3);
             this.listBox_availableWeight.Name = "listBox_availableWeight";
-            this.listBox_availableWeight.Size = new System.Drawing.Size(221, 108);
+            this.listBox_availableWeight.Size = new System.Drawing.Size(221, 106);
             this.listBox_availableWeight.TabIndex = 3;
             // 
             // button_EqGen
             // 
+            this.button_EqGen.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_EqGen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_EqGen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_EqGen.Location = new System.Drawing.Point(230, 57);
             this.button_EqGen.Name = "button_EqGen";
             this.button_EqGen.Size = new System.Drawing.Size(110, 30);
@@ -1315,6 +1495,9 @@
             // 
             // button_EqBias
             // 
+            this.button_EqBias.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_EqBias.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_EqBias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_EqBias.Location = new System.Drawing.Point(230, 29);
             this.button_EqBias.Name = "button_EqBias";
             this.button_EqBias.Size = new System.Drawing.Size(110, 30);
@@ -1325,6 +1508,9 @@
             // 
             // button_EqWeight
             // 
+            this.button_EqWeight.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.button_EqWeight.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button_EqWeight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_EqWeight.Location = new System.Drawing.Point(230, 0);
             this.button_EqWeight.Name = "button_EqWeight";
             this.button_EqWeight.Size = new System.Drawing.Size(110, 30);
@@ -1378,52 +1564,63 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // numericUpDown_eqDP
+            // linkLabel1
             // 
-            this.numericUpDown_eqDP.Location = new System.Drawing.Point(346, 89);
-            this.numericUpDown_eqDP.Name = "numericUpDown_eqDP";
-            this.numericUpDown_eqDP.Size = new System.Drawing.Size(33, 20);
-            this.numericUpDown_eqDP.TabIndex = 7;
-            this.numericUpDown_eqDP.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(781, 561);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(142, 13);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "https://github.com/ChMeow";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label19
+            // pictureBox_Info
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(265, 91);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(75, 13);
-            this.label19.TabIndex = 8;
-            this.label19.Text = "Decimal Place";
+            this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
+            this.pictureBox_Info.Location = new System.Drawing.Point(10, 520);
+            this.pictureBox_Info.Name = "pictureBox_Info";
+            this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
+            this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Info.TabIndex = 44;
+            this.pictureBox_Info.TabStop = false;
+            this.pictureBox_Info.Click += new System.EventHandler(this.pictureBox_Info_Click);
             // 
-            // buttonSave
+            // pictureBox_Switch2
             // 
-            this.buttonSave.Location = new System.Drawing.Point(882, 0);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(52, 52);
-            this.buttonSave.TabIndex = 9;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.pictureBox_Switch2.Location = new System.Drawing.Point(847, 21);
+            this.pictureBox_Switch2.Name = "pictureBox_Switch2";
+            this.pictureBox_Switch2.Size = new System.Drawing.Size(87, 62);
+            this.pictureBox_Switch2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Switch2.TabIndex = 3;
+            this.pictureBox_Switch2.TabStop = false;
+            this.pictureBox_Switch2.Click += new System.EventHandler(this.pictureBox_Switch2_Click);
             // 
-            // buttonClear
+            // pictureBox_Switch
             // 
-            this.buttonClear.Location = new System.Drawing.Point(882, 57);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(52, 51);
-            this.buttonClear.TabIndex = 9;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.pictureBox_Switch.Location = new System.Drawing.Point(850, 24);
+            this.pictureBox_Switch.Name = "pictureBox_Switch";
+            this.pictureBox_Switch.Size = new System.Drawing.Size(87, 62);
+            this.pictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Switch.TabIndex = 2;
+            this.pictureBox_Switch.TabStop = false;
+            this.pictureBox_Switch.Click += new System.EventHandler(this.pictureBox_Switch_Click);
+            // 
+            // pictureBox_StopCont
+            // 
+            this.pictureBox_StopCont.Location = new System.Drawing.Point(866, 541);
+            this.pictureBox_StopCont.Name = "pictureBox_StopCont";
+            this.pictureBox_StopCont.Size = new System.Drawing.Size(60, 60);
+            this.pictureBox_StopCont.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_StopCont.TabIndex = 1;
+            this.pictureBox_StopCont.TabStop = false;
+            this.pictureBox_StopCont.Click += new System.EventHandler(this.pictureBox_StopCont_Click);
             // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(938, 606);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel_Loading);
@@ -1433,13 +1630,11 @@
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "NeuroNet Project - 200717";
+            this.Text = "NeuroNet Project - 200728";
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.MouseEnter += new System.EventHandler(this.Form_Main_MouseEnter);
             this.panel_Loading.ResumeLayout(false);
             this.panel_Loading.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1450,10 +1645,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_loops)).EndInit();
@@ -1461,15 +1654,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nodes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_layer)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1577,6 +1775,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

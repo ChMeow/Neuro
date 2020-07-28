@@ -121,6 +121,33 @@ namespace NeuroNet_Project
 
             label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
 
+            //Saving other info into PARAMETERS folder.
+            string parametersFileName = label_WeightPath.Text + "\\PARAMETERS" + "\\PARAMETERS.TXT";
+            if (!Directory.Exists(label_WeightPath.Text + "\\PARAMETERS")) { Directory.CreateDirectory(label_WeightPath.Text + "\\PARAMETERS"); }
+            string parametersText = "Activation Function =" + comboBox_ActivateFunction.SelectedItem + "\r\n" +
+                                    "Normalized X min (Range) =" + numericUpDownNorIMin.Value +"\r\n" +
+                                    "Normalized X max (Range) =" + numericUpDownNorIMax.Value +"\r\n" +
+                                    "Normalized Y min (Range) =" + numericUpDownNorOMin.Value +"\r\n" +
+                                    "Normalized Y max (Range) =" + numericUpDownNorOMax.Value +"\r\n" +
+                                    "Normalized Data =" + checkBoxCustomNor.Checked.ToString() + "\r\n" +
+                                    "Learning rate =" + numericUpDown_learn.Value +"\r\n" +
+                                    "Momentum  =" + numericUpDown_momentum.Value +"\r\n" +
+                                    "Decay Rate =" + numericUpDown_DecayRate.Value +"\r\n" +
+                                    "Decaying Rate =" + checkBox_adaptiveRate.Checked.ToString();
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(parametersFileName))
+                {
+                    writer.Write(parametersText);
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.Write(exp.Message);
+            }
+
+            // Worker is doing the feedforward backpropagation.
+
             if (backgroundWorker1.IsBusy != true)
             {
                 backgroundWorker1.RunWorkerAsync();
@@ -282,6 +309,33 @@ namespace NeuroNet_Project
             for (int i = 0; i < weightInfo.Length - 1; i++) tempW = tempW + weightInfo[i] + " , ";
             tempW = tempW + weightInfo[weightInfo.Length - 1] + " }";
             labelWinfo.Text = tempW;
+
+            if(File.Exists(label_Vw.Text + "\\PARAMETERS\\PARAMETERS.TXT"))
+            {
+                string line;
+                int lineNumber = 0;
+                try
+                {
+                    using (StreamReader reader = new StreamReader(label_Vw.Text + "\\PARAMETERS\\PARAMETERS.TXT"))
+                    {
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var availableData = line.Split(new char[] { '=' });
+                            if (lineNumber == 0)
+                            {
+                                comboBox_Vact.SelectedItem = availableData[1];
+                            }
+                            else if (lineNumber == 5 && availableData[1] == "True") buttonNorPath.PerformClick();
+                            lineNumber++;
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Console.Write(exp.Message);
+                }
+                
+            }
             //find layer info to layer[] here
         }
 
@@ -714,7 +768,9 @@ namespace NeuroNet_Project
         private void buttonNorPath_Click(object sender, EventArgs e)
         {
             var NorSelect = new FolderSelectDialog();
-            NorSelect.Title = "Select the MinMax Path";
+            norMinMax[0, 0] = 0;
+            norMinMax[0, 1] = 0;
+            NorSelect.Title = @"Select the Output's MinMax Path";
             NorSelect.InitialDirectory = textBox_MainFolder.Text;
             if (NorSelect.ShowDialog(IntPtr.Zero))
             {
@@ -836,7 +892,21 @@ namespace NeuroNet_Project
 
                 for (iEq = 0; equationNodes[iEq] != 0; iEq++) richTextBox_TestDebug.AppendText(equationNodes[iEq] + ", ");
                 richTextBox_TestDebug.Undo();
-                richTextBox_TestDebug.AppendText(equationNodes[iEq - 1] + " }" + "\r\n" + "\r\n" + @"Weight / Bias Files:" + "\r\n");
+                richTextBox_TestDebug.AppendText(equationNodes[iEq - 1] + " }" + "\r\n"); 
+
+                if (File.Exists(label_EqW.Text + "\\PARAMETERS\\PARAMETERS.TXT"))
+                {
+                    string line;
+                    using (StreamReader reader = new StreamReader(label_EqW.Text + "\\PARAMETERS\\PARAMETERS.TXT"))
+                    {
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            richTextBox_TestDebug.AppendText(line + "\r\n");
+                        }
+                    }
+                }
+
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + @"Weight / Bias Files:" + "\r\n");
 
                 // richTextBox_TestDebug.AppendText(listBox_availableWeight.SelectedItem.ToString() + "\r\n");
                 string tempEqNW = listBox_availableWeight.SelectedItem.ToString();
@@ -1039,6 +1109,18 @@ namespace NeuroNet_Project
                 }
 
             }
+        }
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabPage page = tabControl1.TabPages[e.Index];
+            Color col = e.Index == 0 ? Color.Aqua : Color.Yellow;
+            e.Graphics.FillRectangle(new SolidBrush(col), e.Bounds);
+
+            Rectangle paddedBounds = e.Bounds;
+            int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
+            paddedBounds.Offset(1, yOffset);
+            TextRenderer.DrawText(e.Graphics, page.Text, Font, paddedBounds, page.ForeColor);
         }
 
         public void setPlayStopButton(bool isPlaying)
@@ -1266,7 +1348,9 @@ namespace NeuroNet_Project
             richTextBox_Summary.AppendText("  Σ( ﾟДﾟ ?)" + "\r\n");
             return;
         }
-        
+
+
+
     }
             
            
