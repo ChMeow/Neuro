@@ -35,8 +35,11 @@
             this.richTextBox_currentError = new System.Windows.Forms.RichTextBox();
             this.richTextBox_CurrentLoop = new System.Windows.Forms.RichTextBox();
             this.label_loopsCounter = new System.Windows.Forms.Label();
+            this.pictureBox_Switch = new System.Windows.Forms.PictureBox();
+            this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.numericUpDownNorOMax = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownNorOMin = new System.Windows.Forms.NumericUpDown();
@@ -51,14 +54,15 @@
             this.checkBoxCustomNor = new System.Windows.Forms.CheckBox();
             this.button_Normalize = new System.Windows.Forms.Button();
             this.numericUpDown_DecayRate = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox_Info = new System.Windows.Forms.PictureBox();
             this.checkBox_adaptiveRate = new System.Windows.Forms.CheckBox();
             this.numericUpDown_momentum = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.label_biasPath = new System.Windows.Forms.Label();
             this.button_BiasPath = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
             this.numericUpDown_save = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -84,10 +88,6 @@
             this.button_Input = new System.Windows.Forms.Button();
             this.button_SaveSetting = new System.Windows.Forms.Button();
             this.button_Go = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button_clearLog = new System.Windows.Forms.Button();
-            this.button_saveLog = new System.Windows.Forms.Button();
-            this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.checkBoxDeNor = new System.Windows.Forms.CheckBox();
             this.labelNorPath = new System.Windows.Forms.Label();
@@ -125,13 +125,18 @@
             this.buttonRestart = new System.Windows.Forms.Button();
             this.textBox_MainFolder = new System.Windows.Forms.TextBox();
             this.button_MainFolder = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.numericUpDown_logWorkerProgress = new System.Windows.Forms.NumericUpDown();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.pictureBox_Info = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Switch = new System.Windows.Forms.PictureBox();
-            this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
+            this.button_clearLog = new System.Windows.Forms.Button();
+            this.button_saveLog = new System.Windows.Forms.Button();
+            this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel_Loading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -140,25 +145,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_loops)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_learn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nodes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_layer)).BeginInit();
-            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).BeginInit();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_logWorkerProgress)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -181,7 +185,7 @@
             // 
             this.label_LRM.AutoSize = true;
             this.label_LRM.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_LRM.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label_LRM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.label_LRM.Location = new System.Drawing.Point(12, 550);
             this.label_LRM.Name = "label_LRM";
             this.label_LRM.Size = new System.Drawing.Size(148, 13);
@@ -207,11 +211,11 @@
             this.richTextBox_currentError.BackColor = System.Drawing.SystemColors.MenuText;
             this.richTextBox_currentError.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox_currentError.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox_currentError.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.richTextBox_currentError.ForeColor = System.Drawing.Color.LightCyan;
             this.richTextBox_currentError.Location = new System.Drawing.Point(12, 53);
             this.richTextBox_currentError.Name = "richTextBox_currentError";
             this.richTextBox_currentError.ReadOnly = true;
-            this.richTextBox_currentError.Size = new System.Drawing.Size(454, 46);
+            this.richTextBox_currentError.Size = new System.Drawing.Size(740, 46);
             this.richTextBox_currentError.TabIndex = 5;
             this.richTextBox_currentError.Text = "RMS Error: --";
             // 
@@ -220,7 +224,7 @@
             this.richTextBox_CurrentLoop.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.richTextBox_CurrentLoop.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox_CurrentLoop.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox_CurrentLoop.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.richTextBox_CurrentLoop.ForeColor = System.Drawing.Color.LightCyan;
             this.richTextBox_CurrentLoop.Location = new System.Drawing.Point(12, 11);
             this.richTextBox_CurrentLoop.Name = "richTextBox_CurrentLoop";
             this.richTextBox_CurrentLoop.ReadOnly = true;
@@ -232,7 +236,7 @@
             // 
             this.label_loopsCounter.AutoSize = true;
             this.label_loopsCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_loopsCounter.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label_loopsCounter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.label_loopsCounter.Location = new System.Drawing.Point(6, 565);
             this.label_loopsCounter.Name = "label_loopsCounter";
             this.label_loopsCounter.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -240,6 +244,26 @@
             this.label_loopsCounter.TabIndex = 3;
             this.label_loopsCounter.Text = "Loops: -- ";
             this.label_loopsCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox_Switch
+            // 
+            this.pictureBox_Switch.Location = new System.Drawing.Point(850, 24);
+            this.pictureBox_Switch.Name = "pictureBox_Switch";
+            this.pictureBox_Switch.Size = new System.Drawing.Size(87, 62);
+            this.pictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Switch.TabIndex = 2;
+            this.pictureBox_Switch.TabStop = false;
+            this.pictureBox_Switch.Click += new System.EventHandler(this.pictureBox_Switch_Click);
+            // 
+            // pictureBox_StopCont
+            // 
+            this.pictureBox_StopCont.Location = new System.Drawing.Point(866, 541);
+            this.pictureBox_StopCont.Name = "pictureBox_StopCont";
+            this.pictureBox_StopCont.Size = new System.Drawing.Size(60, 60);
+            this.pictureBox_StopCont.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_StopCont.TabIndex = 1;
+            this.pictureBox_StopCont.TabStop = false;
+            this.pictureBox_StopCont.Click += new System.EventHandler(this.pictureBox_StopCont_Click);
             // 
             // tabControl1
             // 
@@ -302,6 +326,16 @@
             this.tabPage1.Size = new System.Drawing.Size(934, 580);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.label12.Location = new System.Drawing.Point(40, 394);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(64, 13);
+            this.label12.TabIndex = 38;
+            this.label12.Text = "Decay Rate";
             // 
             // panel1
             // 
@@ -514,6 +548,17 @@
             0,
             0});
             // 
+            // pictureBox_Info
+            // 
+            this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
+            this.pictureBox_Info.Location = new System.Drawing.Point(10, 520);
+            this.pictureBox_Info.Name = "pictureBox_Info";
+            this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
+            this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Info.TabIndex = 44;
+            this.pictureBox_Info.TabStop = false;
+            this.pictureBox_Info.Click += new System.EventHandler(this.pictureBox_Info_Click);
+            // 
             // checkBox_adaptiveRate
             // 
             this.checkBox_adaptiveRate.AutoSize = true;
@@ -591,16 +636,6 @@
             this.button_BiasPath.UseVisualStyleBackColor = false;
             this.button_BiasPath.Click += new System.EventHandler(this.button_BiasPath_Click);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.label12.Location = new System.Drawing.Point(40, 394);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(64, 13);
-            this.label12.TabIndex = 38;
-            this.label12.Text = "Decay Rate";
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -626,16 +661,21 @@
             0,
             0});
             // 
+            // pictureBox_Switch2
+            // 
+            this.pictureBox_Switch2.Location = new System.Drawing.Point(847, 21);
+            this.pictureBox_Switch2.Name = "pictureBox_Switch2";
+            this.pictureBox_Switch2.Size = new System.Drawing.Size(87, 62);
+            this.pictureBox_Switch2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Switch2.TabIndex = 3;
+            this.pictureBox_Switch2.TabStop = false;
+            this.pictureBox_Switch2.Click += new System.EventHandler(this.pictureBox_Switch2_Click);
+            // 
             // numericUpDown_save
             // 
             this.numericUpDown_save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.numericUpDown_save.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numericUpDown_save.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
-            this.numericUpDown_save.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
             this.numericUpDown_save.Location = new System.Drawing.Point(115, 340);
             this.numericUpDown_save.Maximum = new decimal(new int[] {
             1000000,
@@ -643,7 +683,7 @@
             0,
             0});
             this.numericUpDown_save.Minimum = new decimal(new int[] {
-            1000,
+            10,
             0,
             0,
             0});
@@ -724,6 +764,7 @@
             this.richTextBox_Summary.Location = new System.Drawing.Point(8, 16);
             this.richTextBox_Summary.Name = "richTextBox_Summary";
             this.richTextBox_Summary.ReadOnly = true;
+            this.richTextBox_Summary.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.richTextBox_Summary.Size = new System.Drawing.Size(599, 382);
             this.richTextBox_Summary.TabIndex = 0;
             this.richTextBox_Summary.Text = "";
@@ -1022,51 +1063,6 @@
             this.button_Go.Text = "GO";
             this.button_Go.UseVisualStyleBackColor = false;
             this.button_Go.Click += new System.EventHandler(this.button_Go_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.linkLabel1);
-            this.tabPage2.Controls.Add(this.button_clearLog);
-            this.tabPage2.Controls.Add(this.button_saveLog);
-            this.tabPage2.Controls.Add(this.richTextBox_FinalResult);
-            this.tabPage2.Location = new System.Drawing.Point(4, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(934, 580);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Logs";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // button_clearLog
-            // 
-            this.button_clearLog.Location = new System.Drawing.Point(6, 544);
-            this.button_clearLog.Name = "button_clearLog";
-            this.button_clearLog.Size = new System.Drawing.Size(100, 30);
-            this.button_clearLog.TabIndex = 2;
-            this.button_clearLog.Text = "Clear log";
-            this.button_clearLog.UseVisualStyleBackColor = true;
-            this.button_clearLog.Click += new System.EventHandler(this.button_clearLog_Click);
-            // 
-            // button_saveLog
-            // 
-            this.button_saveLog.Location = new System.Drawing.Point(112, 544);
-            this.button_saveLog.Name = "button_saveLog";
-            this.button_saveLog.Size = new System.Drawing.Size(100, 30);
-            this.button_saveLog.TabIndex = 1;
-            this.button_saveLog.Text = "Save log";
-            this.button_saveLog.UseVisualStyleBackColor = true;
-            this.button_saveLog.Click += new System.EventHandler(this.button_saveLog_Click);
-            // 
-            // richTextBox_FinalResult
-            // 
-            this.richTextBox_FinalResult.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox_FinalResult.Location = new System.Drawing.Point(6, 14);
-            this.richTextBox_FinalResult.Name = "richTextBox_FinalResult";
-            this.richTextBox_FinalResult.ReadOnly = true;
-            this.richTextBox_FinalResult.Size = new System.Drawing.Size(917, 524);
-            this.richTextBox_FinalResult.TabIndex = 0;
-            this.richTextBox_FinalResult.Text = "";
-            this.richTextBox_FinalResult.WordWrap = false;
             // 
             // tabPage3
             // 
@@ -1558,11 +1554,56 @@
             this.button_MainFolder.UseVisualStyleBackColor = true;
             this.button_MainFolder.Click += new System.EventHandler(this.button_MainFolder_Click);
             // 
-            // backgroundWorker1
+            // tabPage2
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.label20);
+            this.tabPage2.Controls.Add(this.numericUpDown_logWorkerProgress);
+            this.tabPage2.Controls.Add(this.linkLabel1);
+            this.tabPage2.Controls.Add(this.button_clearLog);
+            this.tabPage2.Controls.Add(this.button_saveLog);
+            this.tabPage2.Controls.Add(this.richTextBox_FinalResult);
+            this.tabPage2.Location = new System.Drawing.Point(4, 4);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(934, 580);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Logs";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(542, 544);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(24, 29);
+            this.button1.TabIndex = 6;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(248, 549);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(125, 13);
+            this.label20.TabIndex = 5;
+            this.label20.Text = "WORKER PROGRESS :";
+            // 
+            // numericUpDown_logWorkerProgress
+            // 
+            this.numericUpDown_logWorkerProgress.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown_logWorkerProgress.Location = new System.Drawing.Point(375, 550);
+            this.numericUpDown_logWorkerProgress.Maximum = new decimal(new int[] {
+            1316134912,
+            2328,
+            0,
+            0});
+            this.numericUpDown_logWorkerProgress.Name = "numericUpDown_logWorkerProgress";
+            this.numericUpDown_logWorkerProgress.ReadOnly = true;
+            this.numericUpDown_logWorkerProgress.Size = new System.Drawing.Size(183, 16);
+            this.numericUpDown_logWorkerProgress.TabIndex = 4;
             // 
             // linkLabel1
             // 
@@ -1575,46 +1616,45 @@
             this.linkLabel1.Text = "https://github.com/ChMeow";
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // pictureBox_Info
+            // button_clearLog
             // 
-            this.pictureBox_Info.Image = global::NeuroNet_Project.Properties.Resources.info;
-            this.pictureBox_Info.Location = new System.Drawing.Point(10, 520);
-            this.pictureBox_Info.Name = "pictureBox_Info";
-            this.pictureBox_Info.Size = new System.Drawing.Size(55, 55);
-            this.pictureBox_Info.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Info.TabIndex = 44;
-            this.pictureBox_Info.TabStop = false;
-            this.pictureBox_Info.Click += new System.EventHandler(this.pictureBox_Info_Click);
+            this.button_clearLog.Location = new System.Drawing.Point(6, 544);
+            this.button_clearLog.Name = "button_clearLog";
+            this.button_clearLog.Size = new System.Drawing.Size(100, 30);
+            this.button_clearLog.TabIndex = 2;
+            this.button_clearLog.Text = "Clear log";
+            this.button_clearLog.UseVisualStyleBackColor = true;
+            this.button_clearLog.Click += new System.EventHandler(this.button_clearLog_Click);
             // 
-            // pictureBox_Switch2
+            // button_saveLog
             // 
-            this.pictureBox_Switch2.Location = new System.Drawing.Point(847, 21);
-            this.pictureBox_Switch2.Name = "pictureBox_Switch2";
-            this.pictureBox_Switch2.Size = new System.Drawing.Size(87, 62);
-            this.pictureBox_Switch2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Switch2.TabIndex = 3;
-            this.pictureBox_Switch2.TabStop = false;
-            this.pictureBox_Switch2.Click += new System.EventHandler(this.pictureBox_Switch2_Click);
+            this.button_saveLog.Location = new System.Drawing.Point(112, 544);
+            this.button_saveLog.Name = "button_saveLog";
+            this.button_saveLog.Size = new System.Drawing.Size(100, 30);
+            this.button_saveLog.TabIndex = 1;
+            this.button_saveLog.Text = "Save log";
+            this.button_saveLog.UseVisualStyleBackColor = true;
+            this.button_saveLog.Click += new System.EventHandler(this.button_saveLog_Click);
             // 
-            // pictureBox_Switch
+            // richTextBox_FinalResult
             // 
-            this.pictureBox_Switch.Location = new System.Drawing.Point(850, 24);
-            this.pictureBox_Switch.Name = "pictureBox_Switch";
-            this.pictureBox_Switch.Size = new System.Drawing.Size(87, 62);
-            this.pictureBox_Switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Switch.TabIndex = 2;
-            this.pictureBox_Switch.TabStop = false;
-            this.pictureBox_Switch.Click += new System.EventHandler(this.pictureBox_Switch_Click);
+            this.richTextBox_FinalResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.richTextBox_FinalResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBox_FinalResult.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox_FinalResult.ForeColor = System.Drawing.Color.White;
+            this.richTextBox_FinalResult.Location = new System.Drawing.Point(6, 14);
+            this.richTextBox_FinalResult.Name = "richTextBox_FinalResult";
+            this.richTextBox_FinalResult.ReadOnly = true;
+            this.richTextBox_FinalResult.Size = new System.Drawing.Size(917, 524);
+            this.richTextBox_FinalResult.TabIndex = 0;
+            this.richTextBox_FinalResult.Text = "";
+            this.richTextBox_FinalResult.WordWrap = false;
             // 
-            // pictureBox_StopCont
+            // backgroundWorker1
             // 
-            this.pictureBox_StopCont.Location = new System.Drawing.Point(866, 541);
-            this.pictureBox_StopCont.Name = "pictureBox_StopCont";
-            this.pictureBox_StopCont.Size = new System.Drawing.Size(60, 60);
-            this.pictureBox_StopCont.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_StopCont.TabIndex = 1;
-            this.pictureBox_StopCont.TabStop = false;
-            this.pictureBox_StopCont.Click += new System.EventHandler(this.pictureBox_StopCont_Click);
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // Form_Main
             // 
@@ -1630,11 +1670,13 @@
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "NeuroNet Project - 200728";
+            this.Text = "NeuroNet Project - 210510";
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.MouseEnter += new System.EventHandler(this.Form_Main_MouseEnter);
             this.panel_Loading.ResumeLayout(false);
             this.panel_Loading.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1645,16 +1687,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorIMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DecayRate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_momentum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_save)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_loops)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_learn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nodes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_layer)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DPV)).EndInit();
@@ -1664,10 +1706,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_eqDP)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Info)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_logWorkerProgress)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1776,6 +1817,9 @@
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.NumericUpDown numericUpDown_logWorkerProgress;
+        private System.Windows.Forms.Button button1;
     }
 }
 

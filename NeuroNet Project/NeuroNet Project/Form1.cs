@@ -19,9 +19,13 @@ using System.Drawing.Imaging;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
+using ObjectDumping;
+
 
 namespace NeuroNet_Project
 {
+   
+
     public partial class Form_Main : Form
     {
         string[] inputFiles;
@@ -59,10 +63,14 @@ namespace NeuroNet_Project
         string resultReportWeight;
         string CurrentTime;
 
-        int[] equationNodes = new int[99];
-        int[,] equationAvailableWeight = new int[99,99];
+        int[] equationNodes = new int[999];
+        int[,] equationAvailableWeight = new int[999,999];
         int equationMaxN = 0;
         int equationMaxW = 0;
+
+        int logWorkerCount = 0;
+        bool locklog = true;
+
 
         public Form_Main()
         {
@@ -77,6 +85,7 @@ namespace NeuroNet_Project
 
         private void button_Go_Click(object sender, EventArgs e)
         {
+            logWorkerCount = 0;
             P_activ = comboBox_ActivateFunction.SelectedIndex + 1;
             P_loops = (int)numericUpDown_loops.Value;
             P_layer = (int)numericUpDown_layer.Value;
@@ -123,6 +132,32 @@ namespace NeuroNet_Project
 
             //Saving other info into PARAMETERS folder.
             string parametersFileName = label_WeightPath.Text + "\\PARAMETERS" + "\\PARAMETERS.TXT";
+
+            /////TO LOG/////
+            richTextBox_FinalResult.Focus();
+            TimeNowLOG();
+            richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+            richTextBox_FinalResult.AppendText(@"== Parameters ============================" + "\r\n" +
+                                    " [  -- -- --  ] Activation Function =" + comboBox_ActivateFunction.SelectedItem + "\r\n" +
+                                    " [  -- -- --  ] Normalized X min (Range) =" + numericUpDownNorIMin.Value + "\r\n" +
+                                    " [  -- -- --  ] Normalized X max (Range) =" + numericUpDownNorIMax.Value + "\r\n" +
+                                    " [  -- -- --  ] Normalized Y min (Range) =" + numericUpDownNorOMin.Value + "\r\n" +
+                                    " [  -- -- --  ] Normalized Y max (Range) =" + numericUpDownNorOMax.Value + "\r\n" +
+                                    " [  -- -- --  ] Normalized Data =" + checkBoxCustomNor.Checked.ToString() + "\r\n" +
+                                    " [  -- -- --  ] Learning rate =" + numericUpDown_learn.Value + "\r\n" +
+                                    " [  -- -- --  ] Momentum  =" + numericUpDown_momentum.Value + "\r\n" +
+                                    " [  -- -- --  ] Decay Rate =" + numericUpDown_DecayRate.Value + "\r\n" +
+                                    " [  -- -- --  ] Decaying Rate =" + checkBox_adaptiveRate.Checked.ToString() + "\r\n" +
+                                    " [  -- -- --  ] N =" + N + "\r\n" +
+                                    " [  -- -- --  ] C =" + C + "\r\n" + " [  -- -- --  ] " +
+                                    label_LRM.Text + "\r\n" +
+                                    @" [  -- -- --  ] ==========================================" + "\r\n");
+            TimeNowLOG();
+            richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+            richTextBox_FinalResult.AppendText(@"Saving Parameters to " + parametersFileName);
+            /////END LOG/////
+            
+
             if (!Directory.Exists(label_WeightPath.Text + "\\PARAMETERS")) { Directory.CreateDirectory(label_WeightPath.Text + "\\PARAMETERS"); }
             string parametersText = "Activation Function =" + comboBox_ActivateFunction.SelectedItem + "\r\n" +
                                     "Normalized X min (Range) =" + numericUpDownNorIMin.Value +"\r\n" +
@@ -134,22 +169,51 @@ namespace NeuroNet_Project
                                     "Momentum  =" + numericUpDown_momentum.Value +"\r\n" +
                                     "Decay Rate =" + numericUpDown_DecayRate.Value +"\r\n" +
                                     "Decaying Rate =" + checkBox_adaptiveRate.Checked.ToString();
+
+
             try
             {
                 using (StreamWriter writer = new StreamWriter(parametersFileName))
                 {
                     writer.Write(parametersText);
+                    /////TO LOG/////
+                    richTextBox_FinalResult.SelectionColor = Color.GreenYellow;
+                    richTextBox_FinalResult.AppendText(@" ...........DONE" + "\r\n");
+                    /////END LOG/////
                 }
             }
             catch (Exception exp)
             {
                 Console.Write(exp.Message);
+                /////TO LOG/////
+                richTextBox_FinalResult.SelectionColor = Color.Red;
+                richTextBox_FinalResult.AppendText(@" ...........FAILED" + "\r\n");
+                /////END LOG/////
             }
 
             // Worker is doing the feedforward backpropagation.
 
+            /////TO LOG/////
+            richTextBox_FinalResult.Focus();
+            TimeNowLOG();
+            richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+            richTextBox_FinalResult.AppendText(@"Summoning Workers..." + "\r\n");
+            /////END LOG/////
+            
             if (backgroundWorker1.IsBusy != true)
             {
+                /////TO LOG/////
+                richTextBox_FinalResult.Focus();
+                TimeNowLOG();
+                richTextBox_FinalResult.SelectionFont = new Font("Segoe UI", 8, FontStyle.Italic);
+                richTextBox_FinalResult.SelectionColor = Color.WhiteSmoke;
+                richTextBox_FinalResult.AppendText(@" [Explooosion !!!] ");
+                richTextBox_FinalResult.SelectionFont = new Font("Segoe UI", 8, FontStyle.Regular);
+                richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+                richTextBox_FinalResult.AppendText(@" The worker is ready to work." + "\r\n");
+                numericUpDown_logWorkerProgress.Value = 0;
+                /////END LOG/////
+
                 backgroundWorker1.RunWorkerAsync();
             }
             panel_Loading.BringToFront();
@@ -215,6 +279,13 @@ namespace NeuroNet_Project
             {
                 if (backgroundWorker1.WorkerSupportsCancellation == true)
                 {
+                    /////TO LOG/////
+                    richTextBox_FinalResult.Focus();
+                    TimeNowLOG();
+                    richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+                    richTextBox_FinalResult.AppendText(@" The worker is stopped at [" + numericUpDown_logWorkerProgress.Value + "]" + "\r\n");
+                    /////END LOG/////
+                    
                     backgroundWorker1.CancelAsync();
                 }
             }
@@ -347,7 +418,7 @@ namespace NeuroNet_Project
             string VResult = "";
             float[] feedResult;
             string checkWeightPath = "";
-            int[,] foundWeight = new int[99,99];
+            int[,] foundWeight = new int[10000,10000];  //ori=99,99
             int weightLength = 0;
             int maxWeightLength = 0;
             int resultLength = 0;
@@ -630,6 +701,7 @@ namespace NeuroNet_Project
             _imageStream = _assembly.GetManifestResourceStream("NeuroNet_Project.play.png");
             pictureBox_StopCont.Image = new Bitmap(_imageStream);
             Decimal checkstate = 0;
+            numericUpDown_logWorkerProgress.Controls[0].Visible = false;
 
             // Read the file and display it line by line.
             setPath = setPath + "\\config.ini";
@@ -768,8 +840,8 @@ namespace NeuroNet_Project
         private void buttonNorPath_Click(object sender, EventArgs e)
         {
             var NorSelect = new FolderSelectDialog();
-            norMinMax[0, 0] = 0;
-            norMinMax[0, 1] = 0;
+            norMinMax[0, 0] = -901;   // Just random number to do some check.
+            norMinMax[0, 1] = 853;
             NorSelect.Title = @"Select the Output's MinMax Path";
             NorSelect.InitialDirectory = textBox_MainFolder.Text;
             if (NorSelect.ShowDialog(IntPtr.Zero))
@@ -777,7 +849,7 @@ namespace NeuroNet_Project
                 labelNorPath.Text = NorSelect.FileName;
             }
             norMinMax = fileProcess.norMinMaxInfo(labelNorPath.Text);
-            if(norMinMax[0,0] != 0 && norMinMax[0,1] != 0)
+            if(norMinMax[0,0] != -901 && norMinMax[0,1] != 853)
             {
                 checkBoxDeNor.Checked = true;
                 checkBoxDeNor.Text = "De-normalization: Enabled";
@@ -877,6 +949,7 @@ namespace NeuroNet_Project
 
         private void button_EqGen_Click(object sender, EventArgs e)
         {
+            string latexFormatAll = @"Z_{N}=\sum A_{N-1}";
             int selectedEqN = 0;
             int selectedEqW = 0;
             int iEq = 0;
@@ -938,7 +1011,8 @@ namespace NeuroNet_Project
 
                 // Basic Formula
                 richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "\r\n");
-                string latexOri = @"X_{N} = f(A_{N-1})";
+                string latexOri = @"Node_{N} = f(Z_{N})";
+                latexFormatAll = latexFormatAll + "\r\n" + latexOri;
                 var parser1 = new TexFormulaParser();
                 var formula1 = parser1.Parse(latexOri);
                 var pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
@@ -950,7 +1024,8 @@ namespace NeuroNet_Project
                 richTextBox_TestDebug.Paste();
                 richTextBox_TestDebug.AppendText(",  " + "\t" + "\t");
 
-                latexOri = @"f(A_{N-1}) = activation function";
+                latexOri = @"f(Z) = activation function";
+                latexFormatAll = latexFormatAll + "\r\n" + latexOri;
                 formula1 = parser1.Parse(latexOri);
                 pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
                 File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic03.png", pngBytes1);
@@ -961,6 +1036,7 @@ namespace NeuroNet_Project
                 richTextBox_TestDebug.AppendText("\r\n" + "\r\n");
 
                 latexOri = @"X_{N} = f(W_{N-1}X_{N-1} + B_{N-1})";
+                latexFormatAll = latexFormatAll + "\r\n" + latexOri;
                 formula1 = parser1.Parse(latexOri);
                 pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
                 File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic02.png", pngBytes1);
@@ -971,6 +1047,7 @@ namespace NeuroNet_Project
                 richTextBox_TestDebug.AppendText("\r\n" + "\r\n");
 
                 latexOri = @"A_{N-1} = W_{N-1}X_{N-1} + B_{N-1}";
+                latexFormatAll = latexFormatAll + "\r\n" + latexOri;
                 formula1 = parser1.Parse(latexOri);
                 pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
                 File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic04.png", pngBytes1);
@@ -981,6 +1058,7 @@ namespace NeuroNet_Project
                 richTextBox_TestDebug.AppendText("\r\n" + "\r\n");
 
                 latexOri = @"\pmatrix{A_{1}\\A_{2}\\.\\.\\.\\A_{m}}= \pmatrix{W_{1,1}&W_{1,2}&...&W_{1,n}\\ W_{2,1}&W_{2,2}&...&W_{2,n} \\.&.&.&.\\.&.&.&.\\.&.&.&.\\W_{m,1}&W_{m,2}&...&W_{m,n}} \pmatrix{X_{1}\\X_{2}\\.\\.\\.\\X_{n}} + \pmatrix{B_{1}\\B_{2}\\.\\.\\.\\B_{m}}";
+                latexFormatAll = latexFormatAll + "\r\n" + latexOri;
                 formula1 = parser1.Parse(latexOri);
                 pngBytes1 = formula1.RenderToPng(20.0, 0.0, 0.0, "Arial");
                 File.WriteAllBytes(label_EqW.Text + "\\IMAGE\\Basic05.png", pngBytes1);
@@ -1014,7 +1092,8 @@ namespace NeuroNet_Project
                         latex = latex + @"\\";
                     }
                     latex = latex.Remove(latex.Length - 2);
-                    latex = latex + "}";
+                    latex = latex + @"\\}";
+                    latexFormatAll = latexFormatAll + "\r\n" + latex;
                     var parser = new TexFormulaParser();
                     var formula = parser.Parse(latex);
                     var pngBytes = formula.RenderToPng(20.0, 0.0, 0.0, "Arial");
@@ -1053,7 +1132,8 @@ namespace NeuroNet_Project
                         latex = latex + @"\\";
                     }
                     latex = latex.Remove(latex.Length - 2);
-                    latex = latex + "}";
+                    latex = latex + @"\\}";
+                    latexFormatAll = latexFormatAll + "\r\n" + latex;
                     var parser = new TexFormulaParser();
                     var formula = parser.Parse(latex);
                     var pngBytes = formula.RenderToPng(20.0, 0.0, 0.0, "Arial");
@@ -1068,6 +1148,7 @@ namespace NeuroNet_Project
                     file.Close();
                     richTextBox_TestDebug.AppendText("\t");
                 }
+                richTextBox_TestDebug.AppendText("\r\n" + "\r\n" + "Tex Format:" + "\r\n" + latexFormatAll);
                 GC.Collect();
             }
             catch (Exception exx) { richTextBox_TestDebug.AppendText("(O_o)?" + "\r\n"); }
@@ -1195,6 +1276,11 @@ namespace NeuroNet_Project
                     richTextBox_Summary.SelectionColor = Color.Lime;
                     richTextBox_Summary.AppendText(" . . . OK " + "\r\n");
                     break;
+                case 6:
+                    /////TO LOG/////
+                    numericUpDown_logWorkerProgress.Value = numericUpDown_logWorkerProgress.Value + 1;
+                    /////END LOG/////
+                    break;
                 default:
                     break;
             }
@@ -1220,6 +1306,13 @@ namespace NeuroNet_Project
                 ErrorText();
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
+
+                /////TO LOG/////
+                richTextBox_FinalResult.Focus();
+                TimeNowLOG();
+                richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+                richTextBox_FinalResult.AppendText(@"The worker encounter some errors at [" + numericUpDown_logWorkerProgress.Value + "]" + "\r\n");
+                /////END LOG/////
             }
             else
             {
@@ -1230,6 +1323,13 @@ namespace NeuroNet_Project
                 checkPlaying = false;
                 checkBox_UseExistW.Checked = true;
                 setPlayStopButton(checkPlaying);
+
+                /////TO LOG/////
+                richTextBox_FinalResult.Focus();
+                TimeNowLOG();
+                richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+                richTextBox_FinalResult.AppendText(@"Job done!" + "\r\n");
+                /////END LOG/////
             }
         }
 
@@ -1250,6 +1350,7 @@ namespace NeuroNet_Project
 
             for (int i = 1; i < P_loops + 1; i++)
             {
+                worker.ReportProgress(6);  // Report that the worker will start soon
                 if (worker.CancellationPending == true)
                 {
                     e.Cancel = true;
@@ -1265,12 +1366,22 @@ namespace NeuroNet_Project
                     {
                         tempTarget = targetJ.Next(0, D_loops);
                     }
-                    ArrayForRandom[tempTarget] = -1;
+                    ArrayForRandom[tempTarget] = -1;      // This marked the randomized target as used. (The target represent the position (line) of data in the text files)
 
-                    input = fileProcess.getData(label_InputPath.Text, tempTarget);
-                    expected = fileProcess.getData(label_OutputPath.Text, tempTarget);
-                    net.FeedForward(input, P_activ);
-                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);
+                    input = fileProcess.getData(label_InputPath.Text, tempTarget);   // This will ask the fileprocess to grab the data from specific line in the text files. For input
+                    expected = fileProcess.getData(label_OutputPath.Text, tempTarget);  // Similar, this is for the expected output.
+                    net.FeedForward(input, P_activ);                                    // Starting feeding it into the NN
+                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);  // Backpropagate it.
+                    var bindingFlags = BindingFlags.Instance |
+                                       BindingFlags.NonPublic |
+                                       BindingFlags.Public;
+                    var fieldValues = net.GetType()
+                                         .GetFields(bindingFlags)
+                                         .Select(field => field.GetValue(net))
+                                         .ToList();    // It is now in var but stuck at here, objectdumper won't go beyond the layer 3 depth. pointless.
+
+                    // System.IO.File.WriteAllLines(@"i:\SavedLists.txt", fieldValues.;
+
                     loopsCounter = i + previousLoopsCounter;
                     worker.ReportProgress(2);
                 }
@@ -1342,6 +1453,15 @@ namespace NeuroNet_Project
             richTextBox_Summary.AppendText(CurrentTime);
             return;
         }
+
+        public void TimeNowLOG()
+        {
+            CurrentTime = " [" + DateTime.Now.ToString("HH") + " " + DateTime.Now.ToString("mm") + " " + DateTime.Now.ToString("ss") + "]  ";
+            richTextBox_FinalResult.SelectionColor = Color.Thistle;
+            richTextBox_FinalResult.AppendText(CurrentTime);
+            return;
+        }
+
         public void ErrorText()
         {
             richTextBox_Summary.SelectionColor = Color.Yellow;

@@ -36,19 +36,19 @@
             this.richTextBox_Rate = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.richTextBox_BackPropagation = new System.Windows.Forms.RichTextBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.richTextBox_Nor = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.richTextBox_HowtoUse = new System.Windows.Forms.RichTextBox();
             this.tabPage_Bug = new System.Windows.Forms.TabPage();
             this.richTextBox_Bug = new System.Windows.Forms.RichTextBox();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.richTextBox_Nor = new System.Windows.Forms.RichTextBox();
             this.tabControl_2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage_Bug.SuspendLayout();
-            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl_2
@@ -133,6 +133,27 @@
             this.richTextBox_BackPropagation.TabIndex = 0;
             this.richTextBox_BackPropagation.Text = "";
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.richTextBox_Nor);
+            this.tabPage5.Location = new System.Drawing.Point(4, 4);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(846, 559);
+            this.tabPage5.TabIndex = 5;
+            this.tabPage5.Text = "Normalization";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox_Nor
+            // 
+            this.richTextBox_Nor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox_Nor.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox_Nor.Name = "richTextBox_Nor";
+            this.richTextBox_Nor.ReadOnly = true;
+            this.richTextBox_Nor.Size = new System.Drawing.Size(840, 553);
+            this.richTextBox_Nor.TabIndex = 0;
+            this.richTextBox_Nor.Text = "";
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.richTextBox_HowtoUse);
@@ -175,27 +196,6 @@
             this.richTextBox_Bug.TabIndex = 0;
             this.richTextBox_Bug.Text = "";
             // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.richTextBox_Nor);
-            this.tabPage5.Location = new System.Drawing.Point(4, 4);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(846, 559);
-            this.tabPage5.TabIndex = 5;
-            this.tabPage5.Text = "Normalization";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox_Nor
-            // 
-            this.richTextBox_Nor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox_Nor.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox_Nor.Name = "richTextBox_Nor";
-            this.richTextBox_Nor.ReadOnly = true;
-            this.richTextBox_Nor.Size = new System.Drawing.Size(840, 553);
-            this.richTextBox_Nor.TabIndex = 0;
-            this.richTextBox_Nor.Text = "";
-            // 
             // Info
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -210,9 +210,9 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage_Bug.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
