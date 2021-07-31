@@ -1670,7 +1670,7 @@
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "NeuroNet Project - 210510";
+            this.Text = "NeuroNet Project - 210731";
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.MouseEnter += new System.EventHandler(this.Form_Main_MouseEnter);
             this.panel_Loading.ResumeLayout(false);
