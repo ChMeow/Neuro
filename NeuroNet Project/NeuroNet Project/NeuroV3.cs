@@ -11,22 +11,19 @@ namespace NeuroV3
     {
         float LearnRate;
         float momentum;
-        int[] layer; //layer information
-        Layer[] layers; //layers in the network
+        int[] layer; // Number of nodes in each layer
+        Layer[] layers; // The "Layer"s in the network
 
-
-
-        /// Constructor setting up layers
+        // Layer Construction
         public Neuro(int[] layer, float LearnRate, bool UpdateExistingWeight, string WeightPath, string BiasPath, float momentum) // nodes in each layer, eg. 5 layer network: 4,5,5,5,1 = 4 input , 5 nodes each layer, and 1 output.
         {
-            //deep copy layers
             this.LearnRate = LearnRate;
             this.momentum = momentum;
             this.layer = new int[layer.Length];
             for (int i = 0; i < layer.Length; i++)
                 this.layer[i] = layer[i];
 
-            //creates neural layers
+            // Creates layers
             layers = new Layer[layer.Length - 1];
 
             for (int i = 0; i < layers.Length; i++)
@@ -35,35 +32,34 @@ namespace NeuroV3
             }
         }
 
-        /// High level feedforward for this network
-        /// input = input to feedforward
+        // Feed forward
         public float[] FeedForward(float[] inputs, int Activate)
         {
-            //feed forward
             layers[0].FeedForward(inputs, Activate);
             for (int i = 1; i < layers.Length; i++)
             {
-                layers[i].FeedForward(layers[i - 1].outputs, Activate);
+                layers[i].FeedForward(layers[i - 1].outputs, Activate); //Sending in input data or previous layer as inputs
             }
 
-            return layers[layers.Length - 1].outputs; //return output of last layer
+            // Result
+            return layers[layers.Length - 1].outputs; 
         }
 
-        /// High level back porpagation
-        /// Note: It is expexted the one feed forward was done before this back prop.
-        /// <param name="expected">The expected output form the last feedforward</param>
+        // Backpropagation
         public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate)
         {
-            // run over all layers backwards
+            // starts from the final layer to the front layer.
             for (int i = layers.Length - 1; i >= 0; i--)
             {
+                // Final layer
                 if (i == layers.Length - 1)
                 {
-                    layers[i].BackPropOutput(expected, Activate); //back prop output
+                    layers[i].BackPropOutput(expected, Activate);
                 }
+                // Hidden layers
                 else
                 {
-                    layers[i].BackPropHidden(layers[i + 1].gamma, layers[i + 1].weights, Activate); //back prop hidden
+                    layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate); 
                 }
             }
 
@@ -80,80 +76,69 @@ namespace NeuroV3
             }
         }
 
-
+        // Save weights to Files
         public void WtoF(int N, int C, string savePath)
         {
-            //Output weights to Files
             for (int L = 0; L < layers.Length; L++)
             {
                 layers[L].WeightsToFiles(N, C, L, savePath);
             }
         }
 
+        // Save biases to Files
         public void BtoF(int N, int C, string savePath)
         {
-            //Output weights to Files
             for (int L = 0; L < layers.Length; L++)
             {
                 layers[L].BiasToFiles(N, C, L, savePath);
             }
         }
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-        /// Each individual layer in the ML{
+        // Info for each individual layer
         public class Layer
         {
-            int numberOfInputs; //# of neurons in the previous layer
-            int numberOfOuputs; //# of neurons in the current layer
+            int numberOfInputs; // number of nodes in the previous layer
+            int numberOfOuputs; // number of nodes in the current layer
 
 
-            public float[] outputs; //outputs of this layer
-            public float[] inputs; //inputs in into this layer
-            public float[,] weights; //weights of this layer
-            public float[,] weightsDelta; //deltas of this layer
-            public float[] bias;
-            public float[,] momentumWeight; // it contains previous weight for momentum
-            public float[] momentumBias;
-            public float[] gamma; //gamma of this layer
+            public float[] outputs; // outputs of this layer
+            public float[] inputs; // inputs of this layer
+            public float[,] weights; // weights of this layer
+            public float[,] weightsCorrection; // Corrections of this layer
+            public float[] bias; // biases of this layer
+            public float[,] momentumWeight; // The weightCorrection from previous epoch
+            public float[] momentumBias; // The biasCorrection from previous epoch
+            public float[] dydx; //dydx of this layer
             public float[] error; //error of the output layer
             public float cummulativeError; // experimental for adaptive momentum and learning rate
 
-            public static Random random = new Random(); //Static random class variable
+            public static Random random = new Random(); 
 
-            /// Constructor initilizes vaiour data structures
-            /// <param name="numberOfInputs">Number of neurons in the previous layer</param>
-            /// <param name="numberOfOuputs">Number of neurons in the current layer</param>
+            // numberOfInputs = number of input nodes for this layer
+            // numberOfOuputs = number of output nodes for this layer
             public Layer(int numberOfInputs, int numberOfOuputs, string WeightPath, int CountL, bool UpdateExistingWeight, string BiasPath)
             {
                 this.numberOfInputs = numberOfInputs;
                 this.numberOfOuputs = numberOfOuputs;
 
-                //initilize datastructures
                 outputs = new float[numberOfOuputs];
                 inputs = new float[numberOfInputs];
                 weights = new float[numberOfOuputs, numberOfInputs];
-                weightsDelta = new float[numberOfOuputs, numberOfInputs];
+                weightsCorrection = new float[numberOfOuputs, numberOfInputs];
                 bias = new float[numberOfOuputs];
                 momentumWeight = new float[numberOfOuputs, numberOfInputs];
                 momentumBias = new float[numberOfOuputs];
-                gamma = new float[numberOfOuputs];
+                dydx = new float[numberOfOuputs];
                 error = new float[numberOfOuputs];
 
                 bool WeightExist;
                 if (UpdateExistingWeight == true) WeightExist = true;
                 else WeightExist = false;
-                InitilizeWeights(WeightExist, WeightPath, CountL); //initilize weights
-
+                InitilizeWeights(WeightExist, WeightPath, CountL); 
                 InitilizeBias(UpdateExistingWeight, BiasPath, CountL);
             }
 
-
-            /// Initilize weights between -0.5 and 0.5
+            // Random weights between -0.5 and 0.5
             public void InitilizeWeights(bool WeightExist, string WeightPath, int CountL)
             {
                 if (WeightExist == true)
@@ -203,8 +188,7 @@ namespace NeuroV3
                 }
             }
 
-
-            // bias
+            // Random Bias from -0.5 to 0.5 
             public void InitilizeBias(bool BiasExist, string BiasPath, int CountL)
             {
                 if (BiasExist == true)
@@ -248,14 +232,11 @@ namespace NeuroV3
                 }
             }
 
-
-            /// Feedforward this layer with a given input
-            /// <param name="inputs">The output values of the previous layer</param>
+            // Feedforward for this layer
             public float[] FeedForward(float[] inputs, int Activate)
             {
-                this.inputs = inputs;// keep shallow copy which can be used for back propagation
+                this.inputs = inputs;
 
-                //feed forwards
                 for (int i = 0; i < numberOfOuputs; i++)
                 {
                     outputs[i] = 0;
@@ -266,13 +247,10 @@ namespace NeuroV3
                     outputs[i] += bias[i];
                     outputs[i] = Activ(outputs[i], Activate);
                 }
-
                 return outputs;
             }
 
-
-            /// Back propagation for the output layer
-            /// <param name="expected">The expected output</param>
+            // Backpropagation Final Layer
             public void BackPropOutput(float[] expected, int Activate)
             {
 
@@ -283,36 +261,35 @@ namespace NeuroV3
                 }
 
 
-                //Gamma calculation
+                // calculation
                 for (int i = 0; i < numberOfOuputs; i++)
-                    gamma[i] = error[i] * Deriv(outputs[i], Activate);
+                    dydx[i] = 2* error[i] * Deriv(outputs[i], Activate);
 
                 //Caluclating detla weights
                 for (int i = 0; i < numberOfOuputs; i++)
                 {
                     for (int j = 0; j < numberOfInputs; j++)
                     {
-                        weightsDelta[i, j] = gamma[i] * inputs[j];
+                        weightsCorrection[i, j] = dydx[i] * inputs[j];
                     }
                 }
             }
 
-            /// Back propagation for the hidden layers
-            /// <param name="gammaForward">the gamma value of the forward layer</param>
-            /// <param name="weightsFoward">the weights of the forward layer</param>
-            public void BackPropHidden(float[] gammaForward, float[,] weightsFoward, int Activate)
+            // Backpropagation Hidden Layers
+            // dydxForward and weightsForward = dydx and weight in the next layer
+            public void BackPropHidden(float[] dydxForward, float[,] weightsFoward, int Activate)
             {
-                //Caluclate new gamma using gamma sums of the forward layer
+                //Caluclate new dydx using dydx sums of the forward layer
                 for (int i = 0; i < numberOfOuputs; i++)
                 {
-                    gamma[i] = 0;
+                    dydx[i] = 0;
 
-                    for (int j = 0; j < gammaForward.Length; j++)
+                    for (int j = 0; j < dydxForward.Length; j++)
                     {
-                        gamma[i] += gammaForward[j] * weightsFoward[j, i];
+                        dydx[i] += dydxForward[j] * weightsFoward[j, i];
                     }
 
-                    gamma[i] *= Deriv(outputs[i], Activate);
+                    dydx[i] *= Deriv(outputs[i], Activate);
                 }
 
                 //Caluclating detla weights
@@ -320,12 +297,12 @@ namespace NeuroV3
                 {
                     for (int j = 0; j < numberOfInputs; j++)
                     {
-                        weightsDelta[i, j] = gamma[i] * inputs[j];
+                        weightsCorrection[i, j] = dydx[i] * inputs[j];
                     }
                 }
             }
 
-            /// Updating weights
+            // Updating weights
             public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight, float decayRate)
             {
                 if(adaptive == true)
@@ -335,29 +312,15 @@ namespace NeuroV3
                     newLR = LearnRate * (float) Math.Exp(-adaptiveWeight / decayRate);
                     newM = momentum * (float)Math.Exp(-adaptiveWeight / decayRate);
 
-                    //newLR = LearnRate * ((1000 - adaptiveWeight) / 1000);
-                    //newM = momentum * ((1 - LearnRate) + newLR);
-
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
                         for (int j = 0; j < numberOfInputs; j++)
                         {
-                            weights[i, j] -= weightsDelta[i, j] * newLR;
+                            weights[i, j] -= weightsCorrection[i, j] * newLR;
                             weights[i, j] -= newM * momentumWeight[i, j];
-                            momentumWeight[i, j] = weightsDelta[i, j];
+                            momentumWeight[i, j] = weightsCorrection[i, j];
                         }
                     }
-
-                    //if (LearnRate > adaptiveWeight) LearnRate = adaptiveWeight / 2;
-                    //for (int i = 0; i < numberOfOuputs; i++)
-                    //{
-                    //    for (int j = 0; j < numberOfInputs; j++)
-                    //    {
-                    //        weights[i, j] -= weightsDelta[i, j] * LearnRate;
-                    //        weights[i, j] -= adaptiveWeight * momentumWeight[i, j];
-                    //        momentumWeight[i, j] = weightsDelta[i, j];
-                    //    }
-                    //}
                 }
                 else
                 {
@@ -365,9 +328,9 @@ namespace NeuroV3
                     {
                         for (int j = 0; j < numberOfInputs; j++)
                         {
-                            weights[i, j] -= weightsDelta[i, j] * LearnRate;
+                            weights[i, j] -= weightsCorrection[i, j] * LearnRate;
                             weights[i, j] -= momentum * momentumWeight[i, j];
-                            momentumWeight[i, j] = weightsDelta[i, j];
+                            momentumWeight[i, j] = weightsCorrection[i, j];
                         }
                     }
                 }
@@ -384,29 +347,20 @@ namespace NeuroV3
 
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
-                        bias[i] -= gamma[i] * newLR;
+                        bias[i] -= dydx[i] * newLR;
                         bias[i] -= newM * momentumBias[i];
-                        momentumBias[i] = gamma[i];
+                        momentumBias[i] = dydx[i];
                     }
-
-                    //if (LearnRate > adaptiveBias) LearnRate = adaptiveBias / 2;
-                    //for (int i = 0; i < numberOfOuputs; i++)
-                    //{
-                    //    bias[i] -= gamma[i] * LearnRate;
-                    //    bias[i] -= adaptiveBias * momentumBias[i];
-                    //    momentumBias[i] = gamma[i];
-                    //}
                 }
                 else
                 {
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
-                        bias[i] -= gamma[i] * LearnRate;
+                        bias[i] -= dydx[i] * LearnRate;
                         bias[i] -= momentum * momentumBias[i];
-                        momentumBias[i] = gamma[i];
+                        momentumBias[i] = dydx[i];
                     }
                 }
-                
             }
 
             public void WeightsToFiles(int N, int C, int L, string savePath)
@@ -424,7 +378,6 @@ namespace NeuroV3
                     File.WriteAllText(W_SavePath, FinalWeight);
                 }
             }
-
             public void BiasToFiles(int N, int C, int L, string savePath)
             {
                 int i = 0;
@@ -434,8 +387,6 @@ namespace NeuroV3
                     FinalBias = FinalBias + bias[i] + "\r\n";
                 File.WriteAllText(B_SavePath, FinalBias);
             }
-
-
 
 
             /// Activation function 
@@ -448,7 +399,7 @@ namespace NeuroV3
             /// 7. Bent identity
             /// 8. Sin
             /// 9. Gaussian
-
+            /// 10.Identity
 
             public float Activ(float value, int Act)
             {
@@ -465,7 +416,7 @@ namespace NeuroV3
                         break;
 
                     case 3:
-                        if (value < 0) value = 0;
+                        if (value <= 0) value = 0;
                         else value = 1;
                         break;
 
@@ -511,6 +462,7 @@ namespace NeuroV3
             public float Deriv(float value, int Act)
             {
                 float tempF;
+                float tempG;
                 switch (Act)
                 {
                     case 1:
@@ -518,12 +470,14 @@ namespace NeuroV3
                         break;
 
                     case 2:
-                        value = Activ(value, Act);
-                        value = value * (1 - value);
+                        tempF = Activ(value, Act);
+                        tempF = (float)Math.Log(tempF);
+                        tempG = (float)Math.Exp(-value);
+                        value = -tempF * tempG;
                         break;
 
                     case 3:
-                        value = 0.2f;
+                        value = 0.5f;
                         break;
 
                     case 4:
@@ -542,7 +496,8 @@ namespace NeuroV3
 
                     case 7:
                         tempF = (float)Math.Sqrt(value * value + 1);
-                        value = value / (2 * tempF) + 1;
+                        tempG = 2 + value;
+                        value = value / (tempF * tempG) + 1 / (tempG * tempG);
                         break;
 
                     case 8:

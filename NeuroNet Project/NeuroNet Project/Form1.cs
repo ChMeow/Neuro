@@ -62,6 +62,8 @@ namespace NeuroNet_Project
         string resultParameter;
         string resultReportWeight;
         string CurrentTime;
+        int costCount;
+        float costAddition;
 
         int[] equationNodes = new int[999];
         int[,] equationAvailableWeight = new int[999,999];
@@ -85,6 +87,8 @@ namespace NeuroNet_Project
 
         private void button_Go_Click(object sender, EventArgs e)
         {
+            costCount = 1;
+            costAddition = 0;
             logWorkerCount = 0;
             P_activ = comboBox_ActivateFunction.SelectedIndex + 1;
             P_loops = (int)numericUpDown_loops.Value;
@@ -1385,7 +1389,8 @@ namespace NeuroNet_Project
                     loopsCounter = i + previousLoopsCounter;
                     worker.ReportProgress(2);
                 }
-                if( i % 1000 == 0 && i!=0 )
+
+                if ( i % 1000 == 0 && i!=0 )
                 {
                     resultAll = "";
                     resultSingle = "";
@@ -1425,7 +1430,7 @@ namespace NeuroNet_Project
                         }
                         resultSingle = resultSingle + "\r\n";
                         resultLoops = "Loops: " + loopsCounter;
-                        resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", cost);
+                        resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", Math.Sqrt(cost));
                     }
                     resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
                     resultParameter = "";

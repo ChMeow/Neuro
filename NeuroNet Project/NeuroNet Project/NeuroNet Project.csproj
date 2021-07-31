@@ -136,8 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon_TdH_icon.ico" />
-    <EmbeddedResource Include="Resources\arrow1.cur" />
-    <None Include="Resources\Cursor1.ico" />
     <None Include="Resources\info.png" />
     <EmbeddedResource Include="play.png" />
     <EmbeddedResource Include="stop.png" />
