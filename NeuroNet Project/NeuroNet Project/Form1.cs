@@ -62,16 +62,14 @@ namespace NeuroNet_Project
         string resultParameter;
         string resultReportWeight;
         string CurrentTime;
-        int costCount;
-        float costAddition;
+        bool backpropDone = false;
+        string errorWorker = "";
 
         int[] equationNodes = new int[999];
         int[,] equationAvailableWeight = new int[999,999];
         int equationMaxN = 0;
         int equationMaxW = 0;
 
-        int logWorkerCount = 0;
-        bool locklog = true;
 
 
         public Form_Main()
@@ -87,9 +85,6 @@ namespace NeuroNet_Project
 
         private void button_Go_Click(object sender, EventArgs e)
         {
-            costCount = 1;
-            costAddition = 0;
-            logWorkerCount = 0;
             P_activ = comboBox_ActivateFunction.SelectedIndex + 1;
             P_loops = (int)numericUpDown_loops.Value;
             P_layer = (int)numericUpDown_layer.Value;
@@ -746,7 +741,7 @@ namespace NeuroNet_Project
                     TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Red;
                     richTextBox_Summary.AppendText("Config File Error !!!");
-                    ErrorText();
+                    ErrorText(exx.Message);
                 }
 
                 file.Close();
@@ -1306,8 +1301,8 @@ namespace NeuroNet_Project
                 richTextBox_Summary.Focus();
                 TimeNow();
                 richTextBox_Summary.SelectionColor = Color.Red;
-                richTextBox_Summary.AppendText("Error !!!");
-                ErrorText();
+                richTextBox_Summary.AppendText("Worker Error !!!");
+                ErrorText("");
                 checkPlaying = false;
                 setPlayStopButton(checkPlaying);
 
@@ -1320,20 +1315,42 @@ namespace NeuroNet_Project
             }
             else
             {
-                richTextBox_Summary.Focus();
-                TimeNow();
-                richTextBox_Summary.SelectionColor = Color.Lime;
-                richTextBox_Summary.AppendText(@"BackPropagation completed. " + "\r\n");
-                checkPlaying = false;
-                checkBox_UseExistW.Checked = true;
-                setPlayStopButton(checkPlaying);
+                if(backpropDone)
+                {
+                    richTextBox_Summary.Focus();
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(@"BackPropagation completed. " + "\r\n");
+                    checkPlaying = false;
+                    checkBox_UseExistW.Checked = true;
+                    setPlayStopButton(checkPlaying);
 
-                /////TO LOG/////
-                richTextBox_FinalResult.Focus();
-                TimeNowLOG();
-                richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
-                richTextBox_FinalResult.AppendText(@"Job done!" + "\r\n");
-                /////END LOG/////
+                    /////TO LOG/////
+                    richTextBox_FinalResult.Focus();
+                    TimeNowLOG();
+                    richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+                    richTextBox_FinalResult.AppendText(@"Job done!" + "\r\n");
+                    /////END LOG/////
+                }
+                else
+                {
+                    richTextBox_Summary.Focus();
+                    TimeNow();
+                    richTextBox_Summary.SelectionColor = Color.Lime;
+                    richTextBox_Summary.AppendText(@"Error! The worker encounter some errors" + "\r\n");
+                    checkPlaying = false;
+                    checkBox_UseExistW.Checked = true;
+                    setPlayStopButton(checkPlaying);
+
+                    /////TO LOG/////
+                    richTextBox_FinalResult.Focus();
+                    TimeNowLOG();
+                    richTextBox_FinalResult.SelectionColor = Color.PaleTurquoise;
+                    richTextBox_FinalResult.AppendText(@"Error!" + "\r\n");
+                    richTextBox_FinalResult.AppendText(errorWorker + "\r\n");
+                    /////END LOG/////
+                }
+
             }
         }
 
@@ -1352,101 +1369,110 @@ namespace NeuroNet_Project
             Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
             worker.ReportProgress(5);
 
-            for (int i = 1; i < P_loops + 1; i++)
+            try
             {
-                worker.ReportProgress(6);  // Report that the worker will start soon
-                if (worker.CancellationPending == true)
-                {
-                    e.Cancel = true;
-                    break;
-                }
+                for (int i = 1; i < P_loops + 1; i++)
+                            {
+                                worker.ReportProgress(6);  // Report that the worker will start soon
+                                if (worker.CancellationPending == true)
+                                {
+                                    e.Cancel = true;
+                                    break;
+                                }
 
-                for (int k = 0; k < D_loops; k++) ArrayForRandom[k] = k; // initialize array for comparison
-                tempTarget = targetJ.Next(0, D_loops);
+                                for (int k = 0; k < D_loops; k++) ArrayForRandom[k] = k; // initialize array for comparison
+                                tempTarget = targetJ.Next(0, D_loops);
 
-                for (int j = 0; j < D_loops; j++)
-                {
-                    while (ArrayForRandom[tempTarget] == -1)
-                    {
-                        tempTarget = targetJ.Next(0, D_loops);
-                    }
-                    ArrayForRandom[tempTarget] = -1;      // This marked the randomized target as used. (The target represent the position (line) of data in the text files)
+                                for (int j = 0; j < D_loops; j++)
+                                {
+                                    while (ArrayForRandom[tempTarget] == -1)
+                                    {
+                                        tempTarget = targetJ.Next(0, D_loops);
+                                    }
+                                    ArrayForRandom[tempTarget] = -1;      // This marked the randomized target as used. (The target represent the position (line) of data in the text files)
 
-                    input = fileProcess.getData(label_InputPath.Text, tempTarget);   // This will ask the fileprocess to grab the data from specific line in the text files. For input
-                    expected = fileProcess.getData(label_OutputPath.Text, tempTarget);  // Similar, this is for the expected output.
-                    net.FeedForward(input, P_activ);                                    // Starting feeding it into the NN
-                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);  // Backpropagate it.
-                    var bindingFlags = BindingFlags.Instance |
-                                       BindingFlags.NonPublic |
-                                       BindingFlags.Public;
-                    var fieldValues = net.GetType()
-                                         .GetFields(bindingFlags)
-                                         .Select(field => field.GetValue(net))
-                                         .ToList();    // It is now in var but stuck at here, objectdumper won't go beyond the layer 3 depth. pointless.
+                                    input = fileProcess.getData(label_InputPath.Text, tempTarget);   // This will ask the fileprocess to grab the data from specific line in the text files. For input
+                                    expected = fileProcess.getData(label_OutputPath.Text, tempTarget);  // Similar, this is for the expected output.
+                                    net.FeedForward(input, P_activ);                                    // Starting feeding it into the NN
+                                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);  // Backpropagate it.
+                                    var bindingFlags = BindingFlags.Instance |
+                                                       BindingFlags.NonPublic |
+                                                       BindingFlags.Public;
+                                    var fieldValues = net.GetType()
+                                                         .GetFields(bindingFlags)
+                                                         .Select(field => field.GetValue(net))
+                                                         .ToList();    // It is now in var but stuck at here, objectdumper won't go beyond the layer 3 depth. pointless.
 
-                    // System.IO.File.WriteAllLines(@"i:\SavedLists.txt", fieldValues.;
+                                    // System.IO.File.WriteAllLines(@"i:\SavedLists.txt", fieldValues.;
 
-                    loopsCounter = i + previousLoopsCounter;
-                    worker.ReportProgress(2);
-                }
+                                    loopsCounter = i + previousLoopsCounter;
+                                    worker.ReportProgress(2);
+                                }
 
-                if ( i % 1000 == 0 && i!=0 )
-                {
-                    resultAll = "";
-                    resultSingle = "";
-                    resultLoops = "";
-                    resultRMS = "";
+                                if ( i % 1000 == 0 && i!=0 )
+                                {
+                                    resultAll = "";
+                                    resultSingle = "";
+                                    resultLoops = "";
+                                    resultRMS = "";
 
-                    for (int j = 0; j < D_loops; j++)
-                    {
-                        int N;
+                                    for (int j = 0; j < D_loops; j++)
+                                    {
+                                        int N;
                         
-                        float temp = 0;
-                        // remove here 
-                        input = fileProcess.getData(label_InputPath.Text, j);
-                        expected = fileProcess.getData(label_OutputPath.Text, j);
-                        result = net.FeedForward(input, P_activ);
-                        temp = fileProcess.error(result, expected);
-                        cost = (float)Math.Round(temp,5);
-                        different = fileProcess.diff(result, expected);
-                        tempAdaptiveCorrection = loopsCounter;
-                        tempMaxMin[0] = tempMaxMin[1] = 0;
-                        //for (N =0; N < different.Length ; N++)
-                        //{
-                        //    tempMaxMin[0] = (float)Math.Min(different[N], tempMaxMin[0]);
-                        //    tempMaxMin[1] = (float)Math.Max(different[N], tempMaxMin[1]);
-                        //    tempAdaptiveCorrection = tempMaxMin[1] - tempMaxMin[0];
-                        //}
-                        // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
-                        // if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
+                                        float temp = 0;
+                                        // remove here 
+                                        input = fileProcess.getData(label_InputPath.Text, j);
+                                        expected = fileProcess.getData(label_OutputPath.Text, j);
+                                        result = net.FeedForward(input, P_activ);
+                                        temp = fileProcess.error(result, expected);
+                                        cost = (float)Math.Round(temp,5);
+                                        different = fileProcess.diff(result, expected);
+                                        tempAdaptiveCorrection = loopsCounter;
+                                        tempMaxMin[0] = tempMaxMin[1] = 0;
+                                        //for (N =0; N < different.Length ; N++)
+                                        //{
+                                        //    tempMaxMin[0] = (float)Math.Min(different[N], tempMaxMin[0]);
+                                        //    tempMaxMin[1] = (float)Math.Max(different[N], tempMaxMin[1]);
+                                        //    tempAdaptiveCorrection = tempMaxMin[1] - tempMaxMin[0];
+                                        //}
+                                        // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
+                                        // if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
 
-                        int DP = (int)numericUpDown_DP.Value;
-                        for (int k = 0; k < result.Length; k++)
-                        {
+                                        int DP = (int)numericUpDown_DP.Value;
+                                        for (int k = 0; k < result.Length; k++)
+                                        {
                             
 
-                            resultSingle = resultSingle + String.Format("{0:f" + DP + "}", Math.Round(result[k], DP))
-                                         + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
-                        }
-                        resultSingle = resultSingle + "\r\n";
-                        resultLoops = "Loops: " + loopsCounter;
-                        resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", Math.Sqrt(cost));
-                    }
-                    resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
-                    resultParameter = "";
-                    //net.WtoF(N, C + i, label_WeightPath.Text);
-                    //net.BtoF(N, C + i, label_biasPath.Text);
-                    worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
-                }
-                if (i % P_save == 0 && i != 0)
-                {
-                    resultReportWeight = @"\N" + N + "C" + loopsCounter + "L_.txt";
-                    net.WtoF(N, C + i, label_WeightPath.Text);
-                    net.BtoF(N, C + i, label_biasPath.Text);
-                    worker.ReportProgress(4);
-                }
+                                            resultSingle = resultSingle + String.Format("{0:f" + DP + "}", Math.Round(result[k], DP))
+                                                         + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
+                                        }
+                                        resultSingle = resultSingle + "\r\n";
+                                        resultLoops = "Loops: " + loopsCounter;
+                                        resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", Math.Sqrt(cost));
+                                    }
+                                    resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
+                                    resultParameter = "";
+                                    //net.WtoF(N, C + i, label_WeightPath.Text);
+                                    //net.BtoF(N, C + i, label_biasPath.Text);
+                                    worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
+                                }
+                                if (i % P_save == 0 && i != 0)
+                                {
+                                    resultReportWeight = @"\N" + N + "C" + loopsCounter + "L_.txt";
+                                    net.WtoF(N, C + i, label_WeightPath.Text);
+                                    net.BtoF(N, C + i, label_biasPath.Text);
+                                    worker.ReportProgress(4);
+                                }
+                            }
+                backpropDone = true;
             }
-           
+            catch (Exception ex)
+            {
+                errorWorker = ex.Message;
+                backpropDone = false;
+            }
+
             worker.Dispose();
 
         }
@@ -1467,10 +1493,11 @@ namespace NeuroNet_Project
             return;
         }
 
-        public void ErrorText()
+        public void ErrorText(string exxmsg)
         {
             richTextBox_Summary.SelectionColor = Color.Yellow;
             richTextBox_Summary.AppendText("  Σ( ﾟДﾟ ?)" + "\r\n");
+            richTextBox_FinalResult.AppendText(exxmsg + "\r\n");
             return;
         }
 
