@@ -54,6 +54,15 @@ namespace NeuroNet_Project
         double UPPER = 0;
         double LOWER = 0;
         float[,] norMinMax = new float[20,4];
+        bool miniBatch = true;
+        bool miniBatchProceed = true;
+        bool newMiniBatch = true;
+        bool newBatchCheck = true;
+        int miniBatchSize = 1;
+        int miniBatchCounter = 0;
+        bool randomMiniBatch = false;
+        int miniBatchMin = 1;
+        int miniBatchMax = 99;
 
         string resultSingle;
         string resultAll;
@@ -101,6 +110,16 @@ namespace NeuroNet_Project
             checkNC = fileProcess.checkWeight(label_WeightPath.Text);
             N = checkNC[0];
             C = checkNC[1];
+
+            if (checkBoxMinibatch.Checked == true)
+            {
+                miniBatch = true;
+                miniBatchProceed = false;
+                miniBatchCounter = 0;
+                newMiniBatch = true;
+                miniBatchSize = (int)numericUpDownMiniBatchSize.Value;
+            }
+            else miniBatch = false;
 
             if (checkBox_UseExistW.Checked == true)
             {
@@ -674,6 +693,13 @@ namespace NeuroNet_Project
             file.WriteLine(numericUpDownNorOMin.Value);
             file.WriteLine(numericUpDownNorOMax.Value);
             if (checkBoxCustomNor.Checked == true) file.WriteLine("1"); else file.WriteLine("0");
+            file.WriteLine(numericUpDownMiniBatchSize.Value);
+            file.WriteLine(numericUpDownMiniMin.Value);
+            file.WriteLine(numericUpDownMiniMax.Value);
+            if(checkBoxMinibatch.Checked == true && checkBoxRandomMini.Checked == true) file.WriteLine("2"); 
+            else if (checkBoxMinibatch.Checked == true && checkBoxRandomMini.Checked == false) file.WriteLine("1");
+            else file.WriteLine("0");
+            if (checkBox_adaptiveRate.Checked == true) file.WriteLine("1"); else file.WriteLine("0");
 
             file.Close();
             richTextBox_Summary.Focus();
@@ -734,6 +760,48 @@ namespace NeuroNet_Project
                     numericUpDownNorOMax.Value = Convert.ToDecimal(file.ReadLine());
                     checkstate = Convert.ToDecimal(file.ReadLine());
                     if (checkstate == 1) checkBoxCustomNor.Checked = true; else checkBoxCustomNor.Checked = false;
+                    numericUpDownMiniBatchSize.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDownMiniMin.Value = Convert.ToDecimal(file.ReadLine());
+                    numericUpDownMiniMax.Value = Convert.ToDecimal(file.ReadLine());
+                    checkstate = Convert.ToDecimal(file.ReadLine());
+                    if (checkstate == 2)
+                    {
+                        checkBoxMinibatch.Checked = true;
+                        checkBoxRandomMini.Checked = true;
+                        checkBoxStochastic.Checked = false;
+                        numericUpDownMiniBatchSize.Enabled = true;
+                        numericUpDownMiniMin.Enabled = true;
+                        numericUpDownMiniMax.Enabled = true;
+                    }
+                    else if (checkstate == 1)
+                    {
+                        checkBoxMinibatch.Checked = true;
+                        checkBoxRandomMini.Checked = false;
+                        checkBoxStochastic.Checked = false;
+                        numericUpDownMiniBatchSize.Enabled = true;
+                        numericUpDownMiniMin.Enabled = true;
+                        numericUpDownMiniMax.Enabled = true;
+                    }
+                    else
+                    {
+                        checkBoxMinibatch.Checked = false;
+                        checkBoxRandomMini.Checked = false;
+                        checkBoxStochastic.Checked = true;
+                        numericUpDownMiniBatchSize.Enabled = false;
+                        numericUpDownMiniMin.Enabled = false;
+                        numericUpDownMiniMax.Enabled = false;
+                    }
+                    checkstate = Convert.ToDecimal(file.ReadLine());
+                    if (checkstate == 1)
+                    {
+                        checkBox_adaptiveRate.Checked = true;
+                        numericUpDown_DecayRate.Enabled = true;
+                    }
+                    else
+                    {
+                        checkBox_adaptiveRate.Checked = false;
+                        numericUpDown_DecayRate.Enabled = false;
+                    }
                 }
                 catch (Exception exx)
                 {
@@ -1213,6 +1281,50 @@ namespace NeuroNet_Project
             pictureBox_StopCont.Image = new Bitmap(_imageStream);
         }
 
+        private void checkBoxStochastic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxStochastic.Checked == true)
+            {
+                checkBoxMinibatch.Checked = false;
+                numericUpDownMiniBatchSize.Enabled = false;
+                numericUpDownMiniMin.Enabled = false;
+                numericUpDownMiniMax.Enabled = false;
+                checkBoxRandomMini.Enabled = false;
+                miniBatchSize = 1;
+            }
+            else
+            {
+                checkBoxMinibatch.Checked = true;
+                numericUpDownMiniBatchSize.Enabled = true;
+                numericUpDownMiniMin.Enabled = true;
+                numericUpDownMiniMax.Enabled = true;
+                checkBoxRandomMini.Enabled = true;
+                miniBatchSize = (int)numericUpDownMiniBatchSize.Value;
+            }
+        }
+
+        private void checkBoxMinibatch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxMinibatch.Checked == true)
+            {
+                checkBoxStochastic.Checked = false;
+                numericUpDownMiniBatchSize.Enabled = true;
+                numericUpDownMiniMin.Enabled = true;
+                numericUpDownMiniMax.Enabled = true;
+                checkBoxRandomMini.Enabled = true;
+                miniBatchSize = (int)numericUpDownMiniBatchSize.Value;
+            }
+            else
+            {
+                checkBoxStochastic.Checked = true;
+                numericUpDownMiniBatchSize.Enabled = false;
+                numericUpDownMiniMin.Enabled = false;
+                numericUpDownMiniMax.Enabled = false;
+                checkBoxRandomMini.Enabled = false;
+                miniBatchSize = 1;
+            }
+        }
+
         public void requestParameter(bool e)
         {
             resultParameter =
@@ -1251,6 +1363,7 @@ namespace NeuroNet_Project
                     {
                         label_LRM.Text = "Momentum: " + String.Format("{0:f" + 15 + "}", numericUpDown_momentum.Value) + "\t" + "          Learning rate: " + String.Format("{0:f" + 15 + "}", numericUpDown_learn.Value);
                     }
+                    labelBatchSize.Text = "Batch Size: " + miniBatchSize;
                     TimeNow();
                     richTextBox_Summary.SelectionColor = Color.Lime;
                     richTextBox_Summary.AppendText(resultRMS + "\r\n");
@@ -1363,7 +1476,7 @@ namespace NeuroNet_Project
             if (N != -1 && checkBox_UseExistW.Checked == false) N++;
             if (N == -1) N = 0;
             if (checkBox_UseExistW.Checked == false) C = 0;
-
+            
 
             worker.ReportProgress(3);
             Neuro net = new Neuro(layer, P_learn, checkBox_UseExistW.Checked, existingWeightPath, existingBiasPath, (float)numericUpDown_momentum.Value); //intiilize network
@@ -1372,99 +1485,124 @@ namespace NeuroNet_Project
             try
             {
                 for (int i = 1; i < P_loops + 1; i++)
-                            {
-                                worker.ReportProgress(6);  // Report that the worker will start soon
-                                if (worker.CancellationPending == true)
-                                {
-                                    e.Cancel = true;
-                                    break;
-                                }
+                {
+                    worker.ReportProgress(6);  // Report that the worker will start soon
+                    if (worker.CancellationPending == true)
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
 
-                                for (int k = 0; k < D_loops; k++) ArrayForRandom[k] = k; // initialize array for comparison
-                                tempTarget = targetJ.Next(0, D_loops);
+                    for (int k = 0; k < D_loops; k++) ArrayForRandom[k] = k; // initialize array for comparison
+                    tempTarget = targetJ.Next(0, D_loops);
 
-                                for (int j = 0; j < D_loops; j++)
-                                {
-                                    while (ArrayForRandom[tempTarget] == -1)
-                                    {
-                                        tempTarget = targetJ.Next(0, D_loops);
-                                    }
-                                    ArrayForRandom[tempTarget] = -1;      // This marked the randomized target as used. (The target represent the position (line) of data in the text files)
-
-                                    input = fileProcess.getData(label_InputPath.Text, tempTarget);   // This will ask the fileprocess to grab the data from specific line in the text files. For input
-                                    expected = fileProcess.getData(label_OutputPath.Text, tempTarget);  // Similar, this is for the expected output.
-                                    net.FeedForward(input, P_activ);                                    // Starting feeding it into the NN
-                                    net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value);  // Backpropagate it.
-                                    var bindingFlags = BindingFlags.Instance |
-                                                       BindingFlags.NonPublic |
-                                                       BindingFlags.Public;
-                                    var fieldValues = net.GetType()
-                                                         .GetFields(bindingFlags)
-                                                         .Select(field => field.GetValue(net))
-                                                         .ToList();    // It is now in var but stuck at here, objectdumper won't go beyond the layer 3 depth. pointless.
-
-                                    // System.IO.File.WriteAllLines(@"i:\SavedLists.txt", fieldValues.;
-
-                                    loopsCounter = i + previousLoopsCounter;
-                                    worker.ReportProgress(2);
-                                }
-
-                                if ( i % 1000 == 0 && i!=0 )
-                                {
-                                    resultAll = "";
-                                    resultSingle = "";
-                                    resultLoops = "";
-                                    resultRMS = "";
-
-                                    for (int j = 0; j < D_loops; j++)
-                                    {
-                                        int N;
+                    for (int j = 0; j < D_loops; j++)
+                    {
+                        while (ArrayForRandom[tempTarget] == -1)
+                        {
+                            tempTarget = targetJ.Next(0, D_loops);
+                        }
+                        ArrayForRandom[tempTarget] = -1;      // This marked the randomized target as used. (The target represent the position (line) of data in the text files)
                         
-                                        float temp = 0;
-                                        // remove here 
-                                        input = fileProcess.getData(label_InputPath.Text, j);
-                                        expected = fileProcess.getData(label_OutputPath.Text, j);
-                                        result = net.FeedForward(input, P_activ);
-                                        temp = fileProcess.error(result, expected);
-                                        cost = (float)Math.Round(temp,5);
-                                        different = fileProcess.diff(result, expected);
-                                        tempAdaptiveCorrection = loopsCounter;
-                                        tempMaxMin[0] = tempMaxMin[1] = 0;
-                                        //for (N =0; N < different.Length ; N++)
-                                        //{
-                                        //    tempMaxMin[0] = (float)Math.Min(different[N], tempMaxMin[0]);
-                                        //    tempMaxMin[1] = (float)Math.Max(different[N], tempMaxMin[1]);
-                                        //    tempAdaptiveCorrection = tempMaxMin[1] - tempMaxMin[0];
-                                        //}
-                                        // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
-                                        // if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
+                        if((miniBatchCounter > miniBatchSize-2) && miniBatch)
+                        {
+                            if(checkBoxRandomMini.Checked == true)
+                            {
+                                Random randomSize = new Random();
+                                if(numericUpDownMiniMin.Value < numericUpDownMiniMax.Value) miniBatchSize = randomSize.Next((int)numericUpDownMiniMin.Value , (int)numericUpDownMiniMax.Value);
+                                else miniBatchSize = randomSize.Next((int)numericUpDownMiniMax.Value, (int)numericUpDownMiniMin.Value);
+                            }
+                            miniBatchCounter = 0;
+                            miniBatchProceed = true;
+                            newBatchCheck = true;
+                        }
+                        else
+                        {
+                            miniBatchCounter += 1;
+                            miniBatchProceed = false;
+                            newBatchCheck = false;
+                        }
 
-                                        int DP = (int)numericUpDown_DP.Value;
-                                        for (int k = 0; k < result.Length; k++)
-                                        {
+                        input = fileProcess.getData(label_InputPath.Text, tempTarget);   // This will ask the fileprocess to grab the data from specific line in the text files. For input
+                        expected = fileProcess.getData(label_OutputPath.Text, tempTarget);  // Similar, this is for the expected output.
+                        net.FeedForward(input, P_activ);                                    // Starting feeding it into the NN
+                        net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value, miniBatch, miniBatchProceed, newMiniBatch);  // Backpropagate it.
+                        if (newBatchCheck) 
+                            newMiniBatch = true;
+                        else
+                        {
+                            newMiniBatch = false;
+                        }
+                        var bindingFlags = BindingFlags.Instance |
+                                            BindingFlags.NonPublic |
+                                            BindingFlags.Public;
+                        var fieldValues = net.GetType()
+                                                .GetFields(bindingFlags)
+                                                .Select(field => field.GetValue(net))
+                                                .ToList();    // It is now in var but stuck at here, objectdumper won't go beyond the layer 3 depth. pointless.
+
+                        // System.IO.File.WriteAllLines(@"i:\SavedLists.txt", fieldValues.;
+
+                        loopsCounter = i + previousLoopsCounter;
+                        worker.ReportProgress(2);
+                    }
+
+                    if ( i % 1000 == 0 && i!=0 )
+                    {
+                        resultAll = "";
+                        resultSingle = "";
+                        resultLoops = "";
+                        resultRMS = "";
+
+                        for (int j = 0; j < D_loops; j++)
+                        {
+                            int N;
+                        
+                            float temp = 0;
+                            // remove here 
+                            input = fileProcess.getData(label_InputPath.Text, j);
+                            expected = fileProcess.getData(label_OutputPath.Text, j);
+                            result = net.FeedForward(input, P_activ);
+                            temp = fileProcess.error(result, expected);
+                            cost = (float)Math.Round(temp,5);
+                            different = fileProcess.diff(result, expected);
+                            tempAdaptiveCorrection = loopsCounter;
+                            tempMaxMin[0] = tempMaxMin[1] = 0;
+                            //for (N =0; N < different.Length ; N++)
+                            //{
+                            //    tempMaxMin[0] = (float)Math.Min(different[N], tempMaxMin[0]);
+                            //    tempMaxMin[1] = (float)Math.Max(different[N], tempMaxMin[1]);
+                            //    tempAdaptiveCorrection = tempMaxMin[1] - tempMaxMin[0];
+                            //}
+                            // tempAdaptiveCorrection = tempAdaptiveCorrection / N;
+                            // if (tempAdaptiveCorrection > (float)numericUpDown_momentum.Value) tempAdaptiveCorrection = (float)numericUpDown_momentum.Value;
+
+                            int DP = (int)numericUpDown_DP.Value;
+                            for (int k = 0; k < result.Length; k++)
+                            {
                             
 
-                                            resultSingle = resultSingle + String.Format("{0:f" + DP + "}", Math.Round(result[k], DP))
-                                                         + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
-                                        }
-                                        resultSingle = resultSingle + "\r\n";
-                                        resultLoops = "Loops: " + loopsCounter;
-                                        resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", Math.Sqrt(cost));
-                                    }
-                                    resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
-                                    resultParameter = "";
-                                    //net.WtoF(N, C + i, label_WeightPath.Text);
-                                    //net.BtoF(N, C + i, label_biasPath.Text);
-                                    worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
-                                }
-                                if (i % P_save == 0 && i != 0)
-                                {
-                                    resultReportWeight = @"\N" + N + "C" + loopsCounter + "L_.txt";
-                                    net.WtoF(N, C + i, label_WeightPath.Text);
-                                    net.BtoF(N, C + i, label_biasPath.Text);
-                                    worker.ReportProgress(4);
-                                }
+                                resultSingle = resultSingle + String.Format("{0:f" + DP + "}", Math.Round(result[k], DP))
+                                                + " (" + String.Format("{0:f" + DP + "}", Math.Round(different[k], DP)) + ")" + "\t";
                             }
+                            resultSingle = resultSingle + "\r\n";
+                            resultLoops = "Loops: " + loopsCounter;
+                            resultRMS = "RMS Error: " + String.Format("{0:f" + 15 + "}", Math.Sqrt(cost));
+                        }
+                        resultAll = resultParameter + "\r\n" + resultLoops + ", \t" + "N: " + N + " , \t" + resultRMS + "\r\n" + resultSingle + "\r\n";
+                        resultParameter = "";
+                        //net.WtoF(N, C + i, label_WeightPath.Text);
+                        //net.BtoF(N, C + i, label_biasPath.Text);
+                        worker.ReportProgress(1); // update error and y to screen // sent it to result tab too.
+                    }
+                    if (i % P_save == 0 && i != 0)
+                    {
+                        resultReportWeight = @"\N" + N + "C" + loopsCounter + "L_.txt";
+                        net.WtoF(N, C + i, label_WeightPath.Text);
+                        net.BtoF(N, C + i, label_biasPath.Text);
+                        worker.ReportProgress(4);
+                    }
+                }
                 backpropDone = true;
             }
             catch (Exception ex)

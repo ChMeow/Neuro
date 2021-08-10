@@ -11,6 +11,7 @@ namespace NeuroV3
     {
         float LearnRate;
         float momentum;
+        int miniBatchError = 0;
         int[] layer; // Number of nodes in each layer
         Layer[] layers; // The "Layer"s in the network
 
@@ -46,33 +47,79 @@ namespace NeuroV3
         }
 
         // Backpropagation
-        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate)
+        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate, bool miniBatch, bool miniBatchProceed, bool newMiniBatch)
         {
-            // starts from the final layer to the front layer.
-            for (int i = layers.Length - 1; i >= 0; i--)
+            if(miniBatch)
             {
-                // Final layer
-                if (i == layers.Length - 1)
+                for (int i = layers.Length - 1; i >= 0; i--)
                 {
-                    layers[i].BackPropOutput(expected, Activate);
+                    if(miniBatchProceed)
+                    {
+                        // Final layer
+                        if (i == layers.Length - 1)
+                        {
+                            layers[i].BackPropOutput(expected, Activate, miniBatch, newMiniBatch);
+                        }
+                        // Hidden layers
+                        else
+                        {
+                            layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate);
+                        }
+                    }
+                    else
+                    {
+                        // Final layer
+                        if (i == layers.Length - 1)
+                        {
+                            layers[i].BackPropOutput(expected, Activate, miniBatch, newMiniBatch);
+                        }
+                    }
+
                 }
-                // Hidden layers
-                else
+
+                if (miniBatchProceed)
                 {
-                    layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate); 
+                    //Update weights
+                    for (int i = 0; i < layers.Length; i++)
+                    {
+                        layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                    }
+
+                    //Update bias
+                    for (int i = 0; i < layers.Length; i++)
+                    {
+                        layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                    }
                 }
             }
-
-            //Update weights
-            for (int i = 0; i < layers.Length; i++)
+            else
             {
-                layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
-            }
+                // starts from the final layer to the front layer.
+                for (int i = layers.Length - 1; i >= 0; i--)
+                {
+                    // Final layer
+                    if (i == layers.Length - 1)
+                    {
+                        layers[i].BackPropOutput(expected, Activate, false, true);
+                    }
+                    // Hidden layers
+                    else
+                    {
+                        layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate);
+                    }
+                }
 
-            //Update bias
-            for (int i = 0; i < layers.Length; i++)
-            {
-                layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                //Update weights
+                for (int i = 0; i < layers.Length; i++)
+                {
+                    layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                }
+
+                //Update bias
+                for (int i = 0; i < layers.Length; i++)
+                {
+                    layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                }
             }
         }
 
@@ -251,26 +298,76 @@ namespace NeuroV3
             }
 
             // Backpropagation Final Layer
-            public void BackPropOutput(float[] expected, int Activate)
+            public void BackPropOutput(float[] expected, int Activate, bool minibatch, bool newMiniBatch)
             {
-
                 //Error dervative of the cost function
-                for (int i = 0; i < numberOfOuputs; i++)
+                if (minibatch)
                 {
-                    error[i] = outputs[i] - expected[i];
-                }
-
-
-                // calculation
-                for (int i = 0; i < numberOfOuputs; i++)
-                    dydx[i] = 2* error[i] * Deriv(outputs[i], Activate);
-
-                //Caluclating detla weights
-                for (int i = 0; i < numberOfOuputs; i++)
-                {
-                    for (int j = 0; j < numberOfInputs; j++)
+                    if (newMiniBatch)
                     {
-                        weightsCorrection[i, j] = dydx[i] * inputs[j];
+                        Array.Clear(weightsCorrection, 0, weightsCorrection.Length);
+                    }
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        error[i] = outputs[i] - expected[i];
+                    }
+                    // calculation
+                    for (int i = 0; i < numberOfOuputs; i++)
+                        dydx[i] = 2 * error[i] * Deriv(outputs[i], Activate);
+
+                    //Caluclating detla weights
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weightsCorrection[i, j] = weightsCorrection[i, j] + dydx[i] * inputs[j];
+                        }
+                    }
+                    //if(!miniBatchProceed) // Meow's style minibatch, it learns but painfully slow
+                    //for (int i = 0; i < numberOfOuputs; i++)
+                    //{
+                    //        error[i] = error[i] + outputs[i] - expected[i];
+                    //        error[i] = error[i] / 3;
+                    //}
+                    //else
+                    //{
+                    //    for (int i = 0; i < numberOfOuputs; i++)
+                    //    {
+                    //        error[i] = error[i] + outputs[i] - expected[i];
+                    //        error[i] = error[i] / 3;
+                    //    }
+                    //    // calculation
+                    //    for (int i = 0; i < numberOfOuputs; i++)
+                    //        dydx[i] = 2 * error[i] * Deriv(outputs[i], Activate);
+
+                    //    //Caluclating detla weights
+                    //    for (int i = 0; i < numberOfOuputs; i++)
+                    //    {
+                    //        for (int j = 0; j < numberOfInputs; j++)
+                    //        {
+                    //            weightsCorrection[i, j] = dydx[i] * inputs[j];
+                    //        }
+                    //    }
+                    //}
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        error[i] = outputs[i] - expected[i];
+                    }
+
+                    // calculation
+                    for (int i = 0; i < numberOfOuputs; i++)
+                        dydx[i] = 2 * error[i] * Deriv(outputs[i], Activate);
+
+                    //Caluclating detla weights
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weightsCorrection[i, j] = dydx[i] * inputs[j];
+                        }
                     }
                 }
             }
