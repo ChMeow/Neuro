@@ -47,34 +47,22 @@ namespace NeuroV3
         }
 
         // Backpropagation
-        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate, bool miniBatch, bool miniBatchProceed, bool newMiniBatch)
+        public void BackProp(float[] expected, int Activate, bool adaptive, float adaptiveWeight, float decayRate, bool miniBatch, bool miniBatchProceed, bool newMiniBatch, int miniBatchSize)
         {
             if(miniBatch)
             {
                 for (int i = layers.Length - 1; i >= 0; i--)
                 {
-                    if(miniBatchProceed)
+                    // Final layer
+                    if (i == layers.Length - 1)
                     {
-                        // Final layer
-                        if (i == layers.Length - 1)
-                        {
-                            layers[i].BackPropOutput(expected, Activate, miniBatch, newMiniBatch);
-                        }
-                        // Hidden layers
-                        else
-                        {
-                            layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate);
-                        }
+                        layers[i].BackPropOutput(expected, Activate, miniBatch, newMiniBatch);
                     }
+                    // Hidden layers
                     else
                     {
-                        // Final layer
-                        if (i == layers.Length - 1)
-                        {
-                            layers[i].BackPropOutput(expected, Activate, miniBatch, newMiniBatch);
-                        }
+                        layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate, miniBatch, newMiniBatch);
                     }
-
                 }
 
                 if (miniBatchProceed)
@@ -82,13 +70,13 @@ namespace NeuroV3
                     //Update weights
                     for (int i = 0; i < layers.Length; i++)
                     {
-                        layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                        layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate, miniBatchSize);
                     }
 
                     //Update bias
                     for (int i = 0; i < layers.Length; i++)
                     {
-                        layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                        layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate, miniBatchSize);
                     }
                 }
             }
@@ -105,20 +93,20 @@ namespace NeuroV3
                     // Hidden layers
                     else
                     {
-                        layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate);
+                        layers[i].BackPropHidden(layers[i + 1].dydx, layers[i + 1].weights, Activate, false, false);
                     }
                 }
 
                 //Update weights
                 for (int i = 0; i < layers.Length; i++)
                 {
-                    layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                    layers[i].UpdateWeights(LearnRate, momentum, adaptive, adaptiveWeight, decayRate, miniBatchSize);
                 }
 
                 //Update bias
                 for (int i = 0; i < layers.Length; i++)
                 {
-                    layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate);
+                    layers[i].UpdateBias(LearnRate, momentum, adaptive, adaptiveWeight, decayRate, miniBatchSize);
                 }
             }
         }
@@ -156,6 +144,7 @@ namespace NeuroV3
             public float[,] momentumWeight; // The weightCorrection from previous epoch
             public float[] momentumBias; // The biasCorrection from previous epoch
             public float[] dydx; //dydx of this layer
+            public float[] biasCorrection = new float[999999]; // correction for bias
             public float[] error; //error of the output layer
             public float cummulativeError; // experimental for adaptive momentum and learning rate
 
@@ -306,6 +295,7 @@ namespace NeuroV3
                     if (newMiniBatch)
                     {
                         Array.Clear(weightsCorrection, 0, weightsCorrection.Length);
+                        Array.Clear(biasCorrection, 0, biasCorrection.Length);
                     }
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
@@ -313,8 +303,11 @@ namespace NeuroV3
                     }
                     // calculation
                     for (int i = 0; i < numberOfOuputs; i++)
+                    {
                         dydx[i] = 2 * error[i] * Deriv(outputs[i], Activate);
-
+                        biasCorrection[i] += dydx[i];
+                    }
+                        
                     //Caluclating detla weights
                     for (int i = 0; i < numberOfOuputs; i++)
                     {
@@ -323,32 +316,6 @@ namespace NeuroV3
                             weightsCorrection[i, j] = weightsCorrection[i, j] + dydx[i] * inputs[j];
                         }
                     }
-                    //if(!miniBatchProceed) // Meow's style minibatch, it learns but painfully slow
-                    //for (int i = 0; i < numberOfOuputs; i++)
-                    //{
-                    //        error[i] = error[i] + outputs[i] - expected[i];
-                    //        error[i] = error[i] / 3;
-                    //}
-                    //else
-                    //{
-                    //    for (int i = 0; i < numberOfOuputs; i++)
-                    //    {
-                    //        error[i] = error[i] + outputs[i] - expected[i];
-                    //        error[i] = error[i] / 3;
-                    //    }
-                    //    // calculation
-                    //    for (int i = 0; i < numberOfOuputs; i++)
-                    //        dydx[i] = 2 * error[i] * Deriv(outputs[i], Activate);
-
-                    //    //Caluclating detla weights
-                    //    for (int i = 0; i < numberOfOuputs; i++)
-                    //    {
-                    //        for (int j = 0; j < numberOfInputs; j++)
-                    //        {
-                    //            weightsCorrection[i, j] = dydx[i] * inputs[j];
-                    //        }
-                    //    }
-                    //}
                 }
                 else
                 {
@@ -374,39 +341,73 @@ namespace NeuroV3
 
             // Backpropagation Hidden Layers
             // dydxForward and weightsForward = dydx and weight in the next layer
-            public void BackPropHidden(float[] dydxForward, float[,] weightsFoward, int Activate)
+            public void BackPropHidden(float[] dydxForward, float[,] weightsFoward, int Activate, bool miniBatch, bool newMiniBatch)
             {
-                //Caluclate new dydx using dydx sums of the forward layer
-                for (int i = 0; i < numberOfOuputs; i++)
+                if (miniBatch)
                 {
-                    dydx[i] = 0;
-
-                    for (int j = 0; j < dydxForward.Length; j++)
+                    if (newMiniBatch)
                     {
-                        dydx[i] += dydxForward[j] * weightsFoward[j, i];
+                        Array.Clear(weightsCorrection, 0, weightsCorrection.Length);
+                        Array.Clear(biasCorrection, 0, biasCorrection.Length);
+                    }
+                    //Caluclate new dydx using dydx sums of the forward layer
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        dydx[i] = 0;
+
+                        for (int j = 0; j < dydxForward.Length; j++)
+                        {
+                            dydx[i] += dydxForward[j] * weightsFoward[j, i];
+                        }
+
+                        dydx[i] *= Deriv(outputs[i], Activate);
+                        biasCorrection[i] += dydx[i];
                     }
 
-                    dydx[i] *= Deriv(outputs[i], Activate);
-                }
-
-                //Caluclating detla weights
-                for (int i = 0; i < numberOfOuputs; i++)
-                {
-                    for (int j = 0; j < numberOfInputs; j++)
+                    //Caluclating detla weights
+                    for (int i = 0; i < numberOfOuputs; i++)
                     {
-                        weightsCorrection[i, j] = dydx[i] * inputs[j];
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weightsCorrection[i, j] += dydx[i] * inputs[j];
+                        }
                     }
                 }
+                else
+                {
+                    //Caluclate new dydx using dydx sums of the forward layer
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        dydx[i] = 0;
+
+                        for (int j = 0; j < dydxForward.Length; j++)
+                        {
+                            dydx[i] += dydxForward[j] * weightsFoward[j, i];
+                        }
+
+                        dydx[i] *= Deriv(outputs[i], Activate);
+                    }
+
+                    //Caluclating detla weights
+                    for (int i = 0; i < numberOfOuputs; i++)
+                    {
+                        for (int j = 0; j < numberOfInputs; j++)
+                        {
+                            weightsCorrection[i, j] = dydx[i] * inputs[j];
+                        }
+                    }
+                }
+
             }
 
             // Updating weights
-            public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight, float decayRate)
+            public void UpdateWeights(float LearnRate, float momentum, bool adaptive, float adaptiveWeight, float decayRate, int miniBatchSize)
             {
                 if(adaptive == true)
                 {
                     float newLR = 0;
                     float newM = 0;
-                    newLR = LearnRate * (float) Math.Exp(-adaptiveWeight / decayRate);
+                    newLR = (LearnRate/miniBatchSize) * (float) Math.Exp(-adaptiveWeight / decayRate);
                     newM = momentum * (float)Math.Exp(-adaptiveWeight / decayRate);
 
                     for (int i = 0; i < numberOfOuputs; i++)
@@ -414,7 +415,7 @@ namespace NeuroV3
                         for (int j = 0; j < numberOfInputs; j++)
                         {
                             weights[i, j] -= weightsCorrection[i, j] * newLR;
-                            weights[i, j] -= newM * momentumWeight[i, j];
+                            weights[i, j] -= newM * momentumWeight[i, j] / miniBatchSize;
                             momentumWeight[i, j] = weightsCorrection[i, j];
                         }
                     }
@@ -425,37 +426,66 @@ namespace NeuroV3
                     {
                         for (int j = 0; j < numberOfInputs; j++)
                         {
-                            weights[i, j] -= weightsCorrection[i, j] * LearnRate;
-                            weights[i, j] -= momentum * momentumWeight[i, j];
+                            weights[i, j] -= weightsCorrection[i, j] * (LearnRate / miniBatchSize);
+                            weights[i, j] -= momentum * momentumWeight[i, j] / miniBatchSize;
                             momentumWeight[i, j] = weightsCorrection[i, j];
                         }
                     }
                 }
             }
 
-            public void UpdateBias(float LearnRate, float momentum, bool adaptive, float adaptiveBias, float decayRate)
+            public void UpdateBias(float LearnRate, float momentum, bool adaptive, float adaptiveBias, float decayRate, int miniBatchSize)
             {
-                if(adaptive == true)
+                if(miniBatchSize != 1)
                 {
-                    float newLR = 0;
-                    float newM = 0;
-                    newLR = LearnRate * (float)Math.Exp(-adaptiveBias / decayRate);
-                    newM = momentum * (float)Math.Exp(-adaptiveBias / decayRate);
-
-                    for (int i = 0; i < numberOfOuputs; i++)
+                    if (adaptive == true)
                     {
-                        bias[i] -= dydx[i] * newLR;
-                        bias[i] -= newM * momentumBias[i];
-                        momentumBias[i] = dydx[i];
+                        float newLR = 0;
+                        float newM = 0;
+                        newLR = (LearnRate / miniBatchSize) * (float)Math.Exp(-adaptiveBias / decayRate);
+                        newM = momentum * (float)Math.Exp(-adaptiveBias / decayRate);
+
+                        for (int i = 0; i < numberOfOuputs; i++)
+                        {
+                            bias[i] -= biasCorrection[i] * newLR;
+                            bias[i] -= newM * momentumBias[i] / miniBatchSize;
+                            momentumBias[i] = biasCorrection[i];
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < numberOfOuputs; i++)
+                        {
+                            bias[i] -= biasCorrection[i] * (LearnRate / miniBatchSize);
+                            bias[i] -= momentum * momentumBias[i] / miniBatchSize;
+                            momentumBias[i] = biasCorrection[i];
+                        }
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < numberOfOuputs; i++)
+                    if (adaptive == true)
                     {
-                        bias[i] -= dydx[i] * LearnRate;
-                        bias[i] -= momentum * momentumBias[i];
-                        momentumBias[i] = dydx[i];
+                        float newLR = 0;
+                        float newM = 0;
+                        newLR = (LearnRate / miniBatchSize) * (float)Math.Exp(-adaptiveBias / decayRate);
+                        newM = momentum * (float)Math.Exp(-adaptiveBias / decayRate);
+
+                        for (int i = 0; i < numberOfOuputs; i++)
+                        {
+                            bias[i] -= dydx[i] * newLR;
+                            bias[i] -= newM * momentumBias[i];
+                            momentumBias[i] = dydx[i];
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < numberOfOuputs; i++)
+                        {
+                            bias[i] -= dydx[i] * (LearnRate / miniBatchSize);
+                            bias[i] -= momentum * momentumBias[i];
+                            momentumBias[i] = dydx[i];
+                        }
                     }
                 }
             }

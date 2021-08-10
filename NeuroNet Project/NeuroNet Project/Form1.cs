@@ -63,6 +63,7 @@ namespace NeuroNet_Project
         bool randomMiniBatch = false;
         int miniBatchMin = 1;
         int miniBatchMax = 99;
+        int oldMiniSize = 99999;
 
         string resultSingle;
         string resultAll;
@@ -1472,6 +1473,7 @@ namespace NeuroNet_Project
             int[] ArrayForRandom = new int[D_loops];
             Random targetJ = new Random();
             int tempTarget;
+            
             BackgroundWorker worker = sender as BackgroundWorker;
             if (N != -1 && checkBox_UseExistW.Checked == false) N++;
             if (N == -1) N = 0;
@@ -1526,7 +1528,13 @@ namespace NeuroNet_Project
                         input = fileProcess.getData(label_InputPath.Text, tempTarget);   // This will ask the fileprocess to grab the data from specific line in the text files. For input
                         expected = fileProcess.getData(label_OutputPath.Text, tempTarget);  // Similar, this is for the expected output.
                         net.FeedForward(input, P_activ);                                    // Starting feeding it into the NN
-                        net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value, miniBatch, miniBatchProceed, newMiniBatch);  // Backpropagate it.
+                        net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value, miniBatch, miniBatchProceed, newMiniBatch, oldMiniSize);  // Backpropagate it.
+                        if(checkBoxStochastic.Checked==true)
+                        {
+                            oldMiniSize = 1;
+                        }
+                        else oldMiniSize = 1;
+
                         if (newBatchCheck) 
                             newMiniBatch = true;
                         else
