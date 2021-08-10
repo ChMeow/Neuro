@@ -1531,7 +1531,7 @@ namespace NeuroNet_Project
                         net.BackProp(expected, P_activ, checkBox_adaptiveRate.Checked, tempAdaptiveCorrection, (float)numericUpDown_DecayRate.Value, miniBatch, miniBatchProceed, newMiniBatch, oldMiniSize);  // Backpropagate it.
                         if(checkBoxStochastic.Checked==true)
                         {
-                            oldMiniSize = 1;
+                            oldMiniSize = miniBatchSize;
                         }
                         else oldMiniSize = 1;
 

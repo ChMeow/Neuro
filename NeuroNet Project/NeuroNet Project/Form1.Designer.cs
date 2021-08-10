@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Main));
             this.panel_Loading = new System.Windows.Forms.Panel();
+            this.labelBatchSize = new System.Windows.Forms.Label();
             this.label_LRM = new System.Windows.Forms.Label();
             this.richTextBox_CurrentY = new System.Windows.Forms.RichTextBox();
             this.richTextBox_currentError = new System.Windows.Forms.RichTextBox();
@@ -39,6 +40,14 @@
             this.pictureBox_StopCont = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.numericUpDownMiniMax = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownMiniMin = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxRandomMini = new System.Windows.Forms.CheckBox();
+            this.checkBoxStochastic = new System.Windows.Forms.CheckBox();
+            this.numericUpDownMiniBatchSize = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxMinibatch = new System.Windows.Forms.CheckBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.numericUpDownNorOMax = new System.Windows.Forms.NumericUpDown();
@@ -64,6 +73,7 @@
             this.numericUpDown_DP = new System.Windows.Forms.NumericUpDown();
             this.pictureBox_Switch2 = new System.Windows.Forms.PictureBox();
             this.numericUpDown_save = new System.Windows.Forms.NumericUpDown();
+            this.label23 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox_UseExistW = new System.Windows.Forms.CheckBox();
@@ -134,21 +144,14 @@
             this.button_saveLog = new System.Windows.Forms.Button();
             this.richTextBox_FinalResult = new System.Windows.Forms.RichTextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.checkBoxMinibatch = new System.Windows.Forms.CheckBox();
-            this.numericUpDownMiniBatchSize = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxStochastic = new System.Windows.Forms.CheckBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.checkBoxRandomMini = new System.Windows.Forms.CheckBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.numericUpDownMiniMin = new System.Windows.Forms.NumericUpDown();
-            this.label23 = new System.Windows.Forms.Label();
-            this.numericUpDownMiniMax = new System.Windows.Forms.NumericUpDown();
-            this.labelBatchSize = new System.Windows.Forms.Label();
             this.panel_Loading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Switch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_StopCont)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniBatchSize)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMin)).BeginInit();
@@ -173,9 +176,6 @@
             this.tabPage4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_logWorkerProgress)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniBatchSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMax)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_Loading
@@ -194,6 +194,17 @@
             this.panel_Loading.Name = "panel_Loading";
             this.panel_Loading.Size = new System.Drawing.Size(942, 606);
             this.panel_Loading.TabIndex = 0;
+            // 
+            // labelBatchSize
+            // 
+            this.labelBatchSize.AutoSize = true;
+            this.labelBatchSize.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelBatchSize.ForeColor = System.Drawing.Color.LightCyan;
+            this.labelBatchSize.Location = new System.Drawing.Point(472, 11);
+            this.labelBatchSize.Name = "labelBatchSize";
+            this.labelBatchSize.Size = new System.Drawing.Size(183, 37);
+            this.labelBatchSize.TabIndex = 8;
+            this.labelBatchSize.Text = "Batch Size: --";
             // 
             // label_LRM
             // 
@@ -349,6 +360,133 @@
             this.tabPage1.Size = new System.Drawing.Size(934, 580);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main Page";
+            // 
+            // numericUpDownMiniMax
+            // 
+            this.numericUpDownMiniMax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownMiniMax.Enabled = false;
+            this.numericUpDownMiniMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
+            this.numericUpDownMiniMax.Location = new System.Drawing.Point(222, 490);
+            this.numericUpDownMiniMax.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDownMiniMax.Name = "numericUpDownMiniMax";
+            this.numericUpDownMiniMax.Size = new System.Drawing.Size(81, 20);
+            this.numericUpDownMiniMax.TabIndex = 53;
+            this.numericUpDownMiniMax.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownMiniMin
+            // 
+            this.numericUpDownMiniMin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownMiniMin.Enabled = false;
+            this.numericUpDownMiniMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
+            this.numericUpDownMiniMin.Location = new System.Drawing.Point(115, 490);
+            this.numericUpDownMiniMin.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMiniMin.Name = "numericUpDownMiniMin";
+            this.numericUpDownMiniMin.Size = new System.Drawing.Size(75, 20);
+            this.numericUpDownMiniMin.TabIndex = 52;
+            this.numericUpDownMiniMin.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxRandomMini
+            // 
+            this.checkBoxRandomMini.AutoSize = true;
+            this.checkBoxRandomMini.Enabled = false;
+            this.checkBoxRandomMini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBoxRandomMini.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.checkBoxRandomMini.Location = new System.Drawing.Point(138, 199);
+            this.checkBoxRandomMini.Name = "checkBoxRandomMini";
+            this.checkBoxRandomMini.Size = new System.Drawing.Size(117, 17);
+            this.checkBoxRandomMini.TabIndex = 51;
+            this.checkBoxRandomMini.Text = "Random Batch Size";
+            this.checkBoxRandomMini.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxStochastic
+            // 
+            this.checkBoxStochastic.AutoSize = true;
+            this.checkBoxStochastic.BackColor = System.Drawing.Color.Black;
+            this.checkBoxStochastic.Checked = true;
+            this.checkBoxStochastic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxStochastic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBoxStochastic.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.checkBoxStochastic.Location = new System.Drawing.Point(6, 176);
+            this.checkBoxStochastic.Name = "checkBoxStochastic";
+            this.checkBoxStochastic.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxStochastic.TabIndex = 50;
+            this.checkBoxStochastic.Text = "Stochastic Gradient Descent";
+            this.checkBoxStochastic.UseVisualStyleBackColor = false;
+            this.checkBoxStochastic.CheckedChanged += new System.EventHandler(this.checkBoxStochastic_CheckedChanged);
+            // 
+            // numericUpDownMiniBatchSize
+            // 
+            this.numericUpDownMiniBatchSize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.numericUpDownMiniBatchSize.Enabled = false;
+            this.numericUpDownMiniBatchSize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
+            this.numericUpDownMiniBatchSize.Location = new System.Drawing.Point(115, 464);
+            this.numericUpDownMiniBatchSize.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDownMiniBatchSize.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMiniBatchSize.Name = "numericUpDownMiniBatchSize";
+            this.numericUpDownMiniBatchSize.Size = new System.Drawing.Size(140, 20);
+            this.numericUpDownMiniBatchSize.TabIndex = 49;
+            this.numericUpDownMiniBatchSize.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxMinibatch
+            // 
+            this.checkBoxMinibatch.AutoSize = true;
+            this.checkBoxMinibatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBoxMinibatch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.checkBoxMinibatch.Location = new System.Drawing.Point(6, 199);
+            this.checkBoxMinibatch.Name = "checkBoxMinibatch";
+            this.checkBoxMinibatch.Size = new System.Drawing.Size(126, 17);
+            this.checkBoxMinibatch.TabIndex = 48;
+            this.checkBoxMinibatch.Text = "Stochastic Mini Batch";
+            this.checkBoxMinibatch.UseVisualStyleBackColor = true;
+            this.checkBoxMinibatch.CheckedChanged += new System.EventHandler(this.checkBoxMinibatch_CheckedChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.label22.Location = new System.Drawing.Point(11, 492);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(93, 13);
+            this.label22.TabIndex = 38;
+            this.label22.Text = "Batch Size Range";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.label21.Location = new System.Drawing.Point(27, 466);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(77, 13);
+            this.label21.TabIndex = 38;
+            this.label21.Text = "Mini batch size";
             // 
             // label12
             // 
@@ -718,6 +856,17 @@
             0,
             0,
             0});
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.BackColor = System.Drawing.Color.Black;
+            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.label23.Location = new System.Drawing.Point(200, 491);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(16, 13);
+            this.label23.TabIndex = 35;
+            this.label23.Text = "to";
             // 
             // label7
             // 
@@ -1679,155 +1828,6 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // checkBoxMinibatch
-            // 
-            this.checkBoxMinibatch.AutoSize = true;
-            this.checkBoxMinibatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBoxMinibatch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.checkBoxMinibatch.Location = new System.Drawing.Point(6, 199);
-            this.checkBoxMinibatch.Name = "checkBoxMinibatch";
-            this.checkBoxMinibatch.Size = new System.Drawing.Size(126, 17);
-            this.checkBoxMinibatch.TabIndex = 48;
-            this.checkBoxMinibatch.Text = "Stochastic Mini Batch";
-            this.checkBoxMinibatch.UseVisualStyleBackColor = true;
-            this.checkBoxMinibatch.CheckedChanged += new System.EventHandler(this.checkBoxMinibatch_CheckedChanged);
-            // 
-            // numericUpDownMiniBatchSize
-            // 
-            this.numericUpDownMiniBatchSize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.numericUpDownMiniBatchSize.Enabled = false;
-            this.numericUpDownMiniBatchSize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
-            this.numericUpDownMiniBatchSize.Location = new System.Drawing.Point(115, 464);
-            this.numericUpDownMiniBatchSize.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDownMiniBatchSize.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownMiniBatchSize.Name = "numericUpDownMiniBatchSize";
-            this.numericUpDownMiniBatchSize.Size = new System.Drawing.Size(140, 20);
-            this.numericUpDownMiniBatchSize.TabIndex = 49;
-            this.numericUpDownMiniBatchSize.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // checkBoxStochastic
-            // 
-            this.checkBoxStochastic.AutoSize = true;
-            this.checkBoxStochastic.BackColor = System.Drawing.Color.Black;
-            this.checkBoxStochastic.Checked = true;
-            this.checkBoxStochastic.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStochastic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBoxStochastic.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.checkBoxStochastic.Location = new System.Drawing.Point(6, 176);
-            this.checkBoxStochastic.Name = "checkBoxStochastic";
-            this.checkBoxStochastic.Size = new System.Drawing.Size(159, 17);
-            this.checkBoxStochastic.TabIndex = 50;
-            this.checkBoxStochastic.Text = "Stochastic Gradient Descent";
-            this.checkBoxStochastic.UseVisualStyleBackColor = false;
-            this.checkBoxStochastic.CheckedChanged += new System.EventHandler(this.checkBoxStochastic_CheckedChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.label21.Location = new System.Drawing.Point(27, 466);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(77, 13);
-            this.label21.TabIndex = 38;
-            this.label21.Text = "Mini batch size";
-            // 
-            // checkBoxRandomMini
-            // 
-            this.checkBoxRandomMini.AutoSize = true;
-            this.checkBoxRandomMini.Enabled = false;
-            this.checkBoxRandomMini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBoxRandomMini.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.checkBoxRandomMini.Location = new System.Drawing.Point(138, 199);
-            this.checkBoxRandomMini.Name = "checkBoxRandomMini";
-            this.checkBoxRandomMini.Size = new System.Drawing.Size(117, 17);
-            this.checkBoxRandomMini.TabIndex = 51;
-            this.checkBoxRandomMini.Text = "Random Batch Size";
-            this.checkBoxRandomMini.UseVisualStyleBackColor = true;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.label22.Location = new System.Drawing.Point(11, 492);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(93, 13);
-            this.label22.TabIndex = 38;
-            this.label22.Text = "Batch Size Range";
-            // 
-            // numericUpDownMiniMin
-            // 
-            this.numericUpDownMiniMin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.numericUpDownMiniMin.Enabled = false;
-            this.numericUpDownMiniMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
-            this.numericUpDownMiniMin.Location = new System.Drawing.Point(115, 490);
-            this.numericUpDownMiniMin.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownMiniMin.Name = "numericUpDownMiniMin";
-            this.numericUpDownMiniMin.Size = new System.Drawing.Size(75, 20);
-            this.numericUpDownMiniMin.TabIndex = 52;
-            this.numericUpDownMiniMin.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.BackColor = System.Drawing.Color.Black;
-            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.label23.Location = new System.Drawing.Point(200, 491);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(16, 13);
-            this.label23.TabIndex = 35;
-            this.label23.Text = "to";
-            // 
-            // numericUpDownMiniMax
-            // 
-            this.numericUpDownMiniMax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.numericUpDownMiniMax.Enabled = false;
-            this.numericUpDownMiniMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(254)))), ((int)(((byte)(206)))));
-            this.numericUpDownMiniMax.Location = new System.Drawing.Point(222, 490);
-            this.numericUpDownMiniMax.Minimum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.numericUpDownMiniMax.Name = "numericUpDownMiniMax";
-            this.numericUpDownMiniMax.Size = new System.Drawing.Size(81, 20);
-            this.numericUpDownMiniMax.TabIndex = 53;
-            this.numericUpDownMiniMax.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // labelBatchSize
-            // 
-            this.labelBatchSize.AutoSize = true;
-            this.labelBatchSize.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelBatchSize.ForeColor = System.Drawing.Color.LightCyan;
-            this.labelBatchSize.Location = new System.Drawing.Point(472, 11);
-            this.labelBatchSize.Name = "labelBatchSize";
-            this.labelBatchSize.Size = new System.Drawing.Size(183, 37);
-            this.labelBatchSize.TabIndex = 8;
-            this.labelBatchSize.Text = "Batch Size: --";
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1852,6 +1852,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniBatchSize)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNorOMax)).EndInit();
@@ -1881,9 +1884,6 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_logWorkerProgress)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniBatchSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMiniMax)).EndInit();
             this.ResumeLayout(false);
 
         }
